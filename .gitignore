@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Dataset: no se redistribuye
+/WDSD-*/
+
+# Cachés del EDA: contienen rutas locales y se regeneran
+results/eda/*
+!results/eda/particion.csv
+!results/eda/declaracion_a_priori.json
+!results/eda/declaracion_a_priori_instancias.json
+!results/eda/normalizacion_train.json
+
+# Instancias: datos derivados (enlaces a imágenes) y pesos no se versionan
+datos_inst/
+*.pt
+*.pth
+results/instancias/**/ultra/weights/
+
+# Jupyter Book
+_build/
+
+# E2: exportaciones de Scopus, WoS e IEEE (terminos de uso de las bases)
+literatura/e2/exportaciones/
+
+# E2: rutas de los entornos de cada máquina (entrenar_e2.py configurar)
+maquina_e2.json

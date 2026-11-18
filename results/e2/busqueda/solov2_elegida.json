@@ -1,0 +1,28 @@
+{
+ "modelo": "solov2",
+ "elegido": 2.0,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.4368696938678428,
+   "AP_val": 0.10904611196136176,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.4241796746433414,
+   "AP_val": 0.09337803106419765,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.4380872628635895,
+   "AP_val": 0.08333269526817438,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

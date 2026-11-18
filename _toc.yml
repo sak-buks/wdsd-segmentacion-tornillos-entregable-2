@@ -1,0 +1,17 @@
+format: jb-book
+root: index
+parts:
+  - caption: Informe
+    chapters:
+      - file: informe/literatura
+      - file: preregistro_E2
+      - file: ENTRENAMIENTO_E2
+      - file: results/e2/prueba_humo/README
+      - file: notebooks/resultados_e2
+      - file: informe/pendientes
+  - caption: Anexos de la revisión de literatura
+    chapters:
+      - file: literatura/e2/README
+      - file: literatura/e2/cadenas_busqueda_E2
+      - file: literatura/e2/registro_busquedas_E2
+      - file: literatura/e2/tabla_mecanismos_E2

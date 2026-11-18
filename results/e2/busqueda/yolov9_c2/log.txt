@@ -1,0 +1,15 @@
+  yolov9: {'lr_inicial': 0.02, 'lr_por_defecto': 0.01, 'optimizador': 'SGD', 'lote': 1, 'acumulacion': 2, 'calentamiento_epocas': 0.1989}
+    [34m[1mtrain: [0mWARNING  Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\train.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\train.cache'
+    [34m[1mval: [0mWARNING  Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache'
+                       all         93        479    0.00218      0.117    0.00195   0.000464     0.0028       0.15    0.00316   0.000737
+                       all         93        479     0.0569     0.0626     0.0148    0.00374     0.0335     0.0814    0.00883    0.00233
+                       all         93        479     0.0569     0.0626     0.0148    0.00374     0.0336     0.0814    0.00882    0.00233
+    [34m[1mval: [0mWARNING  Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache'
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+                       all         93        479      0.069     0.0585     0.0397     0.0134     0.0714     0.0605     0.0413      0.012
+== yolov9 buscar s42 valor 2: val F1 grupo 0.050 | 8.9 min

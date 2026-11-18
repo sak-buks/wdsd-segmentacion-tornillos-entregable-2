@@ -1,0 +1,30 @@
+{
+ "umbral_score": 0.05,
+ "val": {
+  "AP": 0.0,
+  "AP50": 0.0,
+  "AP75": 0.0,
+  "AP_small": 0.0,
+  "F1_img": 0.0,
+  "PQ_img": 0.0,
+  "F1_grupo": 0.0,
+  "PQ_grupo": 0.0
+ },
+ "test": {
+  "AP": 0.0,
+  "AP50": 0.0,
+  "AP75": 0.0,
+  "AP_small": 0.0,
+  "F1_img": 0.0,
+  "PQ_img": 0.0,
+  "SQ_img": 0.0,
+  "F1_grupo": 0.0,
+  "PQ_grupo": 0.0,
+  "dice_semantico_img": 0.0
+ },
+ "train93": {
+  "F1_img": 0.0,
+  "F1_grupo": 0.0
+ },
+ "brecha_F1_img_train93_menos_val": 0.0
+}

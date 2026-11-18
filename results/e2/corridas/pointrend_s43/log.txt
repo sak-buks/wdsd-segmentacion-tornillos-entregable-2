@@ -1,0 +1,794 @@
+  pointrend: {'lr_inicial': 0.005, 'lr_por_defecto': 0.0025, 'optimizador': 'SGD', 'lote': 2, 'acumulacion': 1, 'iter_por_epoca': 372, 'calentamiento_iter': 223, 'iter_totales': 2232}
+11/17 12:12:17 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: win32
+    Python: 3.11.18 | packaged by Anaconda, Inc. | (main, Oct 26 2026, 18:13:29) [MSC v.1942 64 bit (AMD64)]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 43
+    GPU 0: NVIDIA GeForce RTX 3060 Laptop GPU
+    CUDA_HOME: None
+    GCC: n/a
+    PyTorch: 2.1.2+cu121
+    PyTorch compiling details: PyTorch built with:
+  - C++ Version: 199711
+  - MSVC 192930151
+  - Intel(R) Math Kernel Library Version 2020.0.2 Product Build 20200624 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.1.1 (Git Hash 64f6bcbcbab628e96f33a62c3e975f8535a7bde4)
+  - OpenMP 2019
+  - LAPACK is enabled (usually provided by MKL)
+  - CPU capability usage: AVX2
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 8.8.1  (built against CUDA 12.0)
+  - Magma 2.5.4
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=8.8.1, CXX_COMPILER=C:/actions-runner/_work/pytorch/pytorch/builder/windows/tmp_bin/sccache-cl.exe, CXX_FLAGS=/DWIN32 /D_WINDOWS /GR /EHsc /bigobj /FS -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE /utf-8 /wd4624 /wd4068 /wd4067 /wd4267 /wd4661 /wd4717 /wd4244 /wd4804 /wd4273, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_DISABLE_GPU_ASSERTS=OFF, TORCH_VERSION=2.1.2, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=OFF, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.16.2+cu121
+    OpenCV: 4.11.0
+    MMEngine: 0.10.4
+
+Runtime environment:
+    cudnn_benchmark: False
+    dist_cfg: {'backend': 'gloo'}
+    seed: 43
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+11/17 12:12:18 - mmengine - INFO - Config:
+auto_scale_lr = dict(base_batch_size=16, enable=False)
+backend_args = None
+data_root = 'data/coco/'
+dataset_type = 'CocoDataset'
+default_hooks = dict(
+    checkpoint=dict(
+        by_epoch=True,
+        interval=1,
+        max_keep_ckpts=1,
+        rule='greater',
+        save_best='coco/segm_mAP',
+        save_last=True,
+        type='CheckpointHook'),
+    logger=dict(interval=50, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'))
+default_scope = 'mmdet'
+env_cfg = dict(cudnn_benchmark=False, dist_cfg=dict(backend='gloo'))
+load_from = 'https://download.openmmlab.com/mmdetection/v2.0/point_rend/point_rend_r50_caffe_fpn_mstrain_1x_coco/point_rend_r50_caffe_fpn_mstrain_1x_coco-1bcb5fb4.pth'
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
+model = dict(
+    backbone=dict(
+        depth=50,
+        frozen_stages=1,
+        init_cfg=dict(
+            checkpoint='open-mmlab://detectron2/resnet50_caffe',
+            type='Pretrained'),
+        norm_cfg=dict(requires_grad=False, type='BN'),
+        norm_eval=True,
+        num_stages=4,
+        out_indices=(
+            0,
+            1,
+            2,
+            3,
+        ),
+        style='caffe',
+        type='ResNet'),
+    data_preprocessor=dict(
+        bgr_to_rgb=False,
+        mean=[
+            103.53,
+            116.28,
+            123.675,
+        ],
+        pad_mask=True,
+        pad_size_divisor=32,
+        std=[
+            1.0,
+            1.0,
+            1.0,
+        ],
+        type='DetDataPreprocessor'),
+    neck=dict(
+        in_channels=[
+            256,
+            512,
+            1024,
+            2048,
+        ],
+        num_outs=5,
+        out_channels=256,
+        type='FPN'),
+    roi_head=dict(
+        bbox_head=dict(
+            bbox_coder=dict(
+                target_means=[
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                ],
+                target_stds=[
+                    0.1,
+                    0.1,
+                    0.2,
+                    0.2,
+                ],
+                type='DeltaXYWHBBoxCoder'),
+            fc_out_channels=1024,
+            in_channels=256,
+            loss_bbox=dict(loss_weight=1.0, type='L1Loss'),
+            loss_cls=dict(
+                loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=False),
+            num_classes=1,
+            reg_class_agnostic=False,
+            roi_feat_size=7,
+            type='Shared2FCBBoxHead'),
+        bbox_roi_extractor=dict(
+            featmap_strides=[
+                4,
+                8,
+                16,
+                32,
+            ],
+            out_channels=256,
+            roi_layer=dict(output_size=7, sampling_ratio=0, type='RoIAlign'),
+            type='SingleRoIExtractor'),
+        mask_head=dict(
+            conv_out_channels=256,
+            fc_out_channels=1024,
+            in_channels=256,
+            loss_mask=dict(
+                loss_weight=1.0, type='CrossEntropyLoss', use_mask=True),
+            num_classes=1,
+            num_fcs=2,
+            type='CoarseMaskHead'),
+        mask_roi_extractor=dict(
+            aggregation='concat',
+            featmap_strides=[
+                4,
+            ],
+            out_channels=256,
+            roi_layer=dict(output_size=14, type='SimpleRoIAlign'),
+            type='GenericRoIExtractor'),
+        point_head=dict(
+            coarse_pred_each_layer=True,
+            fc_channels=256,
+            in_channels=256,
+            loss_point=dict(
+                loss_weight=1.0, type='CrossEntropyLoss', use_mask=True),
+            num_classes=1,
+            num_fcs=3,
+            type='MaskPointHead'),
+        type='PointRendRoIHead'),
+    rpn_head=dict(
+        anchor_generator=dict(
+            ratios=[
+                0.5,
+                1.0,
+                2.0,
+            ],
+            scales=[
+                2,
+            ],
+            strides=[
+                4,
+                8,
+                16,
+                32,
+                64,
+            ],
+            type='AnchorGenerator'),
+        bbox_coder=dict(
+            target_means=[
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+            ],
+            target_stds=[
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+            ],
+            type='DeltaXYWHBBoxCoder'),
+        feat_channels=256,
+        in_channels=256,
+        loss_bbox=dict(loss_weight=1.0, type='L1Loss'),
+        loss_cls=dict(
+            loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=True),
+        type='RPNHead'),
+    test_cfg=dict(
+        rcnn=dict(
+            mask_thr_binary=0.5,
+            max_per_img=100,
+            nms=dict(iou_threshold=0.5, type='nms'),
+            scale_factor=2,
+            score_thr=0.05,
+            subdivision_num_points=784,
+            subdivision_steps=5),
+        rpn=dict(
+            max_per_img=1000,
+            min_bbox_size=0,
+            nms=dict(iou_threshold=0.7, type='nms'),
+            nms_pre=1000)),
+    train_cfg=dict(
+        rcnn=dict(
+            assigner=dict(
+                ignore_iof_thr=-1,
+                match_low_quality=True,
+                min_pos_iou=0.5,
+                neg_iou_thr=0.5,
+                pos_iou_thr=0.5,
+                type='MaxIoUAssigner'),
+            debug=False,
+            importance_sample_ratio=0.75,
+            mask_size=7,
+            num_points=196,
+            oversample_ratio=3,
+            pos_weight=-1,
+            sampler=dict(
+                add_gt_as_proposals=True,
+                neg_pos_ub=-1,
+                num=512,
+                pos_fraction=0.25,
+                type='RandomSampler')),
+        rpn=dict(
+            allowed_border=-1,
+            assigner=dict(
+                ignore_iof_thr=-1,
+                match_low_quality=True,
+                min_pos_iou=0.3,
+                neg_iou_thr=0.3,
+                pos_iou_thr=0.7,
+                type='MaxIoUAssigner'),
+            debug=False,
+            pos_weight=-1,
+            sampler=dict(
+                add_gt_as_proposals=False,
+                neg_pos_ub=-1,
+                num=256,
+                pos_fraction=0.5,
+                type='RandomSampler')),
+        rpn_proposal=dict(
+            max_per_img=1000,
+            min_bbox_size=0,
+            nms=dict(iou_threshold=0.7, type='nms'),
+            nms_pre=2000)),
+    type='PointRend')
+optim_wrapper = dict(
+    accumulative_counts=1,
+    optimizer=dict(lr=0.005, momentum=0.9, type='SGD', weight_decay=0.0001),
+    type='AmpOptimWrapper')
+param_scheduler = [
+    dict(
+        begin=0, by_epoch=False, end=223, start_factor=0.001, type='LinearLR'),
+    dict(
+        T_max=2009,
+        begin=223,
+        by_epoch=False,
+        end=2232,
+        eta_min_ratio=0.01,
+        type='CosineAnnealingLR'),
+]
+randomness = dict(deterministic=False, seed=43)
+resume = False
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file=
+        'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+        data_prefix=dict(
+            img=
+            'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo/images/val/'
+        ),
+        data_root='',
+        filter_cfg=dict(filter_empty_gt=False, min_size=0),
+        metainfo=dict(classes=('tornillo', )),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(keep_ratio=True, scale=(
+                1280,
+                720,
+            ), type='Resize'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'scale_factor',
+                ),
+                type='PackDetInputs'),
+        ],
+        test_mode=True,
+        type='CocoDataset'),
+    drop_last=False,
+    num_workers=0,
+    persistent_workers=False,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    ann_file=
+    'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+    format_only=False,
+    metric='segm',
+    type='CocoMetric')
+test_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(keep_ratio=True, scale=(
+        1333,
+        800,
+    ), type='Resize'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'scale_factor',
+        ),
+        type='PackDetInputs'),
+]
+train_cfg = dict(max_epochs=6, type='EpochBasedTrainLoop', val_interval=1)
+train_dataloader = dict(
+    batch_sampler=dict(type='AspectRatioBatchSampler'),
+    batch_size=2,
+    dataset=dict(
+        ann_file=
+        'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/train.json',
+        data_prefix=dict(
+            img=
+            'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo/images/train/'
+        ),
+        data_root='',
+        filter_cfg=dict(filter_empty_gt=True, min_size=0),
+        metainfo=dict(classes=('tornillo', )),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+            dict(keep_ratio=True, scale=(
+                1280,
+                720,
+            ), type='Resize'),
+            dict(prob=0.5, type='RandomFlip'),
+            dict(type='PackDetInputs'),
+        ],
+        test_mode=False,
+        type='CocoDataset'),
+    num_workers=0,
+    persistent_workers=False,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(
+        keep_ratio=True,
+        scales=[
+            (
+                1333,
+                640,
+            ),
+            (
+                1333,
+                672,
+            ),
+            (
+                1333,
+                704,
+            ),
+            (
+                1333,
+                736,
+            ),
+            (
+                1333,
+                768,
+            ),
+            (
+                1333,
+                800,
+            ),
+        ],
+        type='RandomChoiceResize'),
+    dict(prob=0.5, type='RandomFlip'),
+    dict(type='PackDetInputs'),
+]
+val_cfg = dict(type='ValLoop')
+val_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file=
+        'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+        data_prefix=dict(
+            img=
+            'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo/images/val/'
+        ),
+        data_root='',
+        filter_cfg=dict(filter_empty_gt=False, min_size=0),
+        metainfo=dict(classes=('tornillo', )),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(keep_ratio=True, scale=(
+                1280,
+                720,
+            ), type='Resize'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'scale_factor',
+                ),
+                type='PackDetInputs'),
+        ],
+        test_mode=True,
+        type='CocoDataset'),
+    drop_last=False,
+    num_workers=0,
+    persistent_workers=False,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    ann_file=
+    'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+    format_only=False,
+    metric='segm',
+    type='CocoMetric')
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='vis_pointrend_43_1794935537010246200',
+    type='DetLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = 'D:\\Documents\\Personal\\Uninorte\\Maestría\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\results\\e2\\corridas\\pointrend_s43'
+
+11/17 12:12:19 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+11/17 12:12:19 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+loading annotations into memory...
+Done (t=0.07s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.00s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+11/17 12:12:20 - mmengine - INFO - load model from: open-mmlab://detectron2/resnet50_caffe
+11/17 12:12:20 - mmengine - INFO - Loads checkpoint by openmmlab backend from path: open-mmlab://detectron2/resnet50_caffe
+11/17 12:12:20 - mmengine - WARNING - The model and loaded state dict do not match exactly
+
+unexpected key in source state_dict: conv1.bias
+
+Loads checkpoint by http backend from path: https://download.openmmlab.com/mmdetection/v2.0/point_rend/point_rend_r50_caffe_fpn_mstrain_1x_coco/point_rend_r50_caffe_fpn_mstrain_1x_coco-1bcb5fb4.pth
+The model and loaded state dict do not match exactly
+
+size mismatch for roi_head.bbox_head.fc_cls.weight: copying a param with shape torch.Size([81, 1024]) from checkpoint, the shape in current model is torch.Size([2, 1024]).
+size mismatch for roi_head.bbox_head.fc_cls.bias: copying a param with shape torch.Size([81]) from checkpoint, the shape in current model is torch.Size([2]).
+size mismatch for roi_head.bbox_head.fc_reg.weight: copying a param with shape torch.Size([320, 1024]) from checkpoint, the shape in current model is torch.Size([4, 1024]).
+size mismatch for roi_head.bbox_head.fc_reg.bias: copying a param with shape torch.Size([320]) from checkpoint, the shape in current model is torch.Size([4]).
+size mismatch for roi_head.mask_head.fc_logits.weight: copying a param with shape torch.Size([3920, 1024]) from checkpoint, the shape in current model is torch.Size([49, 1024]).
+size mismatch for roi_head.mask_head.fc_logits.bias: copying a param with shape torch.Size([3920]) from checkpoint, the shape in current model is torch.Size([49]).
+size mismatch for roi_head.point_head.fcs.0.conv.weight: copying a param with shape torch.Size([256, 336, 1]) from checkpoint, the shape in current model is torch.Size([256, 257, 1]).
+size mismatch for roi_head.point_head.fcs.1.conv.weight: copying a param with shape torch.Size([256, 336, 1]) from checkpoint, the shape in current model is torch.Size([256, 257, 1]).
+size mismatch for roi_head.point_head.fcs.2.conv.weight: copying a param with shape torch.Size([256, 336, 1]) from checkpoint, the shape in current model is torch.Size([256, 257, 1]).
+size mismatch for roi_head.point_head.fc_logits.weight: copying a param with shape torch.Size([80, 336, 1]) from checkpoint, the shape in current model is torch.Size([1, 257, 1]).
+size mismatch for roi_head.point_head.fc_logits.bias: copying a param with shape torch.Size([80]) from checkpoint, the shape in current model is torch.Size([1]).
+11/17 12:12:20 - mmengine - INFO - Load checkpoint from https://download.openmmlab.com/mmdetection/v2.0/point_rend/point_rend_r50_caffe_fpn_mstrain_1x_coco/point_rend_r50_caffe_fpn_mstrain_1x_coco-1bcb5fb4.pth
+11/17 12:12:20 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+11/17 12:12:20 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+11/17 12:12:20 - mmengine - INFO - Checkpoints will be saved to D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\pointrend_s43.
+C:\Users\ivanj\miniconda3\envs\wdsd_mmdet\Lib\site-packages\mmdet\models\task_modules\samplers\sampling_result.py:132: UserWarning: DeprecationWarning: pos_bboxes is deprecated, please use "pos_priors" instead
+  warnings.warn('DeprecationWarning: pos_bboxes is deprecated, '
+11/17 12:12:41 - mmengine - INFO - Epoch(train) [1][ 50/372]  lr: 1.1075e-03  eta: 0:15:11  time: 0.4176  data_time: 0.0779  memory: 2021  loss: 1.4398  loss_rpn_cls: 0.1372  loss_rpn_bbox: 0.0218  loss_cls: 0.1603  acc: 97.9492  loss_bbox: 0.0033  loss_mask: 0.4300  loss_point: 0.6871
+11/17 12:13:01 - mmengine - INFO - Epoch(train) [1][100/372]  lr: 2.2325e-03  eta: 0:14:30  time: 0.3990  data_time: 0.0798  memory: 2124  loss: 1.1921  loss_rpn_cls: 0.0495  loss_rpn_bbox: 0.0151  loss_cls: 0.0583  acc: 95.2148  loss_bbox: 0.0377  loss_mask: 0.3883  loss_point: 0.6432
+11/17 12:13:21 - mmengine - INFO - Epoch(train) [1][150/372]  lr: 3.3575e-03  eta: 0:14:02  time: 0.3975  data_time: 0.0838  memory: 2173  loss: 1.2083  loss_rpn_cls: 0.0291  loss_rpn_bbox: 0.0165  loss_cls: 0.0640  acc: 99.0234  loss_bbox: 0.0665  loss_mask: 0.4062  loss_point: 0.6261
+11/17 12:13:41 - mmengine - INFO - Epoch(train) [1][200/372]  lr: 4.4825e-03  eta: 0:13:38  time: 0.3977  data_time: 0.0778  memory: 2258  loss: 1.1516  loss_rpn_cls: 0.0198  loss_rpn_bbox: 0.0122  loss_cls: 0.0641  acc: 96.7773  loss_bbox: 0.0733  loss_mask: 0.3792  loss_point: 0.6031
+11/17 12:14:00 - mmengine - INFO - Epoch(train) [1][250/372]  lr: 4.9980e-03  eta: 0:13:15  time: 0.3944  data_time: 0.0807  memory: 2258  loss: 1.1788  loss_rpn_cls: 0.0193  loss_rpn_bbox: 0.0130  loss_cls: 0.0671  acc: 95.8984  loss_bbox: 0.0738  loss_mask: 0.3817  loss_point: 0.6239
+11/17 12:14:20 - mmengine - INFO - Epoch(train) [1][300/372]  lr: 4.9825e-03  eta: 0:12:53  time: 0.3960  data_time: 0.0795  memory: 2261  loss: 1.1568  loss_rpn_cls: 0.0151  loss_rpn_bbox: 0.0125  loss_cls: 0.0722  acc: 97.8516  loss_bbox: 0.0841  loss_mask: 0.3801  loss_point: 0.5927
+11/17 12:14:40 - mmengine - INFO - Epoch(train) [1][350/372]  lr: 4.9521e-03  eta: 0:12:30  time: 0.3890  data_time: 0.0783  memory: 2261  loss: 1.1767  loss_rpn_cls: 0.0141  loss_rpn_bbox: 0.0114  loss_cls: 0.0784  acc: 99.4141  loss_bbox: 0.0860  loss_mask: 0.3811  loss_point: 0.6058
+11/17 12:14:48 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:14:48 - mmengine - INFO - Saving checkpoint at 1 epochs
+11/17 12:14:59 - mmengine - INFO - Epoch(val) [1][50/93]    eta: 0:00:07  time: 0.1718  data_time: 0.0243  memory: 2261  
+11/17 12:15:06 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.28s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.164
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.449
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.081
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.165
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.118
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.345
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.345
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.345
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.344
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.533
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:15:06 - mmengine - INFO - segm_mAP_copypaste: 0.164 0.449 0.081 0.165 0.118 -1.000
+11/17 12:15:06 - mmengine - INFO - Epoch(val) [1][93/93]    coco/segm_mAP: 0.1640  coco/segm_mAP_50: 0.4490  coco/segm_mAP_75: 0.0810  coco/segm_mAP_s: 0.1650  coco/segm_mAP_m: 0.1180  coco/segm_mAP_l: -1.0000  data_time: 0.0243  time: 0.1667
+11/17 12:15:07 - mmengine - INFO - The best checkpoint with 0.1640 coco/segm_mAP at 1 epoch is saved to best_coco_segm_mAP_epoch_1.pth.
+11/17 12:15:29 - mmengine - INFO - Epoch(train) [2][ 50/372]  lr: 4.8823e-03  eta: 0:12:01  time: 0.4016  data_time: 0.0790  memory: 2324  loss: 1.1594  loss_rpn_cls: 0.0111  loss_rpn_bbox: 0.0118  loss_cls: 0.0820  acc: 96.0938  loss_bbox: 0.1065  loss_mask: 0.3630  loss_point: 0.5850
+11/17 12:15:48 - mmengine - INFO - Epoch(train) [2][100/372]  lr: 4.8162e-03  eta: 0:11:40  time: 0.3911  data_time: 0.0785  memory: 2369  loss: 1.1838  loss_rpn_cls: 0.0088  loss_rpn_bbox: 0.0111  loss_cls: 0.0774  acc: 97.1680  loss_bbox: 0.1087  loss_mask: 0.3763  loss_point: 0.6016
+11/17 12:16:08 - mmengine - INFO - Epoch(train) [2][150/372]  lr: 4.7361e-03  eta: 0:11:18  time: 0.3863  data_time: 0.0788  memory: 2378  loss: 1.1740  loss_rpn_cls: 0.0108  loss_rpn_bbox: 0.0115  loss_cls: 0.0790  acc: 90.9180  loss_bbox: 0.1086  loss_mask: 0.3754  loss_point: 0.5887
+11/17 12:16:27 - mmengine - INFO - Epoch(train) [2][200/372]  lr: 4.6425e-03  eta: 0:10:58  time: 0.3974  data_time: 0.0819  memory: 2378  loss: 1.1554  loss_rpn_cls: 0.0101  loss_rpn_bbox: 0.0129  loss_cls: 0.0763  acc: 95.9961  loss_bbox: 0.1273  loss_mask: 0.3503  loss_point: 0.5786
+11/17 12:16:47 - mmengine - INFO - Epoch(train) [2][250/372]  lr: 4.5359e-03  eta: 0:10:37  time: 0.3858  data_time: 0.0782  memory: 2395  loss: 1.1605  loss_rpn_cls: 0.0083  loss_rpn_bbox: 0.0109  loss_cls: 0.0771  acc: 97.4609  loss_bbox: 0.1175  loss_mask: 0.3629  loss_point: 0.5838
+11/17 12:17:05 - mmengine - INFO - Epoch(train) [2][300/372]  lr: 4.4171e-03  eta: 0:10:14  time: 0.3730  data_time: 0.0744  memory: 2395  loss: 1.1114  loss_rpn_cls: 0.0092  loss_rpn_bbox: 0.0090  loss_cls: 0.0663  acc: 94.4336  loss_bbox: 0.0982  loss_mask: 0.3542  loss_point: 0.5745
+11/17 12:17:25 - mmengine - INFO - Epoch(train) [2][350/372]  lr: 4.2867e-03  eta: 0:09:54  time: 0.3846  data_time: 0.0782  memory: 2415  loss: 1.1665  loss_rpn_cls: 0.0093  loss_rpn_bbox: 0.0102  loss_cls: 0.0752  acc: 98.9258  loss_bbox: 0.1258  loss_mask: 0.3662  loss_point: 0.5798
+11/17 12:17:33 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:17:33 - mmengine - INFO - Saving checkpoint at 2 epochs
+11/17 12:17:45 - mmengine - INFO - Epoch(val) [2][50/93]    eta: 0:00:08  time: 0.1985  data_time: 0.0232  memory: 2415  
+11/17 12:17:53 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.02s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.42s).
+Accumulating evaluation results...
+DONE (t=0.05s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.237
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.627
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.096
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.237
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.422
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.391
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.391
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.391
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.391
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.533
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:17:53 - mmengine - INFO - segm_mAP_copypaste: 0.237 0.627 0.096 0.237 0.422 -1.000
+11/17 12:17:53 - mmengine - INFO - Epoch(val) [2][93/93]    coco/segm_mAP: 0.2370  coco/segm_mAP_50: 0.6270  coco/segm_mAP_75: 0.0960  coco/segm_mAP_s: 0.2370  coco/segm_mAP_m: 0.4220  coco/segm_mAP_l: -1.0000  data_time: 0.0226  time: 0.1896
+11/17 12:17:53 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\pointrend_s43\best_coco_segm_mAP_epoch_1.pth is removed
+11/17 12:17:54 - mmengine - INFO - The best checkpoint with 0.2370 coco/segm_mAP at 2 epoch is saved to best_coco_segm_mAP_epoch_2.pth.
+11/17 12:18:15 - mmengine - INFO - Epoch(train) [3][ 50/372]  lr: 4.0802e-03  eta: 0:09:25  time: 0.3866  data_time: 0.0796  memory: 2415  loss: 1.1178  loss_rpn_cls: 0.0088  loss_rpn_bbox: 0.0108  loss_cls: 0.0725  acc: 98.2422  loss_bbox: 0.1139  loss_mask: 0.3450  loss_point: 0.5668
+11/17 12:18:35 - mmengine - INFO - Epoch(train) [3][100/372]  lr: 3.9251e-03  eta: 0:09:05  time: 0.3912  data_time: 0.0806  memory: 2415  loss: 1.1297  loss_rpn_cls: 0.0063  loss_rpn_bbox: 0.0104  loss_cls: 0.0730  acc: 97.3633  loss_bbox: 0.1244  loss_mask: 0.3460  loss_point: 0.5695
+11/17 12:18:54 - mmengine - INFO - Epoch(train) [3][150/372]  lr: 3.7614e-03  eta: 0:08:45  time: 0.3917  data_time: 0.0816  memory: 2415  loss: 1.1318  loss_rpn_cls: 0.0060  loss_rpn_bbox: 0.0103  loss_cls: 0.0718  acc: 95.7031  loss_bbox: 0.1293  loss_mask: 0.3447  loss_point: 0.5696
+11/17 12:19:14 - mmengine - INFO - Epoch(train) [3][200/372]  lr: 3.5901e-03  eta: 0:08:26  time: 0.4021  data_time: 0.0819  memory: 2479  loss: 1.1596  loss_rpn_cls: 0.0079  loss_rpn_bbox: 0.0108  loss_cls: 0.0733  acc: 95.0195  loss_bbox: 0.1363  loss_mask: 0.3552  loss_point: 0.5760
+11/17 12:19:34 - mmengine - INFO - Epoch(train) [3][250/372]  lr: 3.4124e-03  eta: 0:08:06  time: 0.3912  data_time: 0.0767  memory: 2479  loss: 1.1118  loss_rpn_cls: 0.0054  loss_rpn_bbox: 0.0094  loss_cls: 0.0637  acc: 96.9727  loss_bbox: 0.1084  loss_mask: 0.3496  loss_point: 0.5753
+11/17 12:19:36 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:19:53 - mmengine - INFO - Epoch(train) [3][300/372]  lr: 3.2292e-03  eta: 0:07:46  time: 0.3895  data_time: 0.0773  memory: 2479  loss: 1.1007  loss_rpn_cls: 0.0049  loss_rpn_bbox: 0.0092  loss_cls: 0.0568  acc: 97.1680  loss_bbox: 0.1109  loss_mask: 0.3440  loss_point: 0.5748
+11/17 12:20:13 - mmengine - INFO - Epoch(train) [3][350/372]  lr: 3.0417e-03  eta: 0:07:26  time: 0.3883  data_time: 0.0759  memory: 2479  loss: 1.0673  loss_rpn_cls: 0.0054  loss_rpn_bbox: 0.0081  loss_cls: 0.0564  acc: 98.7305  loss_bbox: 0.1091  loss_mask: 0.3262  loss_point: 0.5621
+11/17 12:20:22 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:20:22 - mmengine - INFO - Saving checkpoint at 3 epochs
+11/17 12:20:31 - mmengine - INFO - Epoch(val) [3][50/93]    eta: 0:00:06  time: 0.1624  data_time: 0.0227  memory: 2479  
+11/17 12:20:39 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.29s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.289
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.711
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.157
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.289
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.442
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.406
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.406
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.406
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.404
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.633
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:20:39 - mmengine - INFO - segm_mAP_copypaste: 0.289 0.711 0.157 0.289 0.442 -1.000
+11/17 12:20:39 - mmengine - INFO - Epoch(val) [3][93/93]    coco/segm_mAP: 0.2890  coco/segm_mAP_50: 0.7110  coco/segm_mAP_75: 0.1570  coco/segm_mAP_s: 0.2890  coco/segm_mAP_m: 0.4420  coco/segm_mAP_l: -1.0000  data_time: 0.0233  time: 0.1640
+11/17 12:20:39 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\pointrend_s43\best_coco_segm_mAP_epoch_2.pth is removed
+11/17 12:20:40 - mmengine - INFO - The best checkpoint with 0.2890 coco/segm_mAP at 3 epoch is saved to best_coco_segm_mAP_epoch_3.pth.
+11/17 12:21:01 - mmengine - INFO - Epoch(train) [4][ 50/372]  lr: 2.7665e-03  eta: 0:06:58  time: 0.3925  data_time: 0.0810  memory: 2479  loss: 1.0729  loss_rpn_cls: 0.0042  loss_rpn_bbox: 0.0099  loss_cls: 0.0591  acc: 97.3633  loss_bbox: 0.1257  loss_mask: 0.3215  loss_point: 0.5524
+11/17 12:21:21 - mmengine - INFO - Epoch(train) [4][100/372]  lr: 2.5734e-03  eta: 0:06:39  time: 0.3948  data_time: 0.0814  memory: 2479  loss: 1.0981  loss_rpn_cls: 0.0052  loss_rpn_bbox: 0.0094  loss_cls: 0.0627  acc: 98.3398  loss_bbox: 0.1274  loss_mask: 0.3328  loss_point: 0.5605
+11/17 12:21:41 - mmengine - INFO - Epoch(train) [4][150/372]  lr: 2.3799e-03  eta: 0:06:19  time: 0.3957  data_time: 0.0793  memory: 2479  loss: 1.0843  loss_rpn_cls: 0.0044  loss_rpn_bbox: 0.0095  loss_cls: 0.0607  acc: 98.0469  loss_bbox: 0.1226  loss_mask: 0.3282  loss_point: 0.5589
+11/17 12:22:00 - mmengine - INFO - Epoch(train) [4][200/372]  lr: 2.1874e-03  eta: 0:05:59  time: 0.3903  data_time: 0.0771  memory: 2479  loss: 1.0651  loss_rpn_cls: 0.0054  loss_rpn_bbox: 0.0083  loss_cls: 0.0548  acc: 95.2148  loss_bbox: 0.1079  loss_mask: 0.3297  loss_point: 0.5591
+11/17 12:22:20 - mmengine - INFO - Epoch(train) [4][250/372]  lr: 1.9969e-03  eta: 0:05:40  time: 0.3976  data_time: 0.0815  memory: 2479  loss: 1.0802  loss_rpn_cls: 0.0047  loss_rpn_bbox: 0.0095  loss_cls: 0.0540  acc: 95.8008  loss_bbox: 0.1158  loss_mask: 0.3298  loss_point: 0.5665
+11/17 12:22:40 - mmengine - INFO - Epoch(train) [4][300/372]  lr: 1.8097e-03  eta: 0:05:20  time: 0.3975  data_time: 0.0815  memory: 2479  loss: 1.1012  loss_rpn_cls: 0.0050  loss_rpn_bbox: 0.0097  loss_cls: 0.0631  acc: 96.7773  loss_bbox: 0.1220  loss_mask: 0.3379  loss_point: 0.5635
+11/17 12:22:59 - mmengine - INFO - Epoch(train) [4][350/372]  lr: 1.6268e-03  eta: 0:05:01  time: 0.3905  data_time: 0.0770  memory: 2479  loss: 1.0242  loss_rpn_cls: 0.0039  loss_rpn_bbox: 0.0082  loss_cls: 0.0503  acc: 95.8984  loss_bbox: 0.0986  loss_mask: 0.3114  loss_point: 0.5518
+11/17 12:23:08 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:23:08 - mmengine - INFO - Saving checkpoint at 4 epochs
+11/17 12:23:18 - mmengine - INFO - Epoch(val) [4][50/93]    eta: 0:00:06  time: 0.1536  data_time: 0.0232  memory: 2479  
+11/17 12:23:24 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.22s).
+Accumulating evaluation results...
+DONE (t=0.02s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.305
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.753
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.149
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.305
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.331
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.417
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.417
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.417
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.416
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.700
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:23:25 - mmengine - INFO - segm_mAP_copypaste: 0.305 0.753 0.149 0.305 0.331 -1.000
+11/17 12:23:25 - mmengine - INFO - Epoch(val) [4][93/93]    coco/segm_mAP: 0.3050  coco/segm_mAP_50: 0.7530  coco/segm_mAP_75: 0.1490  coco/segm_mAP_s: 0.3050  coco/segm_mAP_m: 0.3310  coco/segm_mAP_l: -1.0000  data_time: 0.0238  time: 0.1542
+11/17 12:23:25 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\pointrend_s43\best_coco_segm_mAP_epoch_3.pth is removed
+11/17 12:23:26 - mmengine - INFO - The best checkpoint with 0.3050 coco/segm_mAP at 4 epoch is saved to best_coco_segm_mAP_epoch_4.pth.
+11/17 12:23:47 - mmengine - INFO - Epoch(train) [5][ 50/372]  lr: 1.3734e-03  eta: 0:04:33  time: 0.4003  data_time: 0.0839  memory: 2479  loss: 1.0674  loss_rpn_cls: 0.0044  loss_rpn_bbox: 0.0102  loss_cls: 0.0612  acc: 93.7500  loss_bbox: 0.1229  loss_mask: 0.3165  loss_point: 0.5522
+11/17 12:24:08 - mmengine - INFO - Epoch(train) [5][100/372]  lr: 1.2058e-03  eta: 0:04:13  time: 0.4105  data_time: 0.0852  memory: 2508  loss: 1.0529  loss_rpn_cls: 0.0041  loss_rpn_bbox: 0.0102  loss_cls: 0.0578  acc: 98.7305  loss_bbox: 0.1295  loss_mask: 0.3067  loss_point: 0.5445
+11/17 12:24:28 - mmengine - INFO - Epoch(train) [5][150/372]  lr: 1.0462e-03  eta: 0:03:54  time: 0.3969  data_time: 0.0785  memory: 2508  loss: 1.0397  loss_rpn_cls: 0.0032  loss_rpn_bbox: 0.0083  loss_cls: 0.0556  acc: 96.7773  loss_bbox: 0.1155  loss_mask: 0.3101  loss_point: 0.5471
+11/17 12:24:47 - mmengine - INFO - Epoch(train) [5][200/372]  lr: 8.9573e-04  eta: 0:03:34  time: 0.3856  data_time: 0.0769  memory: 2508  loss: 1.0211  loss_rpn_cls: 0.0038  loss_rpn_bbox: 0.0080  loss_cls: 0.0517  acc: 98.1445  loss_bbox: 0.1054  loss_mask: 0.3090  loss_point: 0.5433
+11/17 12:25:07 - mmengine - INFO - Epoch(train) [5][250/372]  lr: 7.5518e-04  eta: 0:03:14  time: 0.3914  data_time: 0.0795  memory: 2508  loss: 1.0139  loss_rpn_cls: 0.0034  loss_rpn_bbox: 0.0084  loss_cls: 0.0498  acc: 98.9258  loss_bbox: 0.1091  loss_mask: 0.3038  loss_point: 0.5394
+11/17 12:25:26 - mmengine - INFO - Epoch(train) [5][300/372]  lr: 6.2545e-04  eta: 0:02:54  time: 0.3947  data_time: 0.0764  memory: 2508  loss: 1.0242  loss_rpn_cls: 0.0033  loss_rpn_bbox: 0.0078  loss_cls: 0.0451  acc: 98.8281  loss_bbox: 0.1037  loss_mask: 0.3117  loss_point: 0.5526
+11/17 12:25:46 - mmengine - INFO - Epoch(train) [5][350/372]  lr: 5.0733e-04  eta: 0:02:35  time: 0.3908  data_time: 0.0809  memory: 2508  loss: 1.0458  loss_rpn_cls: 0.0033  loss_rpn_bbox: 0.0089  loss_cls: 0.0506  acc: 99.7070  loss_bbox: 0.1101  loss_mask: 0.3227  loss_point: 0.5503
+11/17 12:25:55 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:25:55 - mmengine - INFO - Saving checkpoint at 5 epochs
+11/17 12:26:04 - mmengine - INFO - Epoch(val) [5][50/93]    eta: 0:00:06  time: 0.1505  data_time: 0.0238  memory: 2508  
+11/17 12:26:10 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.21s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.313
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.758
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.159
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.313
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.465
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.421
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.421
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.421
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.420
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.633
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:26:11 - mmengine - INFO - segm_mAP_copypaste: 0.313 0.758 0.159 0.313 0.465 -1.000
+11/17 12:26:11 - mmengine - INFO - Epoch(val) [5][93/93]    coco/segm_mAP: 0.3130  coco/segm_mAP_50: 0.7580  coco/segm_mAP_75: 0.1590  coco/segm_mAP_s: 0.3130  coco/segm_mAP_m: 0.4650  coco/segm_mAP_l: -1.0000  data_time: 0.0234  time: 0.1505
+11/17 12:26:11 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\pointrend_s43\best_coco_segm_mAP_epoch_4.pth is removed
+11/17 12:26:12 - mmengine - INFO - The best checkpoint with 0.3130 coco/segm_mAP at 5 epoch is saved to best_coco_segm_mAP_epoch_5.pth.
+11/17 12:26:33 - mmengine - INFO - Epoch(train) [6][ 50/372]  lr: 3.5906e-04  eta: 0:02:06  time: 0.3870  data_time: 0.0795  memory: 2508  loss: 1.0318  loss_rpn_cls: 0.0032  loss_rpn_bbox: 0.0090  loss_cls: 0.0520  acc: 98.1445  loss_bbox: 0.1149  loss_mask: 0.3094  loss_point: 0.5434
+11/17 12:26:52 - mmengine - INFO - Epoch(train) [6][100/372]  lr: 2.7213e-04  eta: 0:01:47  time: 0.3942  data_time: 0.0812  memory: 2508  loss: 1.0175  loss_rpn_cls: 0.0028  loss_rpn_bbox: 0.0090  loss_cls: 0.0491  acc: 97.3633  loss_bbox: 0.1160  loss_mask: 0.2991  loss_point: 0.5415
+11/17 12:27:08 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:27:12 - mmengine - INFO - Epoch(train) [6][150/372]  lr: 1.9897e-04  eta: 0:01:27  time: 0.3935  data_time: 0.0798  memory: 2508  loss: 0.9989  loss_rpn_cls: 0.0030  loss_rpn_bbox: 0.0082  loss_cls: 0.0477  acc: 97.3633  loss_bbox: 0.1089  loss_mask: 0.2964  loss_point: 0.5346
+11/17 12:27:32 - mmengine - INFO - Epoch(train) [6][200/372]  lr: 1.4002e-04  eta: 0:01:07  time: 0.3933  data_time: 0.0813  memory: 2511  loss: 1.0273  loss_rpn_cls: 0.0035  loss_rpn_bbox: 0.0087  loss_cls: 0.0524  acc: 99.4141  loss_bbox: 0.1219  loss_mask: 0.3001  loss_point: 0.5407
+11/17 12:27:51 - mmengine - INFO - Epoch(train) [6][250/372]  lr: 9.5641e-05  eta: 0:00:48  time: 0.3874  data_time: 0.0789  memory: 2511  loss: 0.9877  loss_rpn_cls: 0.0025  loss_rpn_bbox: 0.0077  loss_cls: 0.0447  acc: 98.7305  loss_bbox: 0.1034  loss_mask: 0.2964  loss_point: 0.5331
+11/17 12:28:11 - mmengine - INFO - Epoch(train) [6][300/372]  lr: 6.6109e-05  eta: 0:00:28  time: 0.3919  data_time: 0.0791  memory: 2511  loss: 0.9984  loss_rpn_cls: 0.0042  loss_rpn_bbox: 0.0080  loss_cls: 0.0460  acc: 97.6562  loss_bbox: 0.1049  loss_mask: 0.2982  loss_point: 0.5372
+11/17 12:28:30 - mmengine - INFO - Epoch(train) [6][350/372]  lr: 5.1601e-05  eta: 0:00:08  time: 0.3892  data_time: 0.0792  memory: 2511  loss: 1.0130  loss_rpn_cls: 0.0033  loss_rpn_bbox: 0.0082  loss_cls: 0.0499  acc: 97.3633  loss_bbox: 0.1089  loss_mask: 0.3015  loss_point: 0.5412
+11/17 12:28:39 - mmengine - INFO - Exp name: point-rend_r50-caffe_fpn_ms-1x_coco_20261117_121217
+11/17 12:28:39 - mmengine - INFO - Saving checkpoint at 6 epochs
+11/17 12:28:48 - mmengine - INFO - Epoch(val) [6][50/93]    eta: 0:00:06  time: 0.1457  data_time: 0.0240  memory: 2511  
+11/17 12:28:55 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.20s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.312
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.765
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.159
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.312
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.456
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.419
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.419
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.419
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.417
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.667
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:28:55 - mmengine - INFO - segm_mAP_copypaste: 0.312 0.765 0.159 0.312 0.456 -1.000
+11/17 12:28:55 - mmengine - INFO - Epoch(val) [6][93/93]    coco/segm_mAP: 0.3120  coco/segm_mAP_50: 0.7650  coco/segm_mAP_75: 0.1590  coco/segm_mAP_s: 0.3120  coco/segm_mAP_m: 0.4560  coco/segm_mAP_l: -1.0000  data_time: 0.0246  time: 0.1476
+Loads checkpoint by local backend from path: D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\pointrend_s43\best_coco_segm_mAP_epoch_5.pth
+== pointrend final s43 valor 2: val F1 grupo 0.795 | test F1 grupo 0.701 | 17.5 min

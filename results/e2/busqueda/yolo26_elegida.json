@@ -1,0 +1,28 @@
+{
+ "modelo": "yolo26",
+ "elegido": 1.0,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.5851650313151174,
+   "AP_val": 0.1156620600999684,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.5890007610706225,
+   "AP_val": 0.08542598443292591,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.5488249044290074,
+   "AP_val": 0.06035774018615639,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

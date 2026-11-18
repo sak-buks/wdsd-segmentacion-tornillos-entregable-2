@@ -1,0 +1,12 @@
+D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\src\wdsd_e2\m_clasico.py:118: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:837.)
+  perdida = float(cierre())  # opt.step devuelve la pérdida inicial; esta es la final
+  rasgos de train: 0/744 (0 s)
+  rasgos de train: 100/744 (7 s)
+  rasgos de train: 200/744 (15 s)
+  rasgos de train: 300/744 (22 s)
+  rasgos de train: 400/744 (29 s)
+  rasgos de train: 500/744 (37 s)
+  rasgos de train: 600/744 (44 s)
+  rasgos de train: 700/744 (51 s)
+  clasico λ=0.001: 558885 píxeles de tornillo, 744000 de fondo, pérdida 0.4820

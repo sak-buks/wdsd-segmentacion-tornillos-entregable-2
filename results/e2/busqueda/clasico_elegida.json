@@ -1,0 +1,28 @@
+{
+ "modelo": "clasico",
+ "elegido": 0.001,
+ "por_defecto": 0.001,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.0001": {
+   "F1_grupo_val": 0.01311779704527603,
+   "AP_val": 0.00013546532468480845,
+   "maquina": "3060",
+   "mejor_epoca": null
+  },
+  "0.001": {
+   "F1_grupo_val": 0.010819334875848645,
+   "AP_val": 9.639887146070677e-05,
+   "maquina": "3060",
+   "mejor_epoca": null
+  },
+  "0.01": {
+   "F1_grupo_val": 0.010665957278462439,
+   "AP_val": 6.916832760720955e-05,
+   "maquina": "3060",
+   "mejor_epoca": null
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

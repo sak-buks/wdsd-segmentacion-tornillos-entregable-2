@@ -1,0 +1,1 @@
+== vacio final s0 valor 0: val F1 grupo 0.000 | test F1 grupo 0.000 | 0.0 min

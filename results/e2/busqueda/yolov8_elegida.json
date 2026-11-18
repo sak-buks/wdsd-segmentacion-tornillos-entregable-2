@@ -1,0 +1,28 @@
+{
+ "modelo": "yolov8",
+ "elegido": 0.5,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.545182785153484,
+   "AP_val": 0.09784978435181343,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.5366577626834164,
+   "AP_val": 0.06976893429920135,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.48342843997780666,
+   "AP_val": 0.04073065000375195,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

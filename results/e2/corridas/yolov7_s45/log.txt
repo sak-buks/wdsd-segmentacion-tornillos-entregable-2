@@ -1,0 +1,47 @@
+  yolov7: {'lr_inicial': 0.005, 'lr_por_defecto': 0.01, 'optimizador': 'SGD', 'lote': 1, 'acumulacion': 2, 'calentamiento_epocas': 0.5995}
+    [34m[1mtrain: [0mWARNING: Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\train.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\train.cache'
+    [34m[1mval: [0mWARNING: Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache'
+                       all         93        479      0.406      0.461      0.367      0.111      0.317      0.374      0.278     0.0891
+                       all         93        479       0.44      0.482      0.416       0.13      0.327      0.409       0.28      0.082
+                       all         93        479      0.542       0.52      0.533      0.196      0.472      0.426      0.406       0.14
+                       all         93        479      0.525      0.564      0.518       0.19      0.393      0.449      0.361      0.103
+                       all         93        479      0.627      0.572      0.616      0.246      0.545      0.441      0.481      0.163
+                       all         93        479      0.646      0.629      0.649      0.262      0.539      0.495      0.493      0.159
+                       all         93        479      0.648       0.63      0.649      0.262      0.539      0.495      0.493      0.158
+    [34m[1mval: [0mWARNING: Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache'
+    Traceback (most recent call last):
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+                       all         93        479      0.624      0.591      0.639      0.277      0.626      0.593      0.638      0.272
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+                       all        108        389      0.576      0.486      0.528      0.211      0.553      0.488      0.529      0.205
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    Traceback (most recent call last):
+    Traceback (most recent call last):
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+                       all         93        416      0.832      0.716      0.821      0.382      0.835      0.718      0.832      0.366
+== yolov7 final s45 valor 0.5: val F1 grupo 0.700 | test F1 grupo 0.625 | 28.6 min

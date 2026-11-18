@@ -1,0 +1,9 @@
+D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\src\wdsd_inst\maskrcnn.py:138: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  scaler.step(opt); scaler.update(); sched.step()
+D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\src\wdsd_inst\maskrcnn.py:139: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:837.)
+  suma += float(perdida); n += 1
+  maskrcnn: {'lr_inicial': 0.0025, 'lr_por_defecto': 0.005, 'optimizador': 'SGD', 'lote': 2, 'acumulacion': 1}
+  maskrcnn s42 época 1/2: pérdida 0.578, val AP 0.108, AP50 0.325, 174 s
+  maskrcnn s42 época 2/2: pérdida 0.488, val AP 0.148, AP50 0.409, 164 s
+== maskrcnn buscar s42 valor 0.5: val F1 grupo 0.660 | 6.1 min

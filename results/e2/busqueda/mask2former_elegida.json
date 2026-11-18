@@ -1,0 +1,28 @@
+{
+ "modelo": "mask2former",
+ "elegido": 2.0,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.6333346492617037,
+   "AP_val": 0.15907307992014072,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.6531344072588874,
+   "AP_val": 0.18245132563601105,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.6932553727162053,
+   "AP_val": 0.18953164286448676,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

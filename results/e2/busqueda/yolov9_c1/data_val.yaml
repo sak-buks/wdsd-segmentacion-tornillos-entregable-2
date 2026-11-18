@@ -1,0 +1,6 @@
+path: "D:/Documents/Personal/Uninorte/Maestr\xEDa/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo"
+train: images/train
+val: images/val
+nc: 1
+names:
+  0: tornillo

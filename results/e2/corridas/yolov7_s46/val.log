@@ -1,0 +1,489 @@
+$ C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\python.exe segment/val.py --data D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\data_val.yaml --weights D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\mejor.pt --img 1280 --batch-size 1 --task val --conf-thres 0.05 --iou-thres 0.6 --max-det 100 --save-json --device 0 --project D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46 --name pred_val --exist-ok
+[34m[1msegment\val: [0mdata=D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\data_val.yaml, weights=['D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\results\\e2\\corridas\\yolov7_s46\\mejor.pt'], batch_size=1, imgsz=1280, conf_thres=0.05, iou_thres=0.6, max_det=100, task=val, device=0, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=True, project=D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46, name=pred_val, exist_ok=True, half=False, dnn=False
+WARNING: confidence threshold 0.05 > 0.001 produces invalid results 
+YOLOv5  2026-11-16 Python-3.11.18 torch-2.1.2+cu121 CUDA:0 (NVIDIA GeForce RTX 3060 Laptop GPU, 6144MiB)
+
+Fusing layers... 
+yolov7-seg summary: 325 layers, 37842476 parameters, 0 gradients, 141.9 GFLOPs
+
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels\val' images and labels...:   0%|          | 0/93 [00:00<?, ?it/s]
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels\val' images and labels...1 found, 0 missing, 0 empty, 0 corrupt:   1%|          | 1/93 [00:09<13:52,  9.05s/it]
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels\val' images and labels...50 found, 0 missing, 0 empty, 0 corrupt:  54%|█████▍    | 50/93 [00:09<00:05,  7.72it/s]
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels\val' images and labels...93 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 93/93 [00:09<00:00, 10.11it/s]
+[34m[1mval: [0mWARNING: Cache directory D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels is not writeable: [WinError 183] Cannot create a file when that file already exists: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache.npy' -> 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\labels\\val.cache'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   0%|          | 0/93 [00:00<?, ?it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   1%|          | 1/93 [00:00<00:41,  2.23it/s]Exception in thread Thread-16 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+Exception in thread Thread-15 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   2%|▏         | 2/93 [00:00<00:23,  3.84it/s]Exception in thread Thread-29 (plot_images_and_masks):
+Traceback (most recent call last):
+Exception in thread Thread-28 (plot_images_and_masks):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   3%|▎         | 3/93 [00:00<00:18,  4.94it/s]Exception in thread Thread-41 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+Exception in thread Thread-42 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   4%|▍         | 4/93 [00:00<00:14,  6.01it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   5%|▌         | 5/93 [00:00<00:13,  6.47it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   6%|▋         | 6/93 [00:01<00:11,  7.25it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   9%|▊         | 8/93 [00:01<00:10,  8.28it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  10%|▉         | 9/93 [00:01<00:10,  8.20it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  11%|█         | 10/93 [00:01<00:09,  8.47it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  12%|█▏        | 11/93 [00:01<00:09,  8.30it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  13%|█▎        | 12/93 [00:01<00:09,  8.60it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  14%|█▍        | 13/93 [00:01<00:09,  8.30it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  15%|█▌        | 14/93 [00:01<00:09,  8.70it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  16%|█▌        | 15/93 [00:02<00:09,  8.14it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  17%|█▋        | 16/93 [00:02<00:09,  8.09it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  19%|█▉        | 18/93 [00:02<00:08,  8.92it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  20%|██        | 19/93 [00:02<00:08,  9.13it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  22%|██▏       | 20/93 [00:02<00:08,  8.97it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  23%|██▎       | 21/93 [00:02<00:08,  8.64it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  24%|██▎       | 22/93 [00:02<00:08,  8.72it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  25%|██▍       | 23/93 [00:03<00:08,  8.36it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  26%|██▌       | 24/93 [00:03<00:08,  8.55it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  27%|██▋       | 25/93 [00:03<00:08,  8.37it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  28%|██▊       | 26/93 [00:03<00:07,  8.75it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  30%|███       | 28/93 [00:03<00:06,  9.58it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  32%|███▏      | 30/93 [00:03<00:06,  9.84it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  34%|███▍      | 32/93 [00:03<00:06, 10.07it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  35%|███▌      | 33/93 [00:04<00:06,  9.25it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  38%|███▊      | 35/93 [00:04<00:06,  9.13it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  39%|███▊      | 36/93 [00:04<00:06,  9.08it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  40%|███▉      | 37/93 [00:04<00:06,  9.14it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  42%|████▏     | 39/93 [00:04<00:05,  9.45it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  43%|████▎     | 40/93 [00:04<00:05,  9.31it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  44%|████▍     | 41/93 [00:04<00:05,  9.28it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  45%|████▌     | 42/93 [00:05<00:05,  8.94it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  46%|████▌     | 43/93 [00:05<00:05,  8.53it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  47%|████▋     | 44/93 [00:05<00:05,  8.57it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  48%|████▊     | 45/93 [00:05<00:05,  8.46it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  49%|████▉     | 46/93 [00:05<00:05,  8.80it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  51%|█████     | 47/93 [00:05<00:05,  8.89it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  52%|█████▏    | 48/93 [00:05<00:04,  9.14it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  53%|█████▎    | 49/93 [00:05<00:04,  9.06it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  54%|█████▍    | 50/93 [00:05<00:04,  9.32it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  55%|█████▍    | 51/93 [00:06<00:04,  9.14it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  56%|█████▌    | 52/93 [00:06<00:04,  9.22it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  57%|█████▋    | 53/93 [00:06<00:04,  9.17it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  58%|█████▊    | 54/93 [00:06<00:04,  9.39it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  60%|██████    | 56/93 [00:06<00:03,  9.61it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  61%|██████▏   | 57/93 [00:06<00:03,  9.47it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  62%|██████▏   | 58/93 [00:06<00:03,  9.27it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  65%|██████▍   | 60/93 [00:07<00:03,  9.79it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  66%|██████▌   | 61/93 [00:07<00:03,  9.18it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  68%|██████▊   | 63/93 [00:07<00:03,  9.58it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  70%|██████▉   | 65/93 [00:07<00:03,  9.22it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  71%|███████   | 66/93 [00:07<00:02,  9.20it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  72%|███████▏  | 67/93 [00:07<00:02,  9.34it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  74%|███████▍  | 69/93 [00:07<00:02,  9.52it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  75%|███████▌  | 70/93 [00:08<00:02,  9.31it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  76%|███████▋  | 71/93 [00:08<00:02,  9.34it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  77%|███████▋  | 72/93 [00:08<00:02,  9.42it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  80%|███████▉  | 74/93 [00:08<00:01,  9.83it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  81%|████████  | 75/93 [00:08<00:01,  9.62it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  82%|████████▏ | 76/93 [00:08<00:01,  9.23it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  83%|████████▎ | 77/93 [00:08<00:01,  8.74it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  84%|████████▍ | 78/93 [00:08<00:01,  8.54it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  85%|████████▍ | 79/93 [00:09<00:01,  8.28it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  86%|████████▌ | 80/93 [00:09<00:01,  8.17it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  87%|████████▋ | 81/93 [00:09<00:01,  8.40it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  88%|████████▊ | 82/93 [00:09<00:01,  8.35it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  89%|████████▉ | 83/93 [00:09<00:01,  8.25it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  90%|█████████ | 84/93 [00:09<00:01,  8.24it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  91%|█████████▏| 85/93 [00:09<00:00,  8.47it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  92%|█████████▏| 86/93 [00:09<00:00,  8.40it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  94%|█████████▎| 87/93 [00:10<00:00,  8.25it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  96%|█████████▌| 89/93 [00:10<00:00,  8.83it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  97%|█████████▋| 90/93 [00:10<00:00,  8.89it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  98%|█████████▊| 91/93 [00:10<00:00,  8.72it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  99%|█████████▉| 92/93 [00:10<00:00,  8.42it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 93/93 [00:10<00:00,  8.15it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 93/93 [00:10<00:00,  8.63it/s]
+                   all         93        479      0.723      0.587       0.68      0.289      0.718      0.616      0.693      0.307
+Speed: 1.5ms pre-process, 53.0ms inference, 2.7ms NMS per image at shape (1, 3, 1280, 1280)
+
+Evaluating pycocotools mAP... saving D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\pred_val\mejor_predictions.json...
+pycocotools unable to run: [Errno 2] No such file or directory: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\annotations\\instances_val2017.json'
+Results saved to [1mD:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\pred_val[0m
+loading annotations into memory...
+$ C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\python.exe segment/val.py --data D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\data_test.yaml --weights D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\mejor.pt --img 1280 --batch-size 1 --task val --conf-thres 0.05 --iou-thres 0.6 --max-det 100 --save-json --device 0 --project D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46 --name pred_test --exist-ok
+[34m[1msegment\val: [0mdata=D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\data_test.yaml, weights=['D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\results\\e2\\corridas\\yolov7_s46\\mejor.pt'], batch_size=1, imgsz=1280, conf_thres=0.05, iou_thres=0.6, max_det=100, task=val, device=0, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=True, project=D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46, name=pred_test, exist_ok=True, half=False, dnn=False
+WARNING: confidence threshold 0.05 > 0.001 produces invalid results 
+YOLOv5  2026-11-16 Python-3.11.18 torch-2.1.2+cu121 CUDA:0 (NVIDIA GeForce RTX 3060 Laptop GPU, 6144MiB)
+
+Fusing layers... 
+yolov7-seg summary: 325 layers, 37842476 parameters, 0 gradients, 141.9 GFLOPs
+
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels\test.cache' images and labels... 108 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 108/108 [00:00<?, ?it/s]
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\labels\test.cache' images and labels... 108 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 108/108 [00:00<?, ?it/s]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   0%|          | 0/108 [00:00<?, ?it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   1%|          | 1/108 [00:00<00:44,  2.41it/s]Exception in thread Thread-12 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   2%|▏         | 2/108 [00:00<00:25,  4.16it/s]Exception in thread Thread-26 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+Exception in thread Thread-25 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    self.run()
+    w, h = self.font.getsize(label)  # text width, height
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   3%|▎         | 3/108 [00:00<00:18,  5.61it/s]Exception in thread Thread-39 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+Exception in thread Thread-38 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    self._target(*self._args, **self._kwargs)
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   4%|▎         | 4/108 [00:00<00:16,  6.46it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   6%|▌         | 6/108 [00:00<00:12,  8.11it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   7%|▋         | 8/108 [00:01<00:10,  9.92it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   9%|▉         | 10/108 [00:01<00:09, 10.57it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  11%|█         | 12/108 [00:01<00:08, 10.90it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  13%|█▎        | 14/108 [00:01<00:09, 10.18it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  15%|█▍        | 16/108 [00:01<00:09, 10.19it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  17%|█▋        | 18/108 [00:02<00:08, 10.21it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  19%|█▊        | 20/108 [00:02<00:08,  9.99it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  20%|██        | 22/108 [00:02<00:07, 10.81it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  22%|██▏       | 24/108 [00:02<00:07, 10.67it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  24%|██▍       | 26/108 [00:02<00:07, 10.51it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  26%|██▌       | 28/108 [00:03<00:07, 10.10it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  28%|██▊       | 30/108 [00:03<00:07,  9.91it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  30%|██▉       | 32/108 [00:03<00:07, 10.03it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  31%|███▏      | 34/108 [00:03<00:07, 10.20it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  33%|███▎      | 36/108 [00:03<00:07,  9.37it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  34%|███▍      | 37/108 [00:03<00:07,  9.18it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  35%|███▌      | 38/108 [00:04<00:08,  8.51it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  36%|███▌      | 39/108 [00:04<00:08,  8.58it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  37%|███▋      | 40/108 [00:04<00:08,  8.04it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  38%|███▊      | 41/108 [00:04<00:07,  8.44it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  39%|███▉      | 42/108 [00:04<00:07,  8.37it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  41%|████      | 44/108 [00:04<00:07,  8.97it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  42%|████▏     | 45/108 [00:04<00:07,  8.51it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  43%|████▎     | 46/108 [00:05<00:07,  8.69it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  44%|████▎     | 47/108 [00:05<00:07,  8.28it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  44%|████▍     | 48/108 [00:05<00:07,  8.48it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  45%|████▌     | 49/108 [00:05<00:06,  8.58it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  46%|████▋     | 50/108 [00:05<00:06,  8.51it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  47%|████▋     | 51/108 [00:05<00:06,  8.53it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  48%|████▊     | 52/108 [00:05<00:06,  8.64it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  50%|█████     | 54/108 [00:05<00:05,  9.61it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  52%|█████▏    | 56/108 [00:06<00:05, 10.30it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  54%|█████▎    | 58/108 [00:06<00:04, 10.94it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  56%|█████▌    | 60/108 [00:06<00:04, 10.53it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  57%|█████▋    | 62/108 [00:06<00:04, 10.16it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  59%|█████▉    | 64/108 [00:06<00:04, 10.07it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  61%|██████    | 66/108 [00:07<00:04,  9.79it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  62%|██████▏   | 67/108 [00:07<00:04,  9.59it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  63%|██████▎   | 68/108 [00:07<00:04,  9.59it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  64%|██████▍   | 69/108 [00:07<00:04,  9.33it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  65%|██████▍   | 70/108 [00:07<00:04,  9.00it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  66%|██████▌   | 71/108 [00:07<00:04,  9.12it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  67%|██████▋   | 72/108 [00:07<00:03,  9.15it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  68%|██████▊   | 73/108 [00:07<00:03,  8.89it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  69%|██████▊   | 74/108 [00:08<00:03,  8.83it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  70%|███████   | 76/108 [00:08<00:03,  9.47it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  71%|███████▏  | 77/108 [00:08<00:03,  9.25it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  72%|███████▏  | 78/108 [00:08<00:03,  9.16it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  74%|███████▍  | 80/108 [00:08<00:02,  9.50it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  75%|███████▌  | 81/108 [00:08<00:02,  9.19it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  76%|███████▌  | 82/108 [00:08<00:02,  9.33it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  78%|███████▊  | 84/108 [00:09<00:02,  9.56it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  79%|███████▊  | 85/108 [00:09<00:02,  9.44it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  80%|███████▉  | 86/108 [00:09<00:02,  9.48it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  81%|████████▏ | 88/108 [00:09<00:02,  9.92it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  83%|████████▎ | 90/108 [00:09<00:01, 10.05it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  84%|████████▍ | 91/108 [00:09<00:01,  9.73it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  85%|████████▌ | 92/108 [00:09<00:01,  9.74it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  86%|████████▌ | 93/108 [00:10<00:01,  9.49it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  88%|████████▊ | 95/108 [00:10<00:01,  9.53it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  89%|████████▉ | 96/108 [00:10<00:01,  9.59it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  90%|████████▉ | 97/108 [00:10<00:01,  9.29it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  91%|█████████ | 98/108 [00:10<00:01,  9.11it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  92%|█████████▏| 99/108 [00:10<00:00,  9.14it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  93%|█████████▎| 100/108 [00:10<00:00,  8.98it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  94%|█████████▎| 101/108 [00:10<00:00,  9.04it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  94%|█████████▍| 102/108 [00:11<00:00,  8.64it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  95%|█████████▌| 103/108 [00:11<00:00,  8.99it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  96%|█████████▋| 104/108 [00:11<00:00,  9.01it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  97%|█████████▋| 105/108 [00:11<00:00,  8.99it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  98%|█████████▊| 106/108 [00:11<00:00,  9.21it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  99%|█████████▉| 107/108 [00:11<00:00,  9.24it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 108/108 [00:11<00:00,  8.89it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 108/108 [00:11<00:00,  9.26it/s]
+                   all        108        389      0.588      0.509      0.548      0.215      0.623      0.542      0.584      0.229
+Speed: 1.6ms pre-process, 53.1ms inference, 2.0ms NMS per image at shape (1, 3, 1280, 1280)
+
+Evaluating pycocotools mAP... saving D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\pred_test\mejor_predictions.json...
+pycocotools unable to run: [Errno 2] No such file or directory: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\annotations\\instances_val2017.json'
+Results saved to [1mD:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\pred_test[0m
+loading annotations into memory...
+$ C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\python.exe segment/val.py --data D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\data_train93.yaml --weights D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\mejor.pt --img 1280 --batch-size 1 --task val --conf-thres 0.05 --iou-thres 0.6 --max-det 100 --save-json --device 0 --project D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46 --name pred_train93 --exist-ok
+[34m[1msegment\val: [0mdata=D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\data_train93.yaml, weights=['D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\results\\e2\\corridas\\yolov7_s46\\mejor.pt'], batch_size=1, imgsz=1280, conf_thres=0.05, iou_thres=0.6, max_det=100, task=val, device=0, workers=8, single_cls=False, augment=False, verbose=False, save_txt=False, save_hybrid=False, save_conf=False, save_json=True, project=D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46, name=pred_train93, exist_ok=True, half=False, dnn=False
+WARNING: confidence threshold 0.05 > 0.001 produces invalid results 
+YOLOv5  2026-11-16 Python-3.11.18 torch-2.1.2+cu121 CUDA:0 (NVIDIA GeForce RTX 3060 Laptop GPU, 6144MiB)
+
+Fusing layers... 
+yolov7-seg summary: 325 layers, 37842476 parameters, 0 gradients, 141.9 GFLOPs
+
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\train93.cache' images and labels... 93 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 93/93 [00:00<?, ?it/s]
+[34m[1mval: [0mScanning 'D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\datos_inst\yolo\train93.cache' images and labels... 93 found, 0 missing, 0 empty, 0 corrupt: 100%|██████████| 93/93 [00:00<?, ?it/s]
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   0%|          | 0/93 [00:00<?, ?it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   1%|          | 1/93 [00:00<00:35,  2.57it/s]Exception in thread Thread-12 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   2%|▏         | 2/93 [00:00<00:20,  4.35it/s]Exception in thread Thread-25 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+Exception in thread Thread-26 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   3%|▎         | 3/93 [00:00<00:16,  5.46it/s]Exception in thread Thread-38 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+Exception in thread Thread-39 (plot_images_and_masks):
+Traceback (most recent call last):
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self.run()
+  File "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    self._target(*self._args, **self._kwargs)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\segment\plots.py", line 119, in plot_images_and_masks
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+    annotator.box_label(box, label, color=color)
+  File "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\yolov7u7\seg\utils\plots.py", line 90, in box_label
+    w, h = self.font.getsize(label)  # text width, height
+           ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeTypeFont' object has no attribute 'getsize'
+
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   4%|▍         | 4/93 [00:00<00:13,  6.45it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   6%|▋         | 6/93 [00:00<00:11,  7.80it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):   9%|▊         | 8/93 [00:01<00:09,  8.85it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  10%|▉         | 9/93 [00:01<00:09,  8.67it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  11%|█         | 10/93 [00:01<00:09,  8.75it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  12%|█▏        | 11/93 [00:01<00:09,  8.82it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  13%|█▎        | 12/93 [00:01<00:09,  8.88it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  14%|█▍        | 13/93 [00:01<00:08,  9.14it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  15%|█▌        | 14/93 [00:01<00:08,  9.33it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  16%|█▌        | 15/93 [00:01<00:08,  9.47it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  17%|█▋        | 16/93 [00:02<00:08,  8.85it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  18%|█▊        | 17/93 [00:02<00:08,  8.89it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  19%|█▉        | 18/93 [00:02<00:08,  8.94it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  20%|██        | 19/93 [00:02<00:08,  8.70it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  22%|██▏       | 20/93 [00:02<00:08,  8.86it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  24%|██▎       | 22/93 [00:02<00:07,  9.50it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  25%|██▍       | 23/93 [00:02<00:07,  9.26it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  27%|██▋       | 25/93 [00:02<00:07,  9.44it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  29%|██▉       | 27/93 [00:03<00:06,  9.59it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  31%|███       | 29/93 [00:03<00:06, 10.02it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  32%|███▏      | 30/93 [00:03<00:06,  9.77it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  33%|███▎      | 31/93 [00:03<00:06,  9.74it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  34%|███▍      | 32/93 [00:03<00:06,  9.70it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  37%|███▋      | 34/93 [00:03<00:06,  9.82it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  38%|███▊      | 35/93 [00:04<00:05,  9.74it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  39%|███▊      | 36/93 [00:04<00:06,  9.38it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  40%|███▉      | 37/93 [00:04<00:06,  8.72it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  41%|████      | 38/93 [00:04<00:06,  8.70it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  42%|████▏     | 39/93 [00:04<00:06,  8.40it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  43%|████▎     | 40/93 [00:04<00:06,  8.48it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  44%|████▍     | 41/93 [00:04<00:06,  8.33it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  45%|████▌     | 42/93 [00:04<00:06,  8.07it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  46%|████▌     | 43/93 [00:05<00:06,  7.88it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  47%|████▋     | 44/93 [00:05<00:05,  8.22it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  48%|████▊     | 45/93 [00:05<00:05,  8.44it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  49%|████▉     | 46/93 [00:05<00:05,  8.40it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  51%|█████     | 47/93 [00:05<00:05,  8.51it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  52%|█████▏    | 48/93 [00:05<00:05,  8.26it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  53%|█████▎    | 49/93 [00:05<00:05,  8.38it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  54%|█████▍    | 50/93 [00:05<00:05,  8.42it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  55%|█████▍    | 51/93 [00:05<00:04,  8.49it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  56%|█████▌    | 52/93 [00:06<00:04,  8.48it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  57%|█████▋    | 53/93 [00:06<00:04,  8.46it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  58%|█████▊    | 54/93 [00:06<00:04,  8.80it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  59%|█████▉    | 55/93 [00:06<00:04,  9.08it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  61%|██████▏   | 57/93 [00:06<00:03,  9.49it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  62%|██████▏   | 58/93 [00:06<00:03,  9.35it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  63%|██████▎   | 59/93 [00:06<00:03,  8.98it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  65%|██████▍   | 60/93 [00:06<00:03,  9.01it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  66%|██████▌   | 61/93 [00:07<00:03,  8.93it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  68%|██████▊   | 63/93 [00:07<00:03,  8.98it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  69%|██████▉   | 64/93 [00:07<00:03,  9.02it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  70%|██████▉   | 65/93 [00:07<00:03,  8.81it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  71%|███████   | 66/93 [00:07<00:03,  8.45it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  72%|███████▏  | 67/93 [00:07<00:03,  8.39it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  73%|███████▎  | 68/93 [00:07<00:02,  8.55it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  74%|███████▍  | 69/93 [00:08<00:02,  8.26it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  75%|███████▌  | 70/93 [00:08<00:02,  8.39it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  77%|███████▋  | 72/93 [00:08<00:02,  9.29it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  78%|███████▊  | 73/93 [00:08<00:02,  9.39it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  81%|████████  | 75/93 [00:08<00:01,  9.79it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  83%|████████▎ | 77/93 [00:08<00:01, 10.58it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  85%|████████▍ | 79/93 [00:08<00:01, 10.17it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  87%|████████▋ | 81/93 [00:09<00:01,  9.67it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  88%|████████▊ | 82/93 [00:09<00:01,  9.64it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  89%|████████▉ | 83/93 [00:09<00:01,  9.57it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  91%|█████████▏| 85/93 [00:09<00:00,  9.87it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  92%|█████████▏| 86/93 [00:09<00:00,  9.40it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  94%|█████████▎| 87/93 [00:09<00:00,  9.36it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  95%|█████████▍| 88/93 [00:09<00:00,  9.08it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  96%|█████████▌| 89/93 [00:10<00:00,  9.06it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  97%|█████████▋| 90/93 [00:10<00:00,  9.06it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95):  98%|█████████▊| 91/93 [00:10<00:00,  8.98it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 93/93 [00:10<00:00,  9.06it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 93/93 [00:10<00:00,  8.85it/s]
+                   all         93        416      0.845      0.762      0.836      0.374      0.846      0.765      0.839      0.376
+Speed: 1.3ms pre-process, 52.6ms inference, 2.5ms NMS per image at shape (1, 3, 1280, 1280)
+
+Evaluating pycocotools mAP... saving D:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\pred_train93\mejor_predictions.json...
+pycocotools unable to run: [Errno 2] No such file or directory: 'D:\\Documents\\Personal\\Uninorte\\Maestra\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\datos_inst\\yolo\\annotations\\instances_val2017.json'
+Results saved to [1mD:\Documents\Personal\Uninorte\Maestra\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\yolov7_s46\pred_train93[0m
+loading annotations into memory...

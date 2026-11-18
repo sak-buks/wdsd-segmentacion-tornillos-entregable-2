@@ -1,0 +1,28 @@
+{
+ "modelo": "yolov7",
+ "elegido": 0.5,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.568311403306404,
+   "AP_val": 0.1399118181624395,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.4993780838194963,
+   "AP_val": 0.1295326424702837,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.3924361044348762,
+   "AP_val": 0.050951134167436504,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

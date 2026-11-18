@@ -1,0 +1,28 @@
+{
+ "modelo": "msrcnn",
+ "elegido": 2.0,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.49488894878631956,
+   "AP_val": 0.10940290003738408,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.60067046914701,
+   "AP_val": 0.18929427604519616,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.7111086130561777,
+   "AP_val": 0.24196130274385694,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}

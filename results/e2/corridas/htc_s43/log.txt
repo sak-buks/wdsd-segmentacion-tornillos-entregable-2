@@ -1,0 +1,869 @@
+  htc: {'lr_inicial': 0.005, 'lr_por_defecto': 0.0025, 'optimizador': 'SGD', 'lote': 2, 'acumulacion': 1, 'iter_por_epoca': 372, 'calentamiento_iter': 223, 'iter_totales': 2232}
+11/17 11:44:57 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: win32
+    Python: 3.11.18 | packaged by Anaconda, Inc. | (main, Oct 26 2026, 18:13:29) [MSC v.1942 64 bit (AMD64)]
+    CUDA available: True
+    MUSA available: False
+    numpy_random_seed: 43
+    GPU 0: NVIDIA GeForce RTX 3060 Laptop GPU
+    CUDA_HOME: None
+    GCC: n/a
+    PyTorch: 2.1.2+cu121
+    PyTorch compiling details: PyTorch built with:
+  - C++ Version: 199711
+  - MSVC 192930151
+  - Intel(R) Math Kernel Library Version 2020.0.2 Product Build 20200624 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.1.1 (Git Hash 64f6bcbcbab628e96f33a62c3e975f8535a7bde4)
+  - OpenMP 2019
+  - LAPACK is enabled (usually provided by MKL)
+  - CPU capability usage: AVX2
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 8.8.1  (built against CUDA 12.0)
+  - Magma 2.5.4
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=8.8.1, CXX_COMPILER=C:/actions-runner/_work/pytorch/pytorch/builder/windows/tmp_bin/sccache-cl.exe, CXX_FLAGS=/DWIN32 /D_WINDOWS /GR /EHsc /bigobj /FS -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DUSE_FBGEMM -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE /utf-8 /wd4624 /wd4068 /wd4067 /wd4267 /wd4661 /wd4717 /wd4244 /wd4804 /wd4273, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_DISABLE_GPU_ASSERTS=OFF, TORCH_VERSION=2.1.2, USE_CUDA=ON, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=OFF, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.16.2+cu121
+    OpenCV: 4.11.0
+    MMEngine: 0.10.4
+
+Runtime environment:
+    cudnn_benchmark: False
+    dist_cfg: {'backend': 'gloo'}
+    seed: 43
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+11/17 11:44:57 - mmengine - INFO - Config:
+auto_scale_lr = dict(base_batch_size=16, enable=False)
+backend_args = None
+data_root = 'data/coco/'
+dataset_type = 'CocoDataset'
+default_hooks = dict(
+    checkpoint=dict(
+        by_epoch=True,
+        interval=1,
+        max_keep_ckpts=1,
+        rule='greater',
+        save_best='coco/segm_mAP',
+        save_last=True,
+        type='CheckpointHook'),
+    logger=dict(interval=50, type='LoggerHook'),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    timer=dict(type='IterTimerHook'))
+default_scope = 'mmdet'
+env_cfg = dict(cudnn_benchmark=False, dist_cfg=dict(backend='gloo'))
+load_from = 'https://download.openmmlab.com/mmdetection/v2.0/htc/htc_r50_fpn_1x_coco/htc_r50_fpn_1x_coco_20200317-7332cf16.pth'
+log_level = 'INFO'
+log_processor = dict(by_epoch=True, type='LogProcessor', window_size=50)
+model = dict(
+    backbone=dict(
+        depth=50,
+        frozen_stages=1,
+        init_cfg=dict(checkpoint='torchvision://resnet50', type='Pretrained'),
+        norm_cfg=dict(requires_grad=True, type='BN'),
+        norm_eval=True,
+        num_stages=4,
+        out_indices=(
+            0,
+            1,
+            2,
+            3,
+        ),
+        style='pytorch',
+        type='ResNet'),
+    data_preprocessor=dict(
+        bgr_to_rgb=True,
+        mean=[
+            123.675,
+            116.28,
+            103.53,
+        ],
+        pad_size_divisor=32,
+        std=[
+            58.395,
+            57.12,
+            57.375,
+        ],
+        type='DetDataPreprocessor'),
+    neck=dict(
+        in_channels=[
+            256,
+            512,
+            1024,
+            2048,
+        ],
+        num_outs=5,
+        out_channels=256,
+        type='FPN'),
+    roi_head=dict(
+        bbox_head=[
+            dict(
+                bbox_coder=dict(
+                    target_means=[
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                    ],
+                    target_stds=[
+                        0.1,
+                        0.1,
+                        0.2,
+                        0.2,
+                    ],
+                    type='DeltaXYWHBBoxCoder'),
+                fc_out_channels=1024,
+                in_channels=256,
+                loss_bbox=dict(beta=1.0, loss_weight=1.0, type='SmoothL1Loss'),
+                loss_cls=dict(
+                    loss_weight=1.0,
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False),
+                num_classes=1,
+                reg_class_agnostic=True,
+                roi_feat_size=7,
+                type='Shared2FCBBoxHead'),
+            dict(
+                bbox_coder=dict(
+                    target_means=[
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                    ],
+                    target_stds=[
+                        0.05,
+                        0.05,
+                        0.1,
+                        0.1,
+                    ],
+                    type='DeltaXYWHBBoxCoder'),
+                fc_out_channels=1024,
+                in_channels=256,
+                loss_bbox=dict(beta=1.0, loss_weight=1.0, type='SmoothL1Loss'),
+                loss_cls=dict(
+                    loss_weight=1.0,
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False),
+                num_classes=1,
+                reg_class_agnostic=True,
+                roi_feat_size=7,
+                type='Shared2FCBBoxHead'),
+            dict(
+                bbox_coder=dict(
+                    target_means=[
+                        0.0,
+                        0.0,
+                        0.0,
+                        0.0,
+                    ],
+                    target_stds=[
+                        0.033,
+                        0.033,
+                        0.067,
+                        0.067,
+                    ],
+                    type='DeltaXYWHBBoxCoder'),
+                fc_out_channels=1024,
+                in_channels=256,
+                loss_bbox=dict(beta=1.0, loss_weight=1.0, type='SmoothL1Loss'),
+                loss_cls=dict(
+                    loss_weight=1.0,
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False),
+                num_classes=1,
+                reg_class_agnostic=True,
+                roi_feat_size=7,
+                type='Shared2FCBBoxHead'),
+        ],
+        bbox_roi_extractor=dict(
+            featmap_strides=[
+                4,
+                8,
+                16,
+                32,
+            ],
+            out_channels=256,
+            roi_layer=dict(output_size=7, sampling_ratio=0, type='RoIAlign'),
+            type='SingleRoIExtractor'),
+        interleaved=True,
+        mask_head=[
+            dict(
+                conv_out_channels=256,
+                in_channels=256,
+                loss_mask=dict(
+                    loss_weight=1.0, type='CrossEntropyLoss', use_mask=True),
+                num_classes=1,
+                num_convs=4,
+                type='HTCMaskHead',
+                with_conv_res=False),
+            dict(
+                conv_out_channels=256,
+                in_channels=256,
+                loss_mask=dict(
+                    loss_weight=1.0, type='CrossEntropyLoss', use_mask=True),
+                num_classes=1,
+                num_convs=4,
+                type='HTCMaskHead'),
+            dict(
+                conv_out_channels=256,
+                in_channels=256,
+                loss_mask=dict(
+                    loss_weight=1.0, type='CrossEntropyLoss', use_mask=True),
+                num_classes=1,
+                num_convs=4,
+                type='HTCMaskHead'),
+        ],
+        mask_info_flow=True,
+        mask_roi_extractor=dict(
+            featmap_strides=[
+                4,
+                8,
+                16,
+                32,
+            ],
+            out_channels=256,
+            roi_layer=dict(output_size=14, sampling_ratio=0, type='RoIAlign'),
+            type='SingleRoIExtractor'),
+        num_stages=3,
+        stage_loss_weights=[
+            1,
+            0.5,
+            0.25,
+        ],
+        type='HybridTaskCascadeRoIHead'),
+    rpn_head=dict(
+        anchor_generator=dict(
+            ratios=[
+                0.5,
+                1.0,
+                2.0,
+            ],
+            scales=[
+                2,
+            ],
+            strides=[
+                4,
+                8,
+                16,
+                32,
+                64,
+            ],
+            type='AnchorGenerator'),
+        bbox_coder=dict(
+            target_means=[
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+            ],
+            target_stds=[
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+            ],
+            type='DeltaXYWHBBoxCoder'),
+        feat_channels=256,
+        in_channels=256,
+        loss_bbox=dict(
+            beta=0.1111111111111111, loss_weight=1.0, type='SmoothL1Loss'),
+        loss_cls=dict(
+            loss_weight=1.0, type='CrossEntropyLoss', use_sigmoid=True),
+        type='RPNHead'),
+    test_cfg=dict(
+        rcnn=dict(
+            mask_thr_binary=0.5,
+            max_per_img=100,
+            nms=dict(iou_threshold=0.5, type='nms'),
+            score_thr=0.001),
+        rpn=dict(
+            max_per_img=1000,
+            min_bbox_size=0,
+            nms=dict(iou_threshold=0.7, type='nms'),
+            nms_pre=1000)),
+    train_cfg=dict(
+        rcnn=[
+            dict(
+                assigner=dict(
+                    ignore_iof_thr=-1,
+                    min_pos_iou=0.5,
+                    neg_iou_thr=0.5,
+                    pos_iou_thr=0.5,
+                    type='MaxIoUAssigner'),
+                debug=False,
+                mask_size=28,
+                pos_weight=-1,
+                sampler=dict(
+                    add_gt_as_proposals=True,
+                    neg_pos_ub=-1,
+                    num=512,
+                    pos_fraction=0.25,
+                    type='RandomSampler')),
+            dict(
+                assigner=dict(
+                    ignore_iof_thr=-1,
+                    min_pos_iou=0.6,
+                    neg_iou_thr=0.6,
+                    pos_iou_thr=0.6,
+                    type='MaxIoUAssigner'),
+                debug=False,
+                mask_size=28,
+                pos_weight=-1,
+                sampler=dict(
+                    add_gt_as_proposals=True,
+                    neg_pos_ub=-1,
+                    num=512,
+                    pos_fraction=0.25,
+                    type='RandomSampler')),
+            dict(
+                assigner=dict(
+                    ignore_iof_thr=-1,
+                    min_pos_iou=0.7,
+                    neg_iou_thr=0.7,
+                    pos_iou_thr=0.7,
+                    type='MaxIoUAssigner'),
+                debug=False,
+                mask_size=28,
+                pos_weight=-1,
+                sampler=dict(
+                    add_gt_as_proposals=True,
+                    neg_pos_ub=-1,
+                    num=512,
+                    pos_fraction=0.25,
+                    type='RandomSampler')),
+        ],
+        rpn=dict(
+            allowed_border=0,
+            assigner=dict(
+                ignore_iof_thr=-1,
+                min_pos_iou=0.3,
+                neg_iou_thr=0.3,
+                pos_iou_thr=0.7,
+                type='MaxIoUAssigner'),
+            debug=False,
+            pos_weight=-1,
+            sampler=dict(
+                add_gt_as_proposals=False,
+                neg_pos_ub=-1,
+                num=256,
+                pos_fraction=0.5,
+                type='RandomSampler')),
+        rpn_proposal=dict(
+            max_per_img=2000,
+            min_bbox_size=0,
+            nms=dict(iou_threshold=0.7, type='nms'),
+            nms_pre=2000)),
+    type='HybridTaskCascade')
+optim_wrapper = dict(
+    accumulative_counts=1,
+    optimizer=dict(lr=0.005, momentum=0.9, type='SGD', weight_decay=0.0001),
+    type='AmpOptimWrapper')
+param_scheduler = [
+    dict(
+        begin=0, by_epoch=False, end=223, start_factor=0.001, type='LinearLR'),
+    dict(
+        T_max=2009,
+        begin=223,
+        by_epoch=False,
+        end=2232,
+        eta_min_ratio=0.01,
+        type='CosineAnnealingLR'),
+]
+randomness = dict(deterministic=False, seed=43)
+resume = False
+test_cfg = dict(type='TestLoop')
+test_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file=
+        'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+        data_prefix=dict(
+            img=
+            'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo/images/val/'
+        ),
+        data_root='',
+        filter_cfg=dict(filter_empty_gt=False, min_size=0),
+        metainfo=dict(classes=('tornillo', )),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(keep_ratio=True, scale=(
+                1280,
+                720,
+            ), type='Resize'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'scale_factor',
+                ),
+                type='PackDetInputs'),
+        ],
+        test_mode=True,
+        type='CocoDataset'),
+    drop_last=False,
+    num_workers=0,
+    persistent_workers=False,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+test_evaluator = dict(
+    ann_file=
+    'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+    format_only=False,
+    metric='segm',
+    type='CocoMetric')
+test_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(keep_ratio=True, scale=(
+        1333,
+        800,
+    ), type='Resize'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(
+        meta_keys=(
+            'img_id',
+            'img_path',
+            'ori_shape',
+            'img_shape',
+            'scale_factor',
+        ),
+        type='PackDetInputs'),
+]
+train_cfg = dict(max_epochs=6, type='EpochBasedTrainLoop', val_interval=1)
+train_dataloader = dict(
+    batch_sampler=dict(type='AspectRatioBatchSampler'),
+    batch_size=2,
+    dataset=dict(
+        ann_file=
+        'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/train.json',
+        data_prefix=dict(
+            img=
+            'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo/images/train/'
+        ),
+        data_root='',
+        filter_cfg=dict(filter_empty_gt=True, min_size=0),
+        metainfo=dict(classes=('tornillo', )),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+            dict(keep_ratio=True, scale=(
+                1280,
+                720,
+            ), type='Resize'),
+            dict(prob=0.5, type='RandomFlip'),
+            dict(type='PackDetInputs'),
+        ],
+        test_mode=False,
+        type='CocoDataset'),
+    num_workers=0,
+    persistent_workers=False,
+    sampler=dict(shuffle=True, type='DefaultSampler'))
+train_pipeline = [
+    dict(backend_args=None, type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(keep_ratio=True, scale=(
+        1333,
+        800,
+    ), type='Resize'),
+    dict(prob=0.5, type='RandomFlip'),
+    dict(type='PackDetInputs'),
+]
+val_cfg = dict(type='ValLoop')
+val_dataloader = dict(
+    batch_size=1,
+    dataset=dict(
+        ann_file=
+        'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+        data_prefix=dict(
+            img=
+            'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/yolo/images/val/'
+        ),
+        data_root='',
+        filter_cfg=dict(filter_empty_gt=False, min_size=0),
+        metainfo=dict(classes=('tornillo', )),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(keep_ratio=True, scale=(
+                1280,
+                720,
+            ), type='Resize'),
+            dict(
+                meta_keys=(
+                    'img_id',
+                    'img_path',
+                    'ori_shape',
+                    'img_shape',
+                    'scale_factor',
+                ),
+                type='PackDetInputs'),
+        ],
+        test_mode=True,
+        type='CocoDataset'),
+    drop_last=False,
+    num_workers=0,
+    persistent_workers=False,
+    sampler=dict(shuffle=False, type='DefaultSampler'))
+val_evaluator = dict(
+    ann_file=
+    'D:/Documents/Personal/Uninorte/Maestría/Primer semestre/Deep Learning/Trabajo/datos/wdsd/datos_inst/coco/val.json',
+    format_only=False,
+    metric='segm',
+    type='CocoMetric')
+vis_backends = [
+    dict(type='LocalVisBackend'),
+]
+visualizer = dict(
+    name='vis_htc_43_1794933896372003200',
+    type='DetLocalVisualizer',
+    vis_backends=[
+        dict(type='LocalVisBackend'),
+    ])
+work_dir = 'D:\\Documents\\Personal\\Uninorte\\Maestría\\Primer semestre\\Deep Learning\\Trabajo\\datos\\wdsd\\results\\e2\\corridas\\htc_s43'
+
+11/17 11:44:58 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+11/17 11:44:58 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_val:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test:
+(VERY_HIGH   ) RuntimeInfoHook                    
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+loading annotations into memory...
+Done (t=0.18s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+11/17 11:44:59 - mmengine - INFO - load model from: torchvision://resnet50
+11/17 11:44:59 - mmengine - INFO - Loads checkpoint by torchvision backend from path: torchvision://resnet50
+11/17 11:45:00 - mmengine - WARNING - The model and loaded state dict do not match exactly
+
+unexpected key in source state_dict: fc.weight, fc.bias
+
+Loads checkpoint by http backend from path: https://download.openmmlab.com/mmdetection/v2.0/htc/htc_r50_fpn_1x_coco/htc_r50_fpn_1x_coco_20200317-7332cf16.pth
+The model and loaded state dict do not match exactly
+
+size mismatch for roi_head.bbox_head.0.fc_cls.weight: copying a param with shape torch.Size([81, 1024]) from checkpoint, the shape in current model is torch.Size([2, 1024]).
+size mismatch for roi_head.bbox_head.0.fc_cls.bias: copying a param with shape torch.Size([81]) from checkpoint, the shape in current model is torch.Size([2]).
+size mismatch for roi_head.bbox_head.1.fc_cls.weight: copying a param with shape torch.Size([81, 1024]) from checkpoint, the shape in current model is torch.Size([2, 1024]).
+size mismatch for roi_head.bbox_head.1.fc_cls.bias: copying a param with shape torch.Size([81]) from checkpoint, the shape in current model is torch.Size([2]).
+size mismatch for roi_head.bbox_head.2.fc_cls.weight: copying a param with shape torch.Size([81, 1024]) from checkpoint, the shape in current model is torch.Size([2, 1024]).
+size mismatch for roi_head.bbox_head.2.fc_cls.bias: copying a param with shape torch.Size([81]) from checkpoint, the shape in current model is torch.Size([2]).
+size mismatch for roi_head.mask_head.0.conv_logits.weight: copying a param with shape torch.Size([80, 256, 1, 1]) from checkpoint, the shape in current model is torch.Size([1, 256, 1, 1]).
+size mismatch for roi_head.mask_head.0.conv_logits.bias: copying a param with shape torch.Size([80]) from checkpoint, the shape in current model is torch.Size([1]).
+size mismatch for roi_head.mask_head.1.conv_logits.weight: copying a param with shape torch.Size([80, 256, 1, 1]) from checkpoint, the shape in current model is torch.Size([1, 256, 1, 1]).
+size mismatch for roi_head.mask_head.1.conv_logits.bias: copying a param with shape torch.Size([80]) from checkpoint, the shape in current model is torch.Size([1]).
+size mismatch for roi_head.mask_head.2.conv_logits.weight: copying a param with shape torch.Size([80, 256, 1, 1]) from checkpoint, the shape in current model is torch.Size([1, 256, 1, 1]).
+size mismatch for roi_head.mask_head.2.conv_logits.bias: copying a param with shape torch.Size([80]) from checkpoint, the shape in current model is torch.Size([1]).
+unexpected key in source state_dict: roi_head.semantic_head.lateral_convs.0.conv.weight, roi_head.semantic_head.lateral_convs.0.conv.bias, roi_head.semantic_head.lateral_convs.1.conv.weight, roi_head.semantic_head.lateral_convs.1.conv.bias, roi_head.semantic_head.lateral_convs.2.conv.weight, roi_head.semantic_head.lateral_convs.2.conv.bias, roi_head.semantic_head.lateral_convs.3.conv.weight, roi_head.semantic_head.lateral_convs.3.conv.bias, roi_head.semantic_head.lateral_convs.4.conv.weight, roi_head.semantic_head.lateral_convs.4.conv.bias, roi_head.semantic_head.convs.0.conv.weight, roi_head.semantic_head.convs.0.conv.bias, roi_head.semantic_head.convs.1.conv.weight, roi_head.semantic_head.convs.1.conv.bias, roi_head.semantic_head.convs.2.conv.weight, roi_head.semantic_head.convs.2.conv.bias, roi_head.semantic_head.convs.3.conv.weight, roi_head.semantic_head.convs.3.conv.bias, roi_head.semantic_head.conv_embedding.conv.weight, roi_head.semantic_head.conv_embedding.conv.bias, roi_head.semantic_head.conv_logits.weight, roi_head.semantic_head.conv_logits.bias
+
+11/17 11:45:00 - mmengine - INFO - Load checkpoint from https://download.openmmlab.com/mmdetection/v2.0/htc/htc_r50_fpn_1x_coco/htc_r50_fpn_1x_coco_20200317-7332cf16.pth
+11/17 11:45:00 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+11/17 11:45:00 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+11/17 11:45:00 - mmengine - INFO - Checkpoints will be saved to D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\htc_s43.
+11/17 11:45:26 - mmengine - INFO - Epoch(train) [1][ 50/372]  lr: 1.1075e-03  eta: 0:19:11  time: 0.5277  data_time: 0.0718  memory: 2281  loss: 1.3839  loss_rpn_cls: 0.1490  loss_rpn_bbox: 0.0182  s0.loss_cls: 0.1741  s0.acc: 97.7539  s0.loss_bbox: 0.0059  s0.loss_mask: 0.5395  s1.loss_cls: 0.1087  s1.acc: 98.2422  s1.loss_bbox: 0.0030  s1.loss_mask: 0.2221  s2.loss_cls: 0.0536  s2.acc: 98.7305  s2.loss_bbox: 0.0009  s2.loss_mask: 0.1089
+11/17 11:45:53 - mmengine - INFO - Epoch(train) [1][100/372]  lr: 2.2325e-03  eta: 0:18:45  time: 0.5279  data_time: 0.0752  memory: 2359  loss: 0.8853  loss_rpn_cls: 0.0437  loss_rpn_bbox: 0.0113  s0.loss_cls: 0.0630  s0.acc: 94.4336  s0.loss_bbox: 0.0280  s0.loss_mask: 0.3981  s1.loss_cls: 0.0336  s1.acc: 95.3125  s1.loss_bbox: 0.0166  s1.loss_mask: 0.1815  s2.loss_cls: 0.0162  s2.acc: 96.6797  s2.loss_bbox: 0.0049  s2.loss_mask: 0.0884
+11/17 11:46:21 - mmengine - INFO - Epoch(train) [1][150/372]  lr: 3.3575e-03  eta: 0:18:38  time: 0.5553  data_time: 0.0769  memory: 2490  loss: 0.9267  loss_rpn_cls: 0.0237  loss_rpn_bbox: 0.0115  s0.loss_cls: 0.0649  s0.acc: 99.2188  s0.loss_bbox: 0.0386  s0.loss_mask: 0.4072  s1.loss_cls: 0.0398  s1.acc: 99.5117  s1.loss_bbox: 0.0345  s1.loss_mask: 0.1878  s2.loss_cls: 0.0187  s2.acc: 99.6094  s2.loss_bbox: 0.0116  s2.loss_mask: 0.0884
+11/17 11:46:48 - mmengine - INFO - Epoch(train) [1][200/372]  lr: 4.4825e-03  eta: 0:18:16  time: 0.5482  data_time: 0.0736  memory: 2780  loss: 0.8839  loss_rpn_cls: 0.0162  loss_rpn_bbox: 0.0080  s0.loss_cls: 0.0601  s0.acc: 97.4609  s0.loss_bbox: 0.0337  s0.loss_mask: 0.3910  s1.loss_cls: 0.0368  s1.acc: 97.7539  s1.loss_bbox: 0.0375  s1.loss_mask: 0.1817  s2.loss_cls: 0.0184  s2.acc: 95.6055  s2.loss_bbox: 0.0159  s2.loss_mask: 0.0845
+11/17 11:47:16 - mmengine - INFO - Epoch(train) [1][250/372]  lr: 4.9980e-03  eta: 0:18:01  time: 0.5685  data_time: 0.0742  memory: 2780  loss: 0.9328  loss_rpn_cls: 0.0129  loss_rpn_bbox: 0.0084  s0.loss_cls: 0.0686  s0.acc: 95.8984  s0.loss_bbox: 0.0431  s0.loss_mask: 0.3937  s1.loss_cls: 0.0421  s1.acc: 94.4336  s1.loss_bbox: 0.0497  s1.loss_mask: 0.1867  s2.loss_cls: 0.0202  s2.acc: 94.7266  s2.loss_bbox: 0.0208  s2.loss_mask: 0.0866
+11/17 11:47:44 - mmengine - INFO - Epoch(train) [1][300/372]  lr: 4.9825e-03  eta: 0:17:37  time: 0.5561  data_time: 0.0735  memory: 2780  loss: 0.9198  loss_rpn_cls: 0.0119  loss_rpn_bbox: 0.0080  s0.loss_cls: 0.0621  s0.acc: 97.7539  s0.loss_bbox: 0.0470  s0.loss_mask: 0.3909  s1.loss_cls: 0.0379  s1.acc: 97.0703  s1.loss_bbox: 0.0521  s1.loss_mask: 0.1864  s2.loss_cls: 0.0184  s2.acc: 97.5586  s2.loss_bbox: 0.0205  s2.loss_mask: 0.0848
+11/17 11:48:12 - mmengine - INFO - Epoch(train) [1][350/372]  lr: 4.9521e-03  eta: 0:17:13  time: 0.5612  data_time: 0.0726  memory: 2914  loss: 0.9241  loss_rpn_cls: 0.0117  loss_rpn_bbox: 0.0069  s0.loss_cls: 0.0610  s0.acc: 99.4141  s0.loss_bbox: 0.0435  s0.loss_mask: 0.3962  s1.loss_cls: 0.0371  s1.acc: 99.3164  s1.loss_bbox: 0.0498  s1.loss_mask: 0.1894  s2.loss_cls: 0.0183  s2.acc: 98.0469  s2.loss_bbox: 0.0216  s2.loss_mask: 0.0886
+11/17 11:48:25 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 11:48:25 - mmengine - INFO - Saving checkpoint at 1 epochs
+C:\Users\ivanj\miniconda3\envs\wdsd_mmdet\Lib\site-packages\mmdet\models\roi_heads\mask_heads\fcn_mask_head.py:339: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than tensor.new_tensor(sourceTensor).
+  mask_preds = bboxes.new_tensor(mask_preds)
+11/17 11:48:43 - mmengine - INFO - Epoch(val) [1][50/93]    eta: 0:00:13  time: 0.3148  data_time: 0.0199  memory: 2914  
+11/17 11:48:57 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.06s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.98s).
+Accumulating evaluation results...
+DONE (t=0.10s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.227
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.577
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.110
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.228
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.252
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.400
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.400
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.400
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.399
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.600
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 11:48:58 - mmengine - INFO - segm_mAP_copypaste: 0.227 0.577 0.110 0.228 0.252 -1.000
+11/17 11:48:58 - mmengine - INFO - Epoch(val) [1][93/93]    coco/segm_mAP: 0.2270  coco/segm_mAP_50: 0.5770  coco/segm_mAP_75: 0.1100  coco/segm_mAP_s: 0.2280  coco/segm_mAP_m: 0.2520  coco/segm_mAP_l: -1.0000  data_time: 0.0204  time: 0.3155
+11/17 11:49:00 - mmengine - INFO - The best checkpoint with 0.2270 coco/segm_mAP at 1 epoch is saved to best_coco_segm_mAP_epoch_1.pth.
+11/17 11:49:31 - mmengine - INFO - Epoch(train) [2][ 50/372]  lr: 4.8823e-03  eta: 0:16:45  time: 0.5878  data_time: 0.0741  memory: 2995  loss: 0.9323  loss_rpn_cls: 0.0085  loss_rpn_bbox: 0.0071  s0.loss_cls: 0.0646  s0.acc: 98.3398  s0.loss_bbox: 0.0523  s0.loss_mask: 0.3795  s1.loss_cls: 0.0388  s1.acc: 98.1445  s1.loss_bbox: 0.0638  s1.loss_mask: 0.1836  s2.loss_cls: 0.0205  s2.acc: 98.7305  s2.loss_bbox: 0.0293  s2.loss_mask: 0.0843
+11/17 11:50:00 - mmengine - INFO - Epoch(train) [2][100/372]  lr: 4.8162e-03  eta: 0:16:22  time: 0.5846  data_time: 0.0746  memory: 3014  loss: 0.9138  loss_rpn_cls: 0.0056  loss_rpn_bbox: 0.0065  s0.loss_cls: 0.0556  s0.acc: 98.6328  s0.loss_bbox: 0.0486  s0.loss_mask: 0.3833  s1.loss_cls: 0.0350  s1.acc: 98.5352  s1.loss_bbox: 0.0606  s1.loss_mask: 0.1839  s2.loss_cls: 0.0193  s2.acc: 97.1680  s2.loss_bbox: 0.0300  s2.loss_mask: 0.0855
+11/17 11:50:30 - mmengine - INFO - Epoch(train) [2][150/372]  lr: 4.7361e-03  eta: 0:15:58  time: 0.5817  data_time: 0.0718  memory: 3059  loss: 0.9217  loss_rpn_cls: 0.0068  loss_rpn_bbox: 0.0069  s0.loss_cls: 0.0591  s0.acc: 94.3359  s0.loss_bbox: 0.0521  s0.loss_mask: 0.3880  s1.loss_cls: 0.0350  s1.acc: 89.3555  s1.loss_bbox: 0.0594  s1.loss_mask: 0.1841  s2.loss_cls: 0.0183  s2.acc: 91.5039  s2.loss_bbox: 0.0273  s2.loss_mask: 0.0847
+11/17 11:51:00 - mmengine - INFO - Epoch(train) [2][200/372]  lr: 4.6425e-03  eta: 0:15:39  time: 0.6184  data_time: 0.0771  memory: 3137  loss: 0.9268  loss_rpn_cls: 0.0060  loss_rpn_bbox: 0.0070  s0.loss_cls: 0.0556  s0.acc: 96.2891  s0.loss_bbox: 0.0560  s0.loss_mask: 0.3718  s1.loss_cls: 0.0358  s1.acc: 95.2148  s1.loss_bbox: 0.0732  s1.loss_mask: 0.1799  s2.loss_cls: 0.0206  s2.acc: 92.3828  s2.loss_bbox: 0.0370  s2.loss_mask: 0.0840
+11/17 11:51:30 - mmengine - INFO - Epoch(train) [2][250/372]  lr: 4.5359e-03  eta: 0:15:15  time: 0.5980  data_time: 0.0744  memory: 3137  loss: 0.9313  loss_rpn_cls: 0.0065  loss_rpn_bbox: 0.0068  s0.loss_cls: 0.0567  s0.acc: 97.3633  s0.loss_bbox: 0.0574  s0.loss_mask: 0.3821  s1.loss_cls: 0.0336  s1.acc: 96.6797  s1.loss_bbox: 0.0696  s1.loss_mask: 0.1842  s2.loss_cls: 0.0189  s2.acc: 97.0703  s2.loss_bbox: 0.0315  s2.loss_mask: 0.0841
+11/17 11:51:59 - mmengine - INFO - Epoch(train) [2][300/372]  lr: 4.4171e-03  eta: 0:14:47  time: 0.5715  data_time: 0.0712  memory: 3137  loss: 0.8712  loss_rpn_cls: 0.0062  loss_rpn_bbox: 0.0054  s0.loss_cls: 0.0471  s0.acc: 96.1914  s0.loss_bbox: 0.0458  s0.loss_mask: 0.3739  s1.loss_cls: 0.0302  s1.acc: 95.7031  s1.loss_bbox: 0.0572  s1.loss_mask: 0.1776  s2.loss_cls: 0.0166  s2.acc: 96.7773  s2.loss_bbox: 0.0280  s2.loss_mask: 0.0832
+11/17 11:52:29 - mmengine - INFO - Epoch(train) [2][350/372]  lr: 4.2867e-03  eta: 0:14:21  time: 0.5941  data_time: 0.0719  memory: 3137  loss: 0.9343  loss_rpn_cls: 0.0065  loss_rpn_bbox: 0.0060  s0.loss_cls: 0.0522  s0.acc: 98.7305  s0.loss_bbox: 0.0547  s0.loss_mask: 0.3835  s1.loss_cls: 0.0338  s1.acc: 97.8516  s1.loss_bbox: 0.0734  s1.loss_mask: 0.1851  s2.loss_cls: 0.0192  s2.acc: 98.0469  s2.loss_bbox: 0.0343  s2.loss_mask: 0.0858
+11/17 11:52:42 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 11:52:42 - mmengine - INFO - Saving checkpoint at 2 epochs
+11/17 11:53:00 - mmengine - INFO - Epoch(val) [2][50/93]    eta: 0:00:13  time: 0.3091  data_time: 0.0215  memory: 3137  
+11/17 11:53:13 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.06s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.94s).
+Accumulating evaluation results...
+DONE (t=0.11s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.276
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.707
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.124
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.276
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.338
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.426
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.426
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.426
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.424
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.667
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 11:53:15 - mmengine - INFO - segm_mAP_copypaste: 0.276 0.707 0.124 0.276 0.338 -1.000
+11/17 11:53:15 - mmengine - INFO - Epoch(val) [2][93/93]    coco/segm_mAP: 0.2760  coco/segm_mAP_50: 0.7070  coco/segm_mAP_75: 0.1240  coco/segm_mAP_s: 0.2760  coco/segm_mAP_m: 0.3380  coco/segm_mAP_l: -1.0000  data_time: 0.0211  time: 0.3102
+11/17 11:53:15 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\htc_s43\best_coco_segm_mAP_epoch_1.pth is removed
+11/17 11:53:16 - mmengine - INFO - The best checkpoint with 0.2760 coco/segm_mAP at 2 epoch is saved to best_coco_segm_mAP_epoch_2.pth.
+11/17 11:53:48 - mmengine - INFO - Epoch(train) [3][ 50/372]  lr: 4.0802e-03  eta: 0:13:43  time: 0.5868  data_time: 0.0740  memory: 3137  loss: 0.8913  loss_rpn_cls: 0.0057  loss_rpn_bbox: 0.0062  s0.loss_cls: 0.0508  s0.acc: 98.2422  s0.loss_bbox: 0.0503  s0.loss_mask: 0.3727  s1.loss_cls: 0.0308  s1.acc: 98.0469  s1.loss_bbox: 0.0648  s1.loss_mask: 0.1786  s2.loss_cls: 0.0176  s2.acc: 96.7773  s2.loss_bbox: 0.0313  s2.loss_mask: 0.0825
+11/17 11:54:19 - mmengine - INFO - Epoch(train) [3][100/372]  lr: 3.9251e-03  eta: 0:13:18  time: 0.6224  data_time: 0.0760  memory: 3212  loss: 0.8902  loss_rpn_cls: 0.0047  loss_rpn_bbox: 0.0060  s0.loss_cls: 0.0473  s0.acc: 98.5352  s0.loss_bbox: 0.0519  s0.loss_mask: 0.3611  s1.loss_cls: 0.0300  s1.acc: 98.3398  s1.loss_bbox: 0.0726  s1.loss_mask: 0.1740  s2.loss_cls: 0.0186  s2.acc: 99.0234  s2.loss_bbox: 0.0420  s2.loss_mask: 0.0820
+11/17 11:54:50 - mmengine - INFO - Epoch(train) [3][150/372]  lr: 3.7614e-03  eta: 0:12:53  time: 0.6296  data_time: 0.0768  memory: 3212  loss: 0.9008  loss_rpn_cls: 0.0043  loss_rpn_bbox: 0.0057  s0.loss_cls: 0.0468  s0.acc: 97.0703  s0.loss_bbox: 0.0527  s0.loss_mask: 0.3624  s1.loss_cls: 0.0303  s1.acc: 97.2656  s1.loss_bbox: 0.0770  s1.loss_mask: 0.1760  s2.loss_cls: 0.0194  s2.acc: 97.3633  s2.loss_bbox: 0.0436  s2.loss_mask: 0.0825
+11/17 11:55:21 - mmengine - INFO - Epoch(train) [3][200/372]  lr: 3.5901e-03  eta: 0:12:27  time: 0.6197  data_time: 0.0761  memory: 3225  loss: 0.9206  loss_rpn_cls: 0.0045  loss_rpn_bbox: 0.0061  s0.loss_cls: 0.0474  s0.acc: 96.8750  s0.loss_bbox: 0.0564  s0.loss_mask: 0.3762  s1.loss_cls: 0.0301  s1.acc: 94.9219  s1.loss_bbox: 0.0759  s1.loss_mask: 0.1807  s2.loss_cls: 0.0188  s2.acc: 89.6484  s2.loss_bbox: 0.0402  s2.loss_mask: 0.0841
+11/17 11:55:50 - mmengine - INFO - Epoch(train) [3][250/372]  lr: 3.4124e-03  eta: 0:11:58  time: 0.5798  data_time: 0.0728  memory: 3225  loss: 0.8658  loss_rpn_cls: 0.0048  loss_rpn_bbox: 0.0054  s0.loss_cls: 0.0408  s0.acc: 97.3633  s0.loss_bbox: 0.0471  s0.loss_mask: 0.3718  s1.loss_cls: 0.0259  s1.acc: 95.9961  s1.loss_bbox: 0.0624  s1.loss_mask: 0.1784  s2.loss_cls: 0.0155  s2.acc: 94.4336  s2.loss_bbox: 0.0305  s2.loss_mask: 0.0831
+11/17 11:55:54 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 11:56:20 - mmengine - INFO - Epoch(train) [3][300/372]  lr: 3.2292e-03  eta: 0:11:30  time: 0.5977  data_time: 0.0735  memory: 3225  loss: 0.8507  loss_rpn_cls: 0.0037  loss_rpn_bbox: 0.0050  s0.loss_cls: 0.0404  s0.acc: 97.8516  s0.loss_bbox: 0.0449  s0.loss_mask: 0.3552  s1.loss_cls: 0.0269  s1.acc: 96.5820  s1.loss_bbox: 0.0676  s1.loss_mask: 0.1719  s2.loss_cls: 0.0171  s2.acc: 94.7266  s2.loss_bbox: 0.0370  s2.loss_mask: 0.0810
+11/17 11:56:50 - mmengine - INFO - Epoch(train) [3][350/372]  lr: 3.0417e-03  eta: 0:11:02  time: 0.5953  data_time: 0.0723  memory: 3225  loss: 0.8326  loss_rpn_cls: 0.0031  loss_rpn_bbox: 0.0046  s0.loss_cls: 0.0377  s0.acc: 99.1211  s0.loss_bbox: 0.0460  s0.loss_mask: 0.3467  s1.loss_cls: 0.0241  s1.acc: 98.4375  s1.loss_bbox: 0.0676  s1.loss_mask: 0.1708  s2.loss_cls: 0.0161  s2.acc: 98.7305  s2.loss_bbox: 0.0352  s2.loss_mask: 0.0807
+11/17 11:57:03 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 11:57:03 - mmengine - INFO - Saving checkpoint at 3 epochs
+11/17 11:57:20 - mmengine - INFO - Epoch(val) [3][50/93]    eta: 0:00:12  time: 0.2888  data_time: 0.0218  memory: 3225  
+11/17 11:57:33 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.05s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.82s).
+Accumulating evaluation results...
+DONE (t=0.10s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.272
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.695
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.114
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.271
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.496
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.425
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.425
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.425
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.423
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.700
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 11:57:34 - mmengine - INFO - segm_mAP_copypaste: 0.272 0.695 0.114 0.271 0.496 -1.000
+11/17 11:57:34 - mmengine - INFO - Epoch(val) [3][93/93]    coco/segm_mAP: 0.2720  coco/segm_mAP_50: 0.6950  coco/segm_mAP_75: 0.1140  coco/segm_mAP_s: 0.2710  coco/segm_mAP_m: 0.4960  coco/segm_mAP_l: -1.0000  data_time: 0.0216  time: 0.2889
+11/17 11:58:06 - mmengine - INFO - Epoch(train) [4][ 50/372]  lr: 2.7665e-03  eta: 0:10:23  time: 0.6383  data_time: 0.0757  memory: 3311  loss: 0.8415  loss_rpn_cls: 0.0030  loss_rpn_bbox: 0.0053  s0.loss_cls: 0.0382  s0.acc: 98.9258  s0.loss_bbox: 0.0521  s0.loss_mask: 0.3370  s1.loss_cls: 0.0248  s1.acc: 98.4375  s1.loss_bbox: 0.0769  s1.loss_mask: 0.1634  s2.loss_cls: 0.0177  s2.acc: 97.5586  s2.loss_bbox: 0.0462  s2.loss_mask: 0.0770
+11/17 11:58:37 - mmengine - INFO - Epoch(train) [4][100/372]  lr: 2.5734e-03  eta: 0:09:56  time: 0.6330  data_time: 0.0761  memory: 3373  loss: 0.8604  loss_rpn_cls: 0.0031  loss_rpn_bbox: 0.0051  s0.loss_cls: 0.0416  s0.acc: 98.9258  s0.loss_bbox: 0.0516  s0.loss_mask: 0.3470  s1.loss_cls: 0.0258  s1.acc: 99.2188  s1.loss_bbox: 0.0757  s1.loss_mask: 0.1692  s2.loss_cls: 0.0179  s2.acc: 99.5117  s2.loss_bbox: 0.0441  s2.loss_mask: 0.0794
+11/17 11:59:09 - mmengine - INFO - Epoch(train) [4][150/372]  lr: 2.3799e-03  eta: 0:09:28  time: 0.6253  data_time: 0.0721  memory: 3373  loss: 0.8555  loss_rpn_cls: 0.0034  loss_rpn_bbox: 0.0053  s0.loss_cls: 0.0411  s0.acc: 98.5352  s0.loss_bbox: 0.0496  s0.loss_mask: 0.3457  s1.loss_cls: 0.0259  s1.acc: 97.7539  s1.loss_bbox: 0.0750  s1.loss_mask: 0.1683  s2.loss_cls: 0.0182  s2.acc: 98.2422  s2.loss_bbox: 0.0434  s2.loss_mask: 0.0796
+11/17 11:59:39 - mmengine - INFO - Epoch(train) [4][200/372]  lr: 2.1874e-03  eta: 0:08:59  time: 0.6131  data_time: 0.0715  memory: 3373  loss: 0.8327  loss_rpn_cls: 0.0031  loss_rpn_bbox: 0.0045  s0.loss_cls: 0.0349  s0.acc: 96.5820  s0.loss_bbox: 0.0447  s0.loss_mask: 0.3464  s1.loss_cls: 0.0233  s1.acc: 95.5078  s1.loss_bbox: 0.0682  s1.loss_mask: 0.1712  s2.loss_cls: 0.0163  s2.acc: 94.9219  s2.loss_bbox: 0.0399  s2.loss_mask: 0.0802
+11/17 12:00:11 - mmengine - INFO - Epoch(train) [4][250/372]  lr: 1.9969e-03  eta: 0:08:31  time: 0.6271  data_time: 0.0757  memory: 3373  loss: 0.8650  loss_rpn_cls: 0.0024  loss_rpn_bbox: 0.0053  s0.loss_cls: 0.0378  s0.acc: 96.8750  s0.loss_bbox: 0.0515  s0.loss_mask: 0.3519  s1.loss_cls: 0.0246  s1.acc: 95.5078  s1.loss_bbox: 0.0774  s1.loss_mask: 0.1714  s2.loss_cls: 0.0176  s2.acc: 92.4805  s2.loss_bbox: 0.0446  s2.loss_mask: 0.0806
+11/17 12:00:42 - mmengine - INFO - Epoch(train) [4][300/372]  lr: 1.8097e-03  eta: 0:08:03  time: 0.6306  data_time: 0.0766  memory: 3373  loss: 0.8741  loss_rpn_cls: 0.0032  loss_rpn_bbox: 0.0057  s0.loss_cls: 0.0424  s0.acc: 97.9492  s0.loss_bbox: 0.0516  s0.loss_mask: 0.3611  s1.loss_cls: 0.0256  s1.acc: 96.6797  s1.loss_bbox: 0.0735  s1.loss_mask: 0.1722  s2.loss_cls: 0.0173  s2.acc: 95.8984  s2.loss_bbox: 0.0404  s2.loss_mask: 0.0812
+11/17 12:01:13 - mmengine - INFO - Epoch(train) [4][350/372]  lr: 1.6268e-03  eta: 0:07:34  time: 0.6087  data_time: 0.0730  memory: 3373  loss: 0.8108  loss_rpn_cls: 0.0025  loss_rpn_bbox: 0.0046  s0.loss_cls: 0.0351  s0.acc: 97.4609  s0.loss_bbox: 0.0426  s0.loss_mask: 0.3377  s1.loss_cls: 0.0225  s1.acc: 96.3867  s1.loss_bbox: 0.0658  s1.loss_mask: 0.1659  s2.loss_cls: 0.0153  s2.acc: 97.0703  s2.loss_bbox: 0.0396  s2.loss_mask: 0.0791
+11/17 12:01:26 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 12:01:26 - mmengine - INFO - Saving checkpoint at 4 epochs
+11/17 12:01:42 - mmengine - INFO - Epoch(val) [4][50/93]    eta: 0:00:11  time: 0.2618  data_time: 0.0212  memory: 3373  
+11/17 12:01:53 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.03s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.67s).
+Accumulating evaluation results...
+DONE (t=0.08s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.306
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.730
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.164
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.306
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.445
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.452
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.452
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.452
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.450
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.700
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:01:54 - mmengine - INFO - segm_mAP_copypaste: 0.306 0.730 0.164 0.306 0.445 -1.000
+11/17 12:01:54 - mmengine - INFO - Epoch(val) [4][93/93]    coco/segm_mAP: 0.3060  coco/segm_mAP_50: 0.7300  coco/segm_mAP_75: 0.1640  coco/segm_mAP_s: 0.3060  coco/segm_mAP_m: 0.4450  coco/segm_mAP_l: -1.0000  data_time: 0.0214  time: 0.2583
+11/17 12:01:54 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\htc_s43\best_coco_segm_mAP_epoch_2.pth is removed
+11/17 12:01:55 - mmengine - INFO - The best checkpoint with 0.3060 coco/segm_mAP at 4 epoch is saved to best_coco_segm_mAP_epoch_4.pth.
+11/17 12:02:29 - mmengine - INFO - Epoch(train) [5][ 50/372]  lr: 1.3734e-03  eta: 0:06:52  time: 0.6397  data_time: 0.0770  memory: 3373  loss: 0.8281  loss_rpn_cls: 0.0026  loss_rpn_bbox: 0.0055  s0.loss_cls: 0.0395  s0.acc: 97.0703  s0.loss_bbox: 0.0512  s0.loss_mask: 0.3318  s1.loss_cls: 0.0246  s1.acc: 95.8984  s1.loss_bbox: 0.0731  s1.loss_mask: 0.1608  s2.loss_cls: 0.0174  s2.acc: 95.5078  s2.loss_bbox: 0.0461  s2.loss_mask: 0.0756
+11/17 12:03:02 - mmengine - INFO - Epoch(train) [5][100/372]  lr: 1.2058e-03  eta: 0:06:24  time: 0.6596  data_time: 0.0804  memory: 3435  loss: 0.8384  loss_rpn_cls: 0.0022  loss_rpn_bbox: 0.0057  s0.loss_cls: 0.0383  s0.acc: 99.5117  s0.loss_bbox: 0.0530  s0.loss_mask: 0.3274  s1.loss_cls: 0.0242  s1.acc: 98.8281  s1.loss_bbox: 0.0827  s1.loss_mask: 0.1588  s2.loss_cls: 0.0188  s2.acc: 98.0469  s2.loss_bbox: 0.0525  s2.loss_mask: 0.0747
+11/17 12:03:34 - mmengine - INFO - Epoch(train) [5][150/372]  lr: 1.0462e-03  eta: 0:05:55  time: 0.6322  data_time: 0.0743  memory: 3435  loss: 0.8076  loss_rpn_cls: 0.0016  loss_rpn_bbox: 0.0046  s0.loss_cls: 0.0342  s0.acc: 97.7539  s0.loss_bbox: 0.0468  s0.loss_mask: 0.3252  s1.loss_cls: 0.0220  s1.acc: 96.8750  s1.loss_bbox: 0.0741  s1.loss_mask: 0.1607  s2.loss_cls: 0.0167  s2.acc: 95.5078  s2.loss_bbox: 0.0461  s2.loss_mask: 0.0756
+11/17 12:04:05 - mmengine - INFO - Epoch(train) [5][200/372]  lr: 8.9573e-04  eta: 0:05:25  time: 0.6254  data_time: 0.0701  memory: 3435  loss: 0.7880  loss_rpn_cls: 0.0026  loss_rpn_bbox: 0.0041  s0.loss_cls: 0.0332  s0.acc: 98.4375  s0.loss_bbox: 0.0435  s0.loss_mask: 0.3192  s1.loss_cls: 0.0216  s1.acc: 98.5352  s1.loss_bbox: 0.0698  s1.loss_mask: 0.1574  s2.loss_cls: 0.0163  s2.acc: 96.9727  s2.loss_bbox: 0.0457  s2.loss_mask: 0.0746
+11/17 12:04:37 - mmengine - INFO - Epoch(train) [5][250/372]  lr: 7.5518e-04  eta: 0:04:56  time: 0.6441  data_time: 0.0756  memory: 3435  loss: 0.7925  loss_rpn_cls: 0.0017  loss_rpn_bbox: 0.0044  s0.loss_cls: 0.0315  s0.acc: 98.7305  s0.loss_bbox: 0.0445  s0.loss_mask: 0.3245  s1.loss_cls: 0.0206  s1.acc: 98.0469  s1.loss_bbox: 0.0696  s1.loss_mask: 0.1577  s2.loss_cls: 0.0153  s2.acc: 98.1445  s2.loss_bbox: 0.0470  s2.loss_mask: 0.0755
+11/17 12:05:08 - mmengine - INFO - Epoch(train) [5][300/372]  lr: 6.2545e-04  eta: 0:04:26  time: 0.6195  data_time: 0.0704  memory: 3435  loss: 0.7810  loss_rpn_cls: 0.0022  loss_rpn_bbox: 0.0042  s0.loss_cls: 0.0318  s0.acc: 99.5117  s0.loss_bbox: 0.0410  s0.loss_mask: 0.3251  s1.loss_cls: 0.0205  s1.acc: 99.3164  s1.loss_bbox: 0.0638  s1.loss_mask: 0.1600  s2.loss_cls: 0.0156  s2.acc: 99.2188  s2.loss_bbox: 0.0412  s2.loss_mask: 0.0757
+11/17 12:05:40 - mmengine - INFO - Epoch(train) [5][350/372]  lr: 5.0733e-04  eta: 0:03:56  time: 0.6344  data_time: 0.0741  memory: 3501  loss: 0.8152  loss_rpn_cls: 0.0023  loss_rpn_bbox: 0.0048  s0.loss_cls: 0.0358  s0.acc: 99.7070  s0.loss_bbox: 0.0462  s0.loss_mask: 0.3323  s1.loss_cls: 0.0219  s1.acc: 99.2188  s1.loss_bbox: 0.0721  s1.loss_mask: 0.1624  s2.loss_cls: 0.0164  s2.acc: 99.3164  s2.loss_bbox: 0.0439  s2.loss_mask: 0.0771
+11/17 12:05:54 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 12:05:54 - mmengine - INFO - Saving checkpoint at 5 epochs
+11/17 12:06:08 - mmengine - INFO - Epoch(val) [5][50/93]    eta: 0:00:10  time: 0.2406  data_time: 0.0224  memory: 3501  
+11/17 12:06:19 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.03s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.57s).
+Accumulating evaluation results...
+DONE (t=0.06s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.307
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.733
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.169
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.307
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.516
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.440
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.440
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.440
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.439
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.667
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:06:20 - mmengine - INFO - segm_mAP_copypaste: 0.307 0.733 0.169 0.307 0.516 -1.000
+11/17 12:06:20 - mmengine - INFO - Epoch(val) [5][93/93]    coco/segm_mAP: 0.3070  coco/segm_mAP_50: 0.7330  coco/segm_mAP_75: 0.1690  coco/segm_mAP_s: 0.3070  coco/segm_mAP_m: 0.5160  coco/segm_mAP_l: -1.0000  data_time: 0.0220  time: 0.2392
+11/17 12:06:20 - mmengine - INFO - The previous best checkpoint D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\htc_s43\best_coco_segm_mAP_epoch_4.pth is removed
+11/17 12:06:21 - mmengine - INFO - The best checkpoint with 0.3070 coco/segm_mAP at 5 epoch is saved to best_coco_segm_mAP_epoch_5.pth.
+11/17 12:06:55 - mmengine - INFO - Epoch(train) [6][ 50/372]  lr: 3.5906e-04  eta: 0:03:14  time: 0.6323  data_time: 0.0772  memory: 3501  loss: 0.8090  loss_rpn_cls: 0.0016  loss_rpn_bbox: 0.0049  s0.loss_cls: 0.0337  s0.acc: 98.9258  s0.loss_bbox: 0.0465  s0.loss_mask: 0.3292  s1.loss_cls: 0.0219  s1.acc: 98.8281  s1.loss_bbox: 0.0706  s1.loss_mask: 0.1617  s2.loss_cls: 0.0167  s2.acc: 99.0234  s2.loss_bbox: 0.0455  s2.loss_mask: 0.0766
+11/17 12:07:28 - mmengine - INFO - Epoch(train) [6][100/372]  lr: 2.7213e-04  eta: 0:02:44  time: 0.6539  data_time: 0.0756  memory: 3501  loss: 0.8165  loss_rpn_cls: 0.0020  loss_rpn_bbox: 0.0048  s0.loss_cls: 0.0353  s0.acc: 98.6328  s0.loss_bbox: 0.0462  s0.loss_mask: 0.3228  s1.loss_cls: 0.0216  s1.acc: 98.0469  s1.loss_bbox: 0.0783  s1.loss_mask: 0.1599  s2.loss_cls: 0.0175  s2.acc: 97.3633  s2.loss_bbox: 0.0512  s2.loss_mask: 0.0768
+11/17 12:07:53 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 12:07:59 - mmengine - INFO - Epoch(train) [6][150/372]  lr: 1.9897e-04  eta: 0:02:14  time: 0.6322  data_time: 0.0755  memory: 3501  loss: 0.7690  loss_rpn_cls: 0.0029  loss_rpn_bbox: 0.0044  s0.loss_cls: 0.0303  s0.acc: 99.2188  s0.loss_bbox: 0.0419  s0.loss_mask: 0.3141  s1.loss_cls: 0.0200  s1.acc: 99.0234  s1.loss_bbox: 0.0681  s1.loss_mask: 0.1534  s2.loss_cls: 0.0160  s2.acc: 98.3398  s2.loss_bbox: 0.0445  s2.loss_mask: 0.0734
+11/17 12:08:32 - mmengine - INFO - Epoch(train) [6][200/372]  lr: 1.4002e-04  eta: 0:01:44  time: 0.6575  data_time: 0.0769  memory: 3501  loss: 0.8105  loss_rpn_cls: 0.0022  loss_rpn_bbox: 0.0046  s0.loss_cls: 0.0330  s0.acc: 99.8047  s0.loss_bbox: 0.0477  s0.loss_mask: 0.3215  s1.loss_cls: 0.0213  s1.acc: 99.4141  s1.loss_bbox: 0.0781  s1.loss_mask: 0.1577  s2.loss_cls: 0.0167  s2.acc: 99.2188  s2.loss_bbox: 0.0524  s2.loss_mask: 0.0756
+11/17 12:09:04 - mmengine - INFO - Epoch(train) [6][250/372]  lr: 9.5641e-05  eta: 0:01:14  time: 0.6391  data_time: 0.0735  memory: 3571  loss: 0.7487  loss_rpn_cls: 0.0019  loss_rpn_bbox: 0.0042  s0.loss_cls: 0.0289  s0.acc: 99.7070  s0.loss_bbox: 0.0384  s0.loss_mask: 0.3090  s1.loss_cls: 0.0173  s1.acc: 99.9023  s1.loss_bbox: 0.0641  s1.loss_mask: 0.1512  s2.loss_cls: 0.0142  s2.acc: 98.9258  s2.loss_bbox: 0.0465  s2.loss_mask: 0.0731
+11/17 12:09:36 - mmengine - INFO - Epoch(train) [6][300/372]  lr: 6.6109e-05  eta: 0:00:43  time: 0.6405  data_time: 0.0732  memory: 3587  loss: 0.7753  loss_rpn_cls: 0.0019  loss_rpn_bbox: 0.0042  s0.loss_cls: 0.0322  s0.acc: 98.5352  s0.loss_bbox: 0.0421  s0.loss_mask: 0.3168  s1.loss_cls: 0.0189  s1.acc: 98.4375  s1.loss_bbox: 0.0687  s1.loss_mask: 0.1555  s2.loss_cls: 0.0153  s2.acc: 96.9727  s2.loss_bbox: 0.0466  s2.loss_mask: 0.0731
+11/17 12:10:08 - mmengine - INFO - Epoch(train) [6][350/372]  lr: 5.1601e-05  eta: 0:00:13  time: 0.6459  data_time: 0.0751  memory: 3587  loss: 0.7842  loss_rpn_cls: 0.0021  loss_rpn_bbox: 0.0046  s0.loss_cls: 0.0326  s0.acc: 98.1445  s0.loss_bbox: 0.0456  s0.loss_mask: 0.3164  s1.loss_cls: 0.0211  s1.acc: 97.9492  s1.loss_bbox: 0.0722  s1.loss_mask: 0.1555  s2.loss_cls: 0.0158  s2.acc: 95.0195  s2.loss_bbox: 0.0444  s2.loss_mask: 0.0739
+11/17 12:10:23 - mmengine - INFO - Exp name: htc-without-semantic_r50_fpn_1x_coco_20261117_114456
+11/17 12:10:23 - mmengine - INFO - Saving checkpoint at 6 epochs
+11/17 12:10:37 - mmengine - INFO - Epoch(val) [6][50/93]    eta: 0:00:10  time: 0.2349  data_time: 0.0210  memory: 3587  
+11/17 12:10:47 - mmengine - INFO - Evaluating segm...
+Loading and preparing results...
+DONE (t=0.03s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=0.54s).
+Accumulating evaluation results...
+DONE (t=0.06s).
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.305
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.728
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.165
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.304
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.544
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.438
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=300 ] = 0.438
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=1000 ] = 0.438
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=1000 ] = 0.437
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=1000 ] = 0.667
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=1000 ] = -1.000
+11/17 12:10:48 - mmengine - INFO - segm_mAP_copypaste: 0.305 0.728 0.165 0.304 0.544 -1.000
+11/17 12:10:48 - mmengine - INFO - Epoch(val) [6][93/93]    coco/segm_mAP: 0.3050  coco/segm_mAP_50: 0.7280  coco/segm_mAP_75: 0.1650  coco/segm_mAP_s: 0.3040  coco/segm_mAP_m: 0.5440  coco/segm_mAP_l: -1.0000  data_time: 0.0215  time: 0.2328
+Loads checkpoint by local backend from path: D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo\datos\wdsd\results\e2\corridas\htc_s43\best_coco_segm_mAP_epoch_5.pth
+== htc final s43 valor 2: val F1 grupo 0.755 | test F1 grupo 0.736 | 27.2 min

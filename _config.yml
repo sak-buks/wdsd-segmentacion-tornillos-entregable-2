@@ -1,0 +1,19 @@
+# Configuración del Jupyter Book del Entregable 2.
+# Construir desde la raíz del repo:  jupyter-book build .
+title: "WDSD: benchmark de 10 modelos de segmentación de instancias (Entregable 2)"
+author: Ivan Berrio, Jose David Castillo y Jaime Besada
+copyright: "2026"
+only_build_toc_files: true
+
+# Los notebooks ya están ejecutados: el libro usa las salidas guardadas y no reentrena nada.
+execute:
+  execute_notebooks: "off"
+
+exclude_patterns:
+  - "literatura/e2/exportaciones/*"
+  - "results/e2/corridas/*"
+
+sphinx:
+  config:
+    language: es
+    html_show_copyright: false

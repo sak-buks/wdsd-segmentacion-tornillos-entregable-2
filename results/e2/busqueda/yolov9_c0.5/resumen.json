@@ -1,0 +1,48 @@
+{
+ "modelo": "yolov9",
+ "modo": "buscar",
+ "semilla": 42,
+ "epocas": 2,
+ "valor": 0.5,
+ "maquina": "3060",
+ "fecha_fin": "2026-11-17T01:44:28",
+ "s_total": 542.2022824287415,
+ "n_pred_imagenes": 93,
+ "entorno": {
+  "python": "3.11.18",
+  "so": "Windows-10-10.0.26200-SP0",
+  "torch": "2.1.2+cu121",
+  "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "torchvision": "0.16.2+cu121",
+  "mmdet": "3.3.0",
+  "mmcv": "2.1.0",
+  "mmengine": "0.10.4",
+  "numpy": "1.26.4"
+ },
+ "lr_inicial": 0.005,
+ "lr_por_defecto": 0.01,
+ "optimizador": "SGD",
+ "lote": 1,
+ "acumulacion": 2,
+ "calentamiento_epocas": 0.1989,
+ "gpu_mem_log_pico_gb": 3.84,
+ "desborde_vram": false,
+ "t_entrenar_s": 510.77992701530457,
+ "t_predecir_s": 30.679584503173828,
+ "mejor_epoca": 2,
+ "parametros": 27573811,
+ "metricas": {
+  "umbral_score": 0.05,
+  "val": {
+   "AP": 0.007095938273383864,
+   "AP50": 0.02004786742730543,
+   "AP75": 0.0003667033370003667,
+   "AP_small": 0.007095938273383864,
+   "F1_img": 0.05645874648671013,
+   "F1_grupo": 0.13185998962103662,
+   "PQ_grupo": 0.08346804141487121
+  }
+ },
+ "val_AP_sube_al_final": true,
+ "s_reloj": 548.4456369876862
+}

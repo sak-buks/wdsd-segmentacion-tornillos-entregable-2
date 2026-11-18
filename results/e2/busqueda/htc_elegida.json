@@ -1,0 +1,28 @@
+{
+ "modelo": "htc",
+ "elegido": 2.0,
+ "por_defecto": 1.0,
+ "regla": "max F1_grupo val; empate 0.005",
+ "configuraciones": {
+  "0.5": {
+   "F1_grupo_val": 0.6083902145238445,
+   "AP_val": 0.13683495283462674,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "1": {
+   "F1_grupo_val": 0.6294226594157849,
+   "AP_val": 0.20003144854025576,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  },
+  "2": {
+   "F1_grupo_val": 0.6835623159330447,
+   "AP_val": 0.23994298003214815,
+   "maquina": "3060",
+   "mejor_epoca": 2
+  }
+ },
+ "fallidas": [],
+ "misma_maquina": true
+}
