@@ -1,17 +1,35 @@
 format: jb-book
 root: index
 parts:
-  - caption: Informe
+  - caption: Problema y preregistro
+    chapters:
+      - file: preregistro_E2
+        title: "1. Preregistro"
+  - caption: Modelos
     chapters:
       - file: informe/literatura
-      - file: preregistro_E2
+        title: "2. Revisión de literatura y Top 10"
       - file: ENTRENAMIENTO_E2
+        title: "3. Protocolo de entrenamiento"
       - file: results/e2/prueba_humo/README
-      - file: notebooks/resultados_e2
-      - file: informe/pendientes
-  - caption: Anexos de la revisión de literatura
+        title: "3.1 Prueba de humo"
+  - caption: Resultados
     chapters:
+      - file: notebooks/resultados_e2
+        title: "4. Benchmark e inferencia estadística"
+      - file: informe/conclusiones
+        title: "5. Conclusiones (provisionales)"
+  - caption: Anexos
+    chapters:
+      - file: informe/pendientes
+        title: "Alcance y pendientes"
+      - file: informe/reproducibilidad
+        title: "Reproducibilidad"
       - file: literatura/e2/README
+        title: "A. Cadena de búsqueda y cribado"
       - file: literatura/e2/cadenas_busqueda_E2
+        title: "B. Cadenas de búsqueda"
       - file: literatura/e2/registro_busquedas_E2
+        title: "C. Registro de búsquedas"
       - file: literatura/e2/tabla_mecanismos_E2
+        title: "D. Mecanismos transversales"

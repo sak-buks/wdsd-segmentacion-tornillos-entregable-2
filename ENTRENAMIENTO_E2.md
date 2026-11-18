@@ -28,11 +28,11 @@ Código: `entrenar_e2.py` (orquestador) y `src/wdsd_e2/` (un trabajador por marc
 ## Comandos (PowerShell, 3060)
 
 ```powershell
-$T    = "D:\Documents\Personal\Uninorte\Maestría\Primer semestre\Deep Learning\Trabajo"
+$T    = "<carpeta de trabajo>"  # raíz que contiene datos\wdsd
 $RUN  = "$T\datos\wdsd"
-$PY   = "C:\Users\ivanj\miniconda3\envs\wdsd_dl\python.exe"
-$PYM  = "C:\Users\ivanj\miniconda3\envs\wdsd_mmdet\python.exe"
-$PY9  = "C:\Users\ivanj\miniconda3\envs\wdsd_yolo9\python.exe"
+$PY   = "$env:USERPROFILE\miniconda3\envs\wdsd_dl\python.exe"
+$PYM  = "$env:USERPROFILE\miniconda3\envs\wdsd_mmdet\python.exe"
+$PY9  = "$env:USERPROFILE\miniconda3\envs\wdsd_yolo9\python.exe"
 $env:PYTHONUTF8 = "1"
 Set-Location $RUN
 
