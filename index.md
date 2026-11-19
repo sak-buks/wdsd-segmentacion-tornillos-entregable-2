@@ -55,7 +55,7 @@ Familias: R = dos etapas, P = prototipos (YOLO), K = kernels dinámicos, Q = con
 
 ## Alcance y límites de la evidencia
 
-- Seis épocas para todos los modelos: en varios, la mejor época fue la última, así que algunos pueden estar subentrenados.
+- Seis épocas para todos los modelos: YOLOv8, YOLO11, YOLO26 y Mask2Former siguen mejorando en la última época y se declaran subentrenados.
 - Con 14 grupos de prueba, la potencia es suficiente para detectar diferencias grandes, no pequeñas.
 - δ = 0,20 se heredó del entregable 1, donde se fijó después de ver resultados; con ese margen la etiqueta «equivalente» incluye modelos claramente peores, por eso se muestran siempre la dirección y el intervalo.
 - Una sola GPU y un solo revisor humano en la revisión de literatura (con asistencia de IA para el cribado por título y resumen).
