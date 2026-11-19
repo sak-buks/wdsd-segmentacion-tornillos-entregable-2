@@ -48,7 +48,7 @@ Familias: R = dos etapas, P = prototipos (YOLO), K = kernels dinámicos, Q = con
 
 1. [Preregistro](preregistro_E2.md): lo que se fijó antes de entrenar.
 2. [Revisión de literatura y Top 10](informe/literatura.md): PRISMA, puntaje y selección.
-3. [Protocolo de entrenamiento](ENTRENAMIENTO_E2.md) y [prueba de humo](results/e2/prueba_humo/README.md).
+3. [Protocolo de entrenamiento](ENTRENAMIENTO_E2.md), [prueba de humo](results/e2/prueba_humo/README.md) y [búsqueda, configuración y registro de corridas](notebooks/registro_e2).
 4. [Benchmark e inferencia estadística](notebooks/resultados_e2): definiciones de cada prueba, tablas y figuras.
 5. [Conclusiones provisionales](informe/conclusiones.md).
 6. Anexos: [alcance y pendientes](informe/pendientes.md) y [reproducibilidad](informe/reproducibilidad.md).
@@ -62,4 +62,9 @@ Familias: R = dos etapas, P = prototipos (YOLO), K = kernels dinámicos, Q = con
 
 ## Fechado del preregistro
 
-El preregistro se publicó antes del primer entrenamiento en el repositorio del entregable 1, en la rama `e2-revision-prueba-humo` y la release `e2-preregistro`: <https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1/tree/e2-revision-prueba-humo>. Este repositorio contiene el mismo documento y es posterior a las corridas; la fecha que cuenta es la de aquel push y aquella release.
+El preregistro se publicó antes de la búsqueda de hiperparámetros y de las corridas finales en el repositorio del entregable 1, en la rama `e2-revision-prueba-humo` y con el tag `e2-preregistro`: <https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1/tree/e2-revision-prueba-humo>. Este repositorio contiene el mismo documento (`preregistro_E2.md`) y es posterior a las corridas; la fecha que cuenta es la de aquel repositorio.
+
+- **Mismo archivo:** el hash de git del archivo (`git rev-parse`) es `e688df6f9852f7622ef3f88dd632ed1ac3d73048` en el tag `e2-preregistro` (objeto `aa5d7a2c396e4f18fcf594a92480ba7e54f93d6d` en GitHub) y en este repositorio.
+- **Orden de los hechos (observado el 18-nov-2026):** el último commit que modificó `preregistro_E2.md` en el repositorio del E1 es del 17-nov-2026 a las 00:10 (hora de Colombia); los archivos de la primera corrida de la búsqueda de hiperparámetros (`mask2former`, ×0.5) tienen fecha del 17-nov a las 00:24. La prueba de humo y el piloto de tiempo, anteriores, no entrenan con validación ni prueba (preregistro, encabezado).
+- **Fecha del tag (observado el 18-nov-2026):** la página de tags del repositorio del E1 muestra `e2-preregistro` apuntando al commit `a09c6b7`, con fecha 17-nov-2026 12:10 AM (GMT-5): <https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1/tags>.
+- **Límite:** las fechas de commit las escribe quien hace el commit; la fecha del tag es la que muestra la página de tags de GitHub.

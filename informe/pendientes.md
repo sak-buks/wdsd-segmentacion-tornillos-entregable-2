@@ -10,6 +10,8 @@ Estado del informe al 2026-11-18. Este libro presenta lo que ya está hecho y ve
 - Corridas finales: 70 de 70 (14 modelos × semillas 42–46) más la máscara vacía, sin fallos técnicos, todas en la misma GPU (`results/e2/corridas.csv`).
 - Análisis estadístico de RQ1 y RQ2, Friedman con Nemenyi y todos los pares con Benjamini–Hochberg (`analisis_e2.py`, `results/e2/analisis/`, notebook de resultados).
 - RQ4 (brecha entre entrenamiento y validación con IC por grupo, con dos definiciones de F1), curvas por época y declaración de subentrenamiento (`analisis_rq4.py`, secciones 4.8 y 4.9).
+- Registro de la búsqueda, configuración elegida y entornos de las 70 corridas, con la regla de selección de tasa verificada (capítulo 3.2).
+- Fecha del preregistro: tag `e2-preregistro` en el repositorio del E1, con el mismo hash de archivo que este repositorio (portada).
 
 ## Pendiente
 
@@ -19,7 +21,8 @@ Estado del informe al 2026-11-18. Este libro presenta lo que ya está hecho y ve
 | Referencia con DOI, diagrama, formulación e innovación de cada modelo; FLOPs; matriz comparativa; hueco de investigación (§3.3 y §3.4) | No existe |
 | RQ3 (F1 por tercil de área del tornillo, exploratoria) | No calculada: necesita el área de cada tornillo, que no está en los CSV por imagen |
 | Latencia de inferencia en una sola GPU, FLOPs, calibración, robustez e interpretabilidad | No hechas |
-| Tabla de preentrenamiento por modelo y declaración de que Cascade, MS R-CNN, PointRend, Mask2Former y CondInst corren en MMDetection y no en el código de sus autores | Pendiente de redactar |
+| Tabla de preentrenamiento por modelo (la declaración de que Cascade, MS R-CNN, PointRend, Mask2Former y CondInst corren en MMDetection ya está en el README) | Tabla pendiente de redactar |
+| Resumen estructurado y discusión de amenazas a la validez | No hechos (hay conclusiones provisionales) |
 | Auditoría de fuga (§10), techo e incertidumbre (§12), paper guía con réplica parcial (§5) | No hechas |
 | Prueba de entorno limpio, Dockerfile opcional y checklist del Apéndice B | No hechas |
 | Presentación oral | No hecha |
