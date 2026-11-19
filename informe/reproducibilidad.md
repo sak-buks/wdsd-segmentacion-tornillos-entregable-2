@@ -7,6 +7,7 @@ Las tablas y figuras de resultados salen de `results/e2/corridas/<modelo>_s<semi
 ```bash
 pip install -r requirements_analisis.txt
 python analisis_e2.py results/e2/corridas results/e2/corridas.csv results/e2/analisis
+python analisis_rq4.py results/e2/corridas results/e2/analisis
 jupyter-book build .
 ```
 
