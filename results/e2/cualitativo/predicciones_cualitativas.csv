@@ -1,0 +1,13 @@
+image_id,archivo,grupo,modelo,umbral,n_gt,vp,fp,fn,f1
+22,Micro_2_cam3_png_Color_583.png,27,maskrcnn,0.75,5,5,0,0,1.0
+22,Micro_2_cam3_png_Color_583.png,27,htc,0.45,5,5,0,0,1.0
+22,Micro_2_cam3_png_Color_583.png,27,yolov8,0.1,5,5,0,0,1.0
+38,screws_76.png,99,maskrcnn,0.75,11,11,0,0,1.0
+38,screws_76.png,99,htc,0.45,11,11,1,0,0.957
+38,screws_76.png,99,yolov8,0.1,11,10,11,1,0.625
+59,pc_12_661.png,32,maskrcnn,0.75,3,3,5,0,0.545
+59,pc_12_661.png,32,htc,0.45,3,3,5,0,0.545
+59,pc_12_661.png,32,yolov8,0.1,3,1,25,2,0.069
+1,eco12_363.png,9,maskrcnn,0.75,2,0,0,2,0.0
+1,eco12_363.png,9,htc,0.45,2,0,1,2,0.0
+1,eco12_363.png,9,yolov8,0.1,2,0,0,2,0.0

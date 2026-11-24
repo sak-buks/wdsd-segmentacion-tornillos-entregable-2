@@ -31,8 +31,10 @@ parts:
         title: "5.2 Auditoría de fuga y paper guía"
       - file: informe/interpretabilidad
         title: "5.3 Interpretabilidad"
+      - file: informe/cualitativo
+        title: "5.4 Análisis cualitativo"
       - file: informe/amenazas
-        title: "5.4 Amenazas a la validez"
+        title: "5.5 Amenazas a la validez"
       - file: informe/conclusiones
         title: "6. Conclusiones"
   - caption: Anexos
