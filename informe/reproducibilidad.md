@@ -41,6 +41,30 @@ Los parches de los repos oficiales y los commits usados están en `results/e2/pr
 
 Los pesos entrenados no se versionan.
 
-## Pendiente
+## Lista de verificación del Apéndice B
 
-Prueba de entorno limpio (reproducir la tabla principal en una máquina nueva y reportar la discrepancia), Dockerfile opcional y la lista de verificación del Apéndice B del enunciado.
+✅ cumple · 🟡 cumple en parte · ❌ no cumple · — no aplica.
+
+| Ítem del enunciado | Estado | Evidencia o motivo |
+|---|---|---|
+| Preregistro fechado y versionado antes del primer entrenamiento | ✅ | Tag `e2-preregistro` del repo del E1: commit 2026-11-17 00:10, primera corrida de búsqueda 00:24 (hora de Colombia) |
+| Hash del dataset y del conjunto de prueba registrados | ✅ | SHA-256 del dataset y de train, val y test en el preregistro |
+| Auditoría de fuga ejecutada y anexa, con todos los criterios aprobados | 🟡 | Ejecutada (cap. 5.2). Falla un criterio: 12,0 % de test con casi gemelo, con límite de 5 % |
+| Particiones y semillas guardadas y regenerables | ✅ | Partición agrupada del E1 (744/93/108) y semillas 42–46 en `resumen.json` de cada corrida |
+| Un único pipeline por modelo; ningún ajuste fuera de train | ✅ | `entrenar_e2.py`; tasa, época y umbral elegidos en val |
+| Mismo presupuesto de ajuste; configuraciones registradas | ✅ | 3 valores de tasa por modelo y 2 épocas, en `results/e2/busqueda/` |
+| ≥ 5 ejecuciones por modelo (6 con pruebas por rangos) y resultados por ejecución | 🟡 | 5 semillas por modelo, con resultados por corrida. Se usa Wilcoxon (prueba por rangos) con 5, no con 6; el contraste es por grupo (n = 14), no por semilla |
+| Análisis de potencia y justificación del número de ejecuciones | ✅ | Preregistro §6 (diferencia mínima detectable 0,119 con 14 grupos) |
+| Baselines trivial y clásico fuerte, y los tres modelos base del E1, con el mismo presupuesto | ✅ | `vacio`, baseline clásico, Mask R-CNN, YOLOv8 y SOLOv2 |
+| Versiones de software, hardware y determinismo documentados | 🟡 | Entornos congelados y commits de los repos oficiales. Hardware: RTX 3060 y 3050. El determinismo en GPU no está garantizado: ultralytics corre en modo determinista y MMDetection no (`deterministic=False`) |
+| Pruebas de las Tablas A, B y C con p exactos, ajustados, IC y tamaños de efecto | 🟡 | Todos los valores están en el cap. 4; falta el formato de la plantilla A.3 |
+| Familias de comparaciones y corrección múltiple declaradas a priori | ✅ | Preregistro §5: Holm con m = 10 para RQ1, Benjamini–Hochberg para RQ3 |
+| Techo de desempeño estimado y distancia γ | ❌ | Requiere re-anotar una muestra (pendiente del equipo) |
+| Modelos con arquitectura no definida (búsqueda en dos fases) | — | Los 13 modelos tienen arquitectura publicada |
+| Arquitectura ganadora elegida solo con validación | — | Igual que el anterior; el mejor baseline se eligió con val |
+| Robustez con ≥ 3 niveles; interpretabilidad con fidelidad y estabilidad | ✅ | Cap. 5 (13 modelos, 3 niveles) y cap. 5.3 |
+| Incertidumbre en los tres mejores con cobertura empírica | ✅ | Intervalo conforme por grupos, cobertura 0,90–0,94 |
+| Un solo acceso a test por ejecución, con modelo y umbrales ya fijados | ✅ | Época y umbral se eligen en val antes de evaluar test |
+| Réplica parcial del paper guía con criterio a priori y limitación | ✅ | Cap. 5.2. La réplica falla según el criterio, y se reporta |
+| Reproducción independiente de la tabla principal con discrepancia máxima | ❌ | Pendiente: prueba de entorno limpio |
+| Código de extremo a extremo con un solo comando y entorno reproducible | 🟡 | El análisis se regenera con tres comandos; el entrenamiento va por pasos. No hay Dockerfile |

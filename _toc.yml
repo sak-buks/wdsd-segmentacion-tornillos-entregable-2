@@ -7,6 +7,8 @@ parts:
         title: "Resumen"
       - file: preregistro_E2
         title: "1. Preregistro"
+      - file: informe/eda_trazabilidad
+        title: "1.1 Trazabilidad del EDA"
   - caption: Modelos
     chapters:
       - file: informe/literatura
