@@ -2,7 +2,7 @@
 
 **Autores:** Ivan Berrio, Jose David Castillo y Jaime Besada.
 
-Segmentación de instancias de tornillos en el WEEE Disassembly Screw Dataset (WDSD): cada tornillo es un objeto que hay que encontrar y delimitar. El entregable 2 compara un Top 10 de modelos de la literatura contra los tres modelos base del [entregable 1](https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1), un baseline no profundo y uno trivial, con preregistro, 5 semillas por modelo y pruebas estadísticas por grupo de escena. **El entregable está en construcción:** el entrenamiento y el análisis de RQ1, RQ2 y RQ4 están terminados; lo que falta está en [Pendientes](#pendientes).
+Segmentación de instancias de tornillos en el WEEE Disassembly Screw Dataset (WDSD): cada tornillo es un objeto que hay que encontrar y delimitar. El entregable 2 compara un Top 10 de modelos de la literatura contra los tres modelos base del [entregable 1](https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1), un baseline no profundo y uno trivial, con preregistro, 5 semillas por modelo y pruebas estadísticas por grupo de escena. **El entregable está en construcción:** el entrenamiento, el análisis de RQ1, RQ2 y RQ4 y los exploratorios (RQ3, calibración, robustez, latencia, varianza, Pareto, errores compartidos e incertidumbre) están terminados; lo que falta está en [Pendientes](#pendientes).
 
 **Empieza por [`index.md`](index.md)** (portada del libro) **y por [`notebooks/resultados_e2.ipynb`](notebooks/resultados_e2.ipynb).** Es el notebook de resultados, ya ejecutado, así que se puede leer sin descargar los datos:
 
@@ -20,7 +20,8 @@ El mismo informe se publica como **Jupyter Book** (`_config.yml` y `_toc.yml` en
 - [`preregistro_E2.md`](preregistro_E2.md): lo que se fijó antes de entrenar.
 - [`ENTRENAMIENTO_E2.md`](ENTRENAMIENTO_E2.md) y [`results/e2/prueba_humo/README.md`](results/e2/prueba_humo/README.md): protocolo común, prueba de humo y desviaciones declaradas.
 - [`notebooks/registro_e2.ipynb`](notebooks/registro_e2.ipynb): búsqueda de hiperparámetros, configuración elegida por modelo, regla de selección verificada y entornos registrados de las 70 corridas.
-- [`informe/conclusiones.md`](informe/conclusiones.md): conclusiones provisionales.
+- [`informe/exploratorios.md`](informe/exploratorios.md): RQ3 por tamaño, calibración, robustez, latencia, costo, tamaños de efecto, varianza, Pareto, errores compartidos, incertidumbre y presupuesto de épocas.
+- [`informe/conclusiones.md`](informe/conclusiones.md): conclusiones.
 - [`informe/reproducibilidad.md`](informe/reproducibilidad.md): qué se regenera sin GPU, entornos y qué deja cada corrida.
 - [`informe/pendientes.md`](informe/pendientes.md): alcance y pendientes.
 
@@ -41,7 +42,7 @@ El libro queda en `_build/html/index.html`. Usa las salidas guardadas en los not
 | Revisión de literatura, paper guía y gap | 15 % | Revisión, PRISMA y Top 10 hechos (`literatura/e2/`); faltan la hoja de extracción, el texto por modelo, el paper guía y el gap |
 | Implementación de los modelos y rigor experimental | 25 % | Hecho: búsqueda de hiperparámetros y 70 corridas finales (`results/e2/`) |
 | Benchmark e inferencia estadística | 20 % | Hecho para RQ1 y RQ2 (`analisis_e2.py`, `results/e2/analisis/`) |
-| Ruta por tipo de problema (ajuste, sobreajuste, calibración, robustez, incertidumbre, interpretabilidad) | 15 % | Parcial: sobreajuste (RQ4), curvas y subentrenamiento hechos; faltan calibración, robustez, incertidumbre e interpretabilidad |
+| Ruta por tipo de problema (ajuste, sobreajuste, calibración, robustez, incertidumbre, interpretabilidad) | 15 % | Parcial: sobreajuste (RQ4), curvas, subentrenamiento, calibración, robustez (4 modelos) e incertidumbre hechos; falta interpretabilidad |
 | Reproducibilidad, redacción y defensa | 10 % | Parcial: código, entornos congelados y análisis reproducible; faltan prueba de entorno limpio y checklist |
 
 **Resultados (test, F1 de instancia por grupo, media de 5 semillas):**
@@ -73,16 +74,17 @@ Ningún modelo del Top 10 supera a Mask R-CNN (RQ1, Holm p = 1 en los 10 contras
 
 - [ ] Hoja de extracción y valoración de calidad de los 64 estudios incluidos.
 - [ ] Texto por modelo: DOI, diagrama, innovación, FLOPs, matriz comparativa y gap de investigación.
-- [ ] RQ3 (F1 por tercil de área; necesita el área de cada tornillo).
-- [ ] Latencia en una sola GPU, FLOPs, calibración, robustez e interpretabilidad.
+- [ ] Latencia, FLOPs y robustez de los 9 modelos fuera de `wdsd_dl`; interpretabilidad.
 - [ ] Tabla de preentrenamiento por modelo, resumen estructurado y discusión de amenazas a la validez.
-- [ ] Auditoría de fuga, techo e incertidumbre, y paper guía con réplica parcial.
+- [ ] Auditoría de fuga, techo de desempeño, taxonomía de errores, ablación y paper guía con réplica parcial.
 - [ ] Prueba de entorno limpio, Dockerfile opcional y checklist del Apéndice B.
 - [x] Preregistro, prueba de humo y piloto de tiempo.
 - [x] Revisión de literatura y Top 10.
 - [x] Búsqueda de hiperparámetros y 70 corridas finales.
 - [x] Análisis estadístico de RQ1 y RQ2.
 - [x] RQ4 (brecha entre entrenamiento y validación) y curvas por época.
+- [x] RQ3, calibración, robustez y latencia (4 modelos), costo y tamaños de efecto (`analisis_extra_e2.py`, `robustez_latencia_e2.py`).
+- [x] Calibración completa, índice de robustez, δ de Cliff, varianza, Pareto, errores compartidos, ensambles e incertidumbre (`analisis_extra2_e2.py`).
 - [x] Registro de la búsqueda y de los entornos, con la regla de selección de tasa verificada (capítulo 3.2).
 - [x] Fecha del preregistro: tag `e2-preregistro` en el repositorio del E1, mismo hash de archivo (ver Preregistro).
 
@@ -102,6 +104,11 @@ Las tablas y figuras de resultados se regeneran sin GPU ni dataset:
 pip install -r requirements_analisis.txt
 python analisis_e2.py results/e2/corridas results/e2/corridas.csv results/e2/analisis
 python analisis_rq4.py results/e2/corridas results/e2/analisis
+# RQ3, calibración, robustez y latencia: necesitan preds_test.json (los de más de 5 MB no se versionan),
+# datos_inst/coco y la salida de robustez_latencia_e2.py (GPU)
+python analisis_extra_e2.py results/e2/corridas results/e2/corridas.csv datos_inst/coco results/e2/robustez_latencia results/e2/analisis_extra
+python analisis_extra2_e2.py results/e2/corridas results/e2/corridas.csv datos_inst/coco results/e2/robustez_latencia \
+    results/e2/analisis results/e2/analisis_extra results/e2/analisis_extra2
 ```
 
 El notebook de resultados ejecuta ese mismo script y no entrena nada: lee `results/e2/corridas/`. Para reentrenar, sigue `ENTRENAMIENTO_E2.md`.
@@ -110,12 +117,16 @@ El notebook de resultados ejecuta ese mismo script y no entrena nada: lee `resul
 
 ```text
 index.md, _config.yml, _toc.yml   libro (Jupyter Book)
-informe/                          capítulos: literatura y pendientes
+informe/                          capítulos: literatura, reproducibilidad, exploratorios, conclusiones y pendientes
 notebooks/resultados_e2.ipynb     resultados e inferencia, ya ejecutado
 preregistro_E2.md                 preregistro
 ENTRENAMIENTO_E2.md               protocolo y comandos de entrenamiento
 entrenar_e2.py, src/              código de entrenamiento (wdsd_e2, wdsd_inst, wdsd_e1)
-analisis_e2.py                    análisis estadístico
+analisis_e2.py                    análisis estadístico (RQ1, RQ2, Friedman)
+analisis_rq4.py                   RQ4: brecha entre entrenamiento y validación
+analisis_extra_e2.py              exploratorios: RQ3, calibración, tamaños de efecto, tablas de robustez y latencia
+analisis_extra2_e2.py             exploratorios: calibración completa, varianza, Pareto, errores compartidos, incertidumbre
+robustez_latencia_e2.py           robustez y latencia (GPU, 4 modelos del entorno wdsd_dl)
 literatura/e2/                    búsquedas, cribado, PRISMA y puntaje
 results/e2/                       corridas, búsqueda, prueba de humo y análisis
 ```

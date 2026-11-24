@@ -1,0 +1,10 @@
+{
+ "DE_entre_semillas_media": 0.031079209079177668,
+ "DE_entre_semillas_sin_mask2former": 0.021754677474764728,
+ "DE_entre_modelos": 0.14576558104884657,
+ "varianzas_aleatorias": {
+  "grupo": 0.06852097737317356,
+  "semilla": 4.7556046268144e-05
+ },
+ "residual": 0.021019967854334312
+}

@@ -1,0 +1,12 @@
+{
+ "n_tornillos_test": 389,
+ "perdidos_por_al_menos_un_modelo": 362,
+ "perdidos_por_10_o_mas_de_13": 158,
+ "perdidos_por_los_13": 100,
+ "correlacion_errores_media": 0.8213460273612063,
+ "correlacion_errores_min": 0.38030168148057697,
+ "correlacion_errores_max": 0.9678427770513814,
+ "tres_mejores_perdidos_por_alguno": 196,
+ "tres_mejores_perdidos_por_los_tres": 146,
+ "tres_mejores_fraccion_compartida": 0.7448979591836735
+}

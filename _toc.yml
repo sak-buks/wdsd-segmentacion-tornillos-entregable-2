@@ -13,12 +13,16 @@ parts:
         title: "3. Protocolo de entrenamiento"
       - file: results/e2/prueba_humo/README
         title: "3.1 Prueba de humo"
+      - file: notebooks/registro_e2
+        title: "3.2 Búsqueda, configuración y registro de corridas"
   - caption: Resultados
     chapters:
       - file: notebooks/resultados_e2
         title: "4. Benchmark e inferencia estadística"
+      - file: informe/exploratorios
+        title: "5. Análisis exploratorios"
       - file: informe/conclusiones
-        title: "5. Conclusiones (provisionales)"
+        title: "6. Conclusiones"
   - caption: Anexos
     chapters:
       - file: informe/pendientes

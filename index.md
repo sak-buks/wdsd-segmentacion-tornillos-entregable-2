@@ -3,7 +3,7 @@
 **Autores:** Ivan Berrio, Jose David Castillo y Jaime Besada. **Entregable 2**, Deep Learning.
 
 ```{note}
-**Estado: informe en construcción (2026-11-18).** Terminados: revisión de literatura, Top 10, preregistro, entrenamiento (70 corridas finales) y análisis estadístico de RQ1 y RQ2. Lo que falta está listado sin omisiones en [Alcance y pendientes](informe/pendientes.md). El Entregable 1 sigue publicado en su propio libro y no se modificó.
+**Estado: informe en construcción (2026-11-24).** Terminados: revisión de literatura, Top 10, preregistro, entrenamiento (70 corridas finales), análisis estadístico de RQ1, RQ2 y RQ4, y exploratorios (RQ3, calibración, robustez, latencia, varianza, Pareto, errores compartidos e incertidumbre). Lo que falta está listado sin omisiones en [Alcance y pendientes](informe/pendientes.md). El Entregable 1 sigue publicado en su propio libro y no se modificó.
 ```
 
 ## Propósito
@@ -50,12 +50,13 @@ Familias: R = dos etapas, P = prototipos (YOLO), K = kernels dinámicos, Q = con
 2. [Revisión de literatura y Top 10](informe/literatura.md): PRISMA, puntaje y selección.
 3. [Protocolo de entrenamiento](ENTRENAMIENTO_E2.md), [prueba de humo](results/e2/prueba_humo/README.md) y [búsqueda, configuración y registro de corridas](notebooks/registro_e2).
 4. [Benchmark e inferencia estadística](notebooks/resultados_e2): definiciones de cada prueba, tablas y figuras.
-5. [Conclusiones provisionales](informe/conclusiones.md).
-6. Anexos: [alcance y pendientes](informe/pendientes.md) y [reproducibilidad](informe/reproducibilidad.md).
+5. [Análisis exploratorios](informe/exploratorios.md): tamaño del tornillo (RQ3), calibración, robustez, latencia, varianza, Pareto, errores compartidos, incertidumbre y presupuesto de épocas.
+6. [Conclusiones](informe/conclusiones.md).
+7. Anexos: [alcance y pendientes](informe/pendientes.md) y [reproducibilidad](informe/reproducibilidad.md).
 
 ## Alcance y límites de la evidencia
 
-- Seis épocas para todos los modelos: YOLOv8, YOLO11, YOLO26 y Mask2Former siguen mejorando en la última época y se declaran subentrenados.
+- Seis épocas para todos los modelos: YOLOv8, YOLO11, YOLO26 y Mask2Former siguen mejorando en la última época y se declaran subentrenados. RQ1 y RQ2 valen para ese presupuesto (ver [Presupuesto de 6 épocas](informe/exploratorios.md)).
 - Con 14 grupos de prueba, la potencia es suficiente para detectar diferencias grandes, no pequeñas.
 - δ = 0,20 se heredó del entregable 1, donde se fijó después de ver resultados; con ese margen la etiqueta «equivalente» incluye modelos claramente peores, por eso se muestran siempre la dirección y el intervalo.
 - Una sola GPU y un solo revisor humano en la revisión de literatura (con asistencia de IA para el cribado por título y resumen).
@@ -67,4 +68,3 @@ El preregistro se publicó antes de la búsqueda de hiperparámetros y de las co
 - **Mismo archivo:** el hash de git del archivo (`git rev-parse`) es `e688df6f9852f7622ef3f88dd632ed1ac3d73048` en el tag `e2-preregistro` (objeto `aa5d7a2c396e4f18fcf594a92480ba7e54f93d6d` en GitHub) y en este repositorio.
 - **Orden de los hechos (observado el 18-nov-2026):** el último commit que modificó `preregistro_E2.md` en el repositorio del E1 es del 17-nov-2026 a las 00:10 (hora de Colombia); los archivos de la primera corrida de la búsqueda de hiperparámetros (`mask2former`, ×0.5) tienen fecha del 17-nov a las 00:24. La prueba de humo y el piloto de tiempo, anteriores, no entrenan con validación ni prueba (preregistro, encabezado).
 - **Fecha del tag (observado el 18-nov-2026):** la página de tags del repositorio del E1 muestra `e2-preregistro` apuntando al commit `a09c6b7`, con fecha 17-nov-2026 12:10 AM (GMT-5): <https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1/tags>.
-- **Límite:** las fechas de commit las escribe quien hace el commit; la fecha del tag es la que muestra la página de tags de GitHub.
