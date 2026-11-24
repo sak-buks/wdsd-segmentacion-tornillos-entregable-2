@@ -3,6 +3,8 @@ root: index
 parts:
   - caption: Problema y preregistro
     chapters:
+      - file: informe/resumen
+        title: "Resumen"
       - file: preregistro_E2
         title: "1. Preregistro"
   - caption: Modelos
@@ -21,6 +23,14 @@ parts:
         title: "4. Benchmark e inferencia estadística"
       - file: informe/exploratorios
         title: "5. Análisis exploratorios"
+      - file: informe/ablacion_sanidad
+        title: "5.1 Ablación y prueba de sanidad"
+      - file: informe/auditoria_paper_guia
+        title: "5.2 Auditoría de fuga y paper guía"
+      - file: informe/interpretabilidad
+        title: "5.3 Interpretabilidad"
+      - file: informe/amenazas
+        title: "5.4 Amenazas a la validez"
       - file: informe/conclusiones
         title: "6. Conclusiones"
   - caption: Anexos
