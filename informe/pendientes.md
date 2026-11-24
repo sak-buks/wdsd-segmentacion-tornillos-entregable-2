@@ -24,7 +24,6 @@ Estado del informe al 2026-11-24. Este libro presenta lo que ya está hecho y ve
 | Tabla de preentrenamiento por modelo (la declaración de que Cascade, MS R-CNN, PointRend, Mask2Former y CondInst corren en MMDetection ya está en el README) | Tabla pendiente de redactar |
 | Resumen estructurado y discusión de amenazas a la validez | No hechos |
 | Auditoría de fuga (§10), techo de desempeño con reanotación y taxonomía de errores (§12), paper guía con réplica parcial (§5), ablación (§4.6) | No hechas (la incertidumbre predictiva y los errores compartidos sí: capítulo 5) |
-| Recalibración ajustada solo en validación | Hecha con validación cruzada por grupos sobre test, porque no se guardaron las predicciones de validación (desviación declarada en el capítulo 5) |
 | Prueba de entorno limpio, Dockerfile opcional y checklist del Apéndice B | No hechas |
 | Presentación oral | No hecha |
 

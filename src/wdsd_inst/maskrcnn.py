@@ -6,11 +6,19 @@ Cambios respecto a la configuración por defecto, justificados por el EDA de ins
   y el 97 % mide menos de 32 px. El número de anclas por posición (3) no cambia, así que la cabeza RPN
   preentrenada se carga sin problema.
 - Cabezas de caja y de máscara reemplazadas para 2 clases (fondo + tornillo).
+
+Estudio de ablación del E2 (§4.6 del enunciado): la variable de entorno WDSD_ABLACION (lista separada por comas) quita
+componentes. Sin la variable, el modelo es exactamente el de las corridas finales.
+- anclas_defecto: anclas por defecto de torchvision (32–512 px) en vez de 8–128 px.
+- solo_imagenet: solo el backbone ResNet-50 preentrenado en ImageNet; RPN, FPN y cabezas parten de cero (en vez del
+  detector completo preentrenado en COCO).
+- sin_volteo: sin volteo horizontal aleatorio en el entrenamiento (la única aumentación).
 """
 from __future__ import annotations
 
 import json
 import math
+import os
 import random
 import time
 from pathlib import Path
@@ -19,6 +27,7 @@ import numpy as np
 import torch
 from PIL import Image
 from pycocotools import mask as mask_utils
+from torchvision.models import ResNet50_Weights
 from torchvision.models.detection import MaskRCNN_ResNet50_FPN_Weights, maskrcnn_resnet50_fpn
 from torchvision.models.detection.anchor_utils import AnchorGenerator
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
@@ -66,8 +75,24 @@ def _juntar(lote):
     return tuple(zip(*lote))
 
 
+ABLACIONES = ("anclas_defecto", "solo_imagenet", "sin_volteo")
+
+
+def ablacion() -> set:
+    a = set(filter(None, os.environ.get("WDSD_ABLACION", "").split(",")))
+    if a - set(ABLACIONES):
+        raise ValueError(f"WDSD_ABLACION desconocida: {a - set(ABLACIONES)}")
+    return a
+
+
 def crear_modelo(preentrenado: bool = True) -> torch.nn.Module:
-    anclas = AnchorGenerator(((8,), (16,), (32,), (64,), (128,)), ((0.5, 1.0, 2.0),) * 5)
+    ab = ablacion()
+    tamanos = ((32,), (64,), (128,), (256,), (512,)) if "anclas_defecto" in ab else ((8,), (16,), (32,), (64,), (128,))
+    anclas = AnchorGenerator(tamanos, ((0.5, 1.0, 2.0),) * 5)
+    if preentrenado and "solo_imagenet" in ab:
+        return maskrcnn_resnet50_fpn(weights=None, weights_backbone=ResNet50_Weights.IMAGENET1K_V1, num_classes=2,
+                                     min_size=720, max_size=1280, rpn_anchor_generator=anclas,
+                                     box_detections_per_img=100)
     pesos = MaskRCNN_ResNet50_FPN_Weights.DEFAULT if preentrenado else None
     m = maskrcnn_resnet50_fpn(weights=pesos, weights_backbone=None, num_classes=None if preentrenado else 2,
                               min_size=720, max_size=1280, rpn_anchor_generator=anclas,
@@ -107,7 +132,10 @@ def entrenar(datos: Path, carpeta: Path, semilla: int, epocas: int, disp, lote: 
     carpeta.mkdir(parents=True, exist_ok=True)
     lr = lr if lr is not None else 0.0025 * lote  # escala lineal: 0.02 para lote 8x2 en la receta de torchvision
     g = torch.Generator().manual_seed(semilla)
-    dl = torch.utils.data.DataLoader(DatasetCOCO(datos / "coco/train.json", voltear=True), batch_size=lote,
+    if ablacion():
+        log(f"  ABLACIÓN: sin {sorted(ablacion())}")
+    dl = torch.utils.data.DataLoader(DatasetCOCO(datos / "coco/train.json", voltear="sin_volteo" not in ablacion()),
+                                     batch_size=lote,
                                      shuffle=True, num_workers=0, collate_fn=_juntar, generator=g)
     modelo = crear_modelo(preentrenado).to(disp)
     params = [p for p in modelo.parameters() if p.requires_grad]

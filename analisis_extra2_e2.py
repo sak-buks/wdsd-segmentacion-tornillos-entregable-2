@@ -10,12 +10,10 @@ analisis_extra_e2.py (latencia_tabla.csv). Todo es exploratorio: nada de esto ca
 Qué calcula (sección del enunciado entre paréntesis):
 1. Calibración completa (4.5): además del ECE de 10 intervalos iguales, ECE adaptativo (10 intervalos con el mismo
    número de predicciones), Brier, pendiente e intercepto de calibración (regresión logística del acierto sobre el
-   logit del score) y temperature scaling. Las predicciones de validación no se guardaron, así que la temperatura se
-   ajusta con validación cruzada por grupos sobre test: para cada grupo de escena se ajusta con los otros 13 y se
-   aplica a ese grupo (nunca se usa el grupo evaluado). Es una desviación declarada del "solo en validación".
-   Como la temperatura solo escala el logit y no corrige un sesgo, también se reporta Platt (logística de 2
-   parámetros) con el mismo esquema por grupos. Ninguna de las dos cambia el F1: son transformaciones monótonas del
-   score y el umbral se movería con ellas.
+   logit del score) y temperature scaling ajustado solo en validación (preds_val.json de la misma corrida) y aplicado
+   a test, antes y después. Como la temperatura solo escala el logit y no corrige un sesgo, también se reporta Platt
+   (logística de 2 parámetros), ajustado igual en validación. Ninguna de las dos cambia el F1: son transformaciones
+   monótonas del score y el umbral se movería con ellas.
 2. Índice de robustez (4.6): área bajo la curva de retención (F1 perturbado / F1 limpio) contra el nivel 0..3,
    dividida por 3, por corrida; 1 = no pierde nada.
 3. δ de Cliff, A12 y probabilidad de superioridad pareada por grupo frente al comparador (13.3), con IC bootstrap.
@@ -118,6 +116,37 @@ for a in test["annotations"]:
     r = mu.frPyObjects(a["segmentation"], i["height"], i["width"])
     gts[a["image_id"]].append(mu.merge(r) if isinstance(r, list) else r)
 grupo_img = {iid: i["grupo"] for iid, i in imgs.items()}
+val = json.loads((COCO_DIR / "val.json").read_text(encoding="utf8"))
+vimgs = {i["id"]: i for i in val["images"]}
+vgts = defaultdict(list)
+for a in val["annotations"]:
+    i = vimgs[a["image_id"]]
+    r = mu.frPyObjects(a["segmentation"], i["height"], i["width"])
+    vgts[a["image_id"]].append(mu.merge(r) if isinstance(r, list) else r)
+
+
+def aciertos(preds, gt_por_img, ids):
+    """Score y acierto (1/0) de cada predicción guardada; emparejamiento voraz por score con IoU >= 0.5, como COCO."""
+    por_img = defaultdict(list)
+    for p in preds:
+        por_img[int(p["image_id"])].append(p)
+    sc, ok = [], []
+    for iid in ids:
+        g = gt_por_img.get(iid, [])
+        todas = sorted(por_img[iid], key=lambda p: -p["score"])
+        if not todas:
+            continue
+        iou_all = mu.iou([p["segmentation"] for p in todas], g, [0] * len(g)) if g else None
+        usado = set()
+        for j, p in enumerate(todas):
+            acierto = 0
+            if g:
+                fila = np.asarray(iou_all[j]).copy(); fila[list(usado)] = -1
+                b = int(np.argmax(fila))
+                if fila[b] >= 0.5:
+                    usado.add(b); acierto = 1
+            sc.append(p["score"]); ok.append(acierto)
+    return np.array(sc, float), np.array(ok, float)
 corr = pd.read_csv(CSV)
 umbral = {(r.modelo, int(r.semilla)): float(r.umbral_score) for r in corr.itertuples()}
 
@@ -154,16 +183,15 @@ for m in BENCH:
             img_filas.append((m, s, iid, grupo_img[iid], len(g), len(dr), f1))
             fn_tornillo += [(m, s, iid, j, int(j in emp_g)) for j in range(len(g))]
         sc, ok, gr = np.array(sc), np.array(ok, float), np.array(gr)
-        # temperature scaling con validación cruzada por grupos
-        s_ts = np.empty_like(sc); s_pl = np.empty_like(sc); Ts = []
-        for g0 in np.unique(gr):
-            T = ajustar_T(sc[gr != g0], ok[gr != g0]); Ts.append(T)
-            s_ts[gr == g0] = 1 / (1 + np.exp(-logit(sc[gr == g0]) / T))
-            b1, b0 = pendiente_intercepto(sc[gr != g0], ok[gr != g0])  # Platt: corrige escala y sesgo
-            s_pl[gr == g0] = 1 / (1 + np.exp(-(b0 + b1 * logit(sc[gr == g0]))))
+        # recalibración ajustada solo en validación y aplicada a test
+        sv, okv = aciertos(json.loads((RUNS / f"{m}_s{s}" / "preds_val.json").read_text()), vgts, vimgs)
+        T = ajustar_T(sv, okv)
+        s_ts = 1 / (1 + np.exp(-logit(sc) / T))
+        b1, b0 = pendiente_intercepto(sv, okv)  # Platt: corrige escala y sesgo
+        s_pl = 1 / (1 + np.exp(-(b0 + b1 * logit(sc))))
         pe, it = pendiente_intercepto(sc, ok)
         pe2, it2 = pendiente_intercepto(s_ts, ok)
-        cal_filas.append(dict(modelo=m, semilla=s, n_pred=len(sc), T_mediana=np.median(Ts),
+        cal_filas.append(dict(modelo=m, semilla=s, n_pred=len(sc), n_pred_val=len(sv), T=T, ECE_val=ece_fijo(sv, okv),
                               ECE=ece_fijo(sc, ok), ECE_adapt=ece_adaptativo(sc, ok), Brier=np.mean((sc - ok) ** 2),
                               pendiente=pe, intercepto=it,
                               ECE_TS=ece_fijo(s_ts, ok), ECE_adapt_TS=ece_adaptativo(s_ts, ok),
@@ -175,7 +203,7 @@ for m in BENCH:
 cal = pd.DataFrame(cal_filas)
 cal.to_csv(OUT / "calibracion_completa_por_corrida.csv", index=False)
 cols = ["ECE", "ECE_TS", "ECE_adapt", "ECE_adapt_TS", "Brier", "Brier_TS", "pendiente", "pendiente_TS",
-        "intercepto", "intercepto_TS", "T_mediana", "ECE_Platt", "ECE_adapt_Platt", "Brier_Platt"]
+        "intercepto", "intercepto_TS", "T", "ECE_val", "ECE_Platt", "ECE_adapt_Platt", "Brier_Platt"]
 calm = cal.groupby("modelo")[cols].mean().sort_values("ECE")
 calm.to_csv(OUT / "calibracion_completa.csv")
 IMG = pd.DataFrame(img_filas, columns=["modelo", "semilla", "image_id", "grupo", "n_gt", "n_pred", "f1"])

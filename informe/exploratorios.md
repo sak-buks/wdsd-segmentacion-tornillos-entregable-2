@@ -96,32 +96,31 @@ El **ECE** (error de calibración esperado) reparte las predicciones en 10 inter
 - **Temperature scaling:** divide el logit del score entre una constante T y vuelve a aplicar la sigmoide. Solo cambia la escala, no corrige un sesgo.
 - **Platt:** la misma regresión logística de la pendiente, usada para transformar el score. Corrige escala y sesgo a la vez.
 
-**Desviación declarada.** El enunciado pide ajustar la recalibración solo en validación, pero las corridas no guardaron sus predicciones de validación. Se ajustó con validación cruzada por grupos sobre test: para cada uno de los 14 grupos de escena, T o Platt se estiman con los otros 13 y se aplican a ese grupo. El grupo evaluado nunca participa en su propio ajuste. Ninguna de las dos cambia el F1, porque son transformaciones que conservan el orden de los scores.
+**Cómo se ajustó.** T y Platt se estiman con las predicciones de validación de cada corrida (`preds_val.json`) y se aplican a test, como pide el enunciado. Ninguna de las dos cambia el F1, porque conservan el orden de los scores.
 
-**Tabla 6.2b.** Calibración en test (media de 5 semillas). Las dos últimas columnas son el ECE después de recalibrar.
+**Tabla 6.2b.** Calibración en test (media de 5 semillas). T es la temperatura ajustada en validación. Las dos últimas columnas son el ECE en test después de recalibrar.
 
-| Modelo | ECE | ECE adaptativo | Brier | Pendiente | Intercepto | ECE con T | ECE con Platt |
-|---|---|---|---|---|---|---|---|
-| YOLO11 | 0,041 | 0,050 | 0,140 | 1,26 | 0,39 | 0,051 | 0,057 |
-| YOLO26 | 0,045 | 0,057 | 0,141 | 1,29 | 0,38 | 0,050 | 0,056 |
-| YOLOv8 | 0,051 | 0,060 | 0,147 | 1,22 | 0,42 | 0,047 | 0,041 |
-| MS R-CNN | 0,075 | 0,080 | 0,134 | 1,20 | −0,13 | 0,069 | 0,066 |
-| CondInst | 0,098 | 0,101 | 0,116 | 2,35 | 2,50 | 0,096 | 0,016 |
-| Cascade | 0,100 | 0,100 | 0,110 | 0,96 | −0,93 | 0,093 | 0,023 |
-| SOLOv2 | 0,107 | 0,110 | 0,120 | 2,17 | 1,04 | 0,072 | 0,032 |
-| YOLOv7 | 0,107 | 0,108 | 0,178 | 1,15 | 0,82 | 0,078 | 0,040 |
-| HTC | 0,109 | 0,109 | 0,103 | 1,03 | −1,03 | 0,089 | 0,025 |
-| PointRend | 0,133 | 0,133 | 0,134 | 0,83 | −1,19 | 0,141 | 0,027 |
-| YOLOv9 | 0,151 | 0,149 | 0,217 | 0,81 | 0,61 | 0,251 | 0,239 |
-| Mask R-CNN | 0,166 | 0,167 | 0,135 | 0,86 | −1,54 | 0,176 | 0,022 |
-| Mask2Former | 0,217 | 0,217 | 0,150 | 1,05 | −2,29 | 0,218 | 0,023 |
+| Modelo | ECE | ECE adaptativo | Brier | Pendiente | Intercepto | T | ECE con T | ECE con Platt |
+|---|---|---|---|---|---|---|---|---|
+| YOLO11 | 0,041 | 0,050 | 0,140 | 1,26 | 0,39 | 1,36 | 0,077 | 0,079 |
+| YOLO26 | 0,045 | 0,057 | 0,141 | 1,29 | 0,38 | 1,25 | 0,074 | 0,077 |
+| YOLOv8 | 0,051 | 0,060 | 0,147 | 1,22 | 0,42 | 1,36 | 0,079 | 0,076 |
+| MS R-CNN | 0,075 | 0,080 | 0,134 | 1,20 | −0,13 | 0,68 | 0,073 | 0,073 |
+| CondInst | 0,098 | 0,101 | 0,116 | 2,35 | 2,50 | 1,38 | 0,128 | 0,061 |
+| Cascade | 0,100 | 0,100 | 0,110 | 0,96 | −0,93 | 0,94 | 0,093 | 0,030 |
+| SOLOv2 | 0,107 | 0,110 | 0,120 | 2,17 | 1,04 | 0,73 | 0,078 | 0,043 |
+| YOLOv7 | 0,107 | 0,108 | 0,178 | 1,15 | 0,82 | 1,47 | 0,087 | 0,046 |
+| HTC | 0,109 | 0,109 | 0,103 | 1,03 | −1,03 | 0,90 | 0,097 | 0,036 |
+| PointRend | 0,133 | 0,133 | 0,134 | 0,83 | −1,19 | 1,02 | 0,135 | 0,036 |
+| YOLOv9 | 0,151 | 0,149 | 0,217 | 0,81 | 0,61 | 2,82 | 0,075 | 0,080 |
+| Mask R-CNN | 0,166 | 0,167 | 0,135 | 0,86 | −1,54 | 1,24 | 0,180 | 0,027 |
+| Mask2Former | 0,217 | 0,217 | 0,150 | 1,05 | −2,29 | 1,22 | 0,217 | 0,033 |
 
 **Lectura (observado).**
 - El ECE adaptativo da casi el mismo orden que el de intervalos fijos: solo se intercambian modelos vecinos que difieren en 0,002 o menos. La lectura no depende de cómo se corten los intervalos.
-- El problema de los de dos etapas (salvo MS R-CNN) y de Mask2Former es un sesgo, no una escala: intercepto entre −0,9 y −2,3 con pendiente cercana a 1. Por eso la temperatura casi no los mejora y Platt los deja en ECE ≤ 0,03. Mask R-CNN pasa de 0,166 a 0,022 y su Brier de 0,135 a 0,089 (`calibracion_completa.csv`).
-- CondInst y SOLOv2 tienen el problema contrario (pendiente > 2, intercepto positivo), y Platt también los corrige.
-- Los tres YOLO de ultralytics ya estaban calibrados, y recalibrarlos empeora un poco su ECE: el ajuste solo agrega ruido.
-- YOLOv9 empeora con las dos recalibraciones (inferido: guarda pocas predicciones por corrida, unas 320, y el ajuste por grupos queda inestable).
+- El problema de los de dos etapas (salvo MS R-CNN) y de Mask2Former es un sesgo, no una escala: intercepto entre −0,9 y −2,3 con pendiente cercana a 1. Por eso la temperatura casi no los mejora, y Platt ajustado en validación los deja en ECE de test entre 0,027 y 0,036. Mask R-CNN pasa de 0,166 a 0,027 y su Brier de 0,135 a 0,089 (`calibracion_completa.csv`).
+- CondInst, SOLOv2 y YOLOv7 también mejoran con Platt (a 0,061, 0,043 y 0,046). YOLOv9 mejora con las dos (a 0,075–0,080).
+- Los tres YOLO de ultralytics empeoran con cualquier recalibración (de 0,04–0,05 a 0,074–0,079). En validación estaban peor calibrados que en test (ECE de validación 0,078–0,107), así que la corrección aprendida en validación no sirve en test (inferido: las escenas de validación y test son distintas).
 
 ## Robustez a perturbaciones
 
@@ -343,5 +342,4 @@ Con 6 épocas YOLOv8 pierde 0,21 frente al E1; Mask R-CNN casi no cambia. La com
 - Robustez y latencia de los 9 modelos que corren fuera de `wdsd_dl`.
 - Interpretabilidad (mapas de activación o análisis cualitativo de errores).
 - Comparación con y sin preentrenamiento en el mejor modelo, y verificación con la partición oficial del paper guía (preregistro §7).
-- Recalibración ajustada en validación: se hizo con validación cruzada por grupos sobre test, porque no se guardaron las predicciones de validación.
 - Taxonomía de errores con etiquetado manual y techo de desempeño con reanotación.

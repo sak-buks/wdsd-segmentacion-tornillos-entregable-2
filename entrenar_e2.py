@@ -42,7 +42,7 @@ from wdsd_e2 import registro as R  # noqa: E402
 
 SALIDA = RAIZ / "results" / "e2"
 MAQUINA = RAIZ / "maquina_e2.json"
-DATOS = RAIZ / "datos_inst"
+DATOS = Path(os.environ.get("WDSD_DATOS") or RAIZ / "datos_inst")  # ver src/wdsd_e2/comun.py
 N_TRAIN93 = 93
 SPLITS = {"piloto": ("val",), "buscar": ("val",), "final": ("val", "test", "train93")}
 

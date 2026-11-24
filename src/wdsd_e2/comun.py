@@ -8,7 +8,8 @@ import random
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
-DATOS = RAIZ / "datos_inst"
+# WDSD_DATOS solo la usa paper_guia_e2.py (partición oficial en datos_oficial/); sin ella, la partición agrupada
+DATOS = Path(os.environ.get("WDSD_DATOS") or RAIZ / "datos_inst")
 FRACCION_VRAM = 0.95   # tope del asignador de PyTorch: sin él, Windows desborda a RAM sin dar error (prueba de humo v2)
 SCORE_MIN = 0.05       # mismo filtro de inferencia que el E1
 MAX_DET = 100

@@ -66,6 +66,10 @@ MODELOS: dict[str, dict] = {
     "scnet": dict(grupo="reserva", familia="R", marco="mmdet", entorno="mmdet", lote=2,
                   config="scnet/scnet_r50_fpn_1x_coco.py",
                   pesos=D + "v2.0/scnet/scnet_r50_fpn_1x_coco/scnet_r50_fpn_1x_coco-c3f09857.pth"),
+    # --- Réplica del paper guía (Kalitsios et al. 2022: Mask R-CNN ResNet-101), solo para paper_guia_e2.py
+    "maskrcnn_r101": dict(grupo="paper", familia="R", marco="mmdet", entorno="mmdet", lote=2,
+                          config="mask_rcnn/mask-rcnn_r101_fpn_1x_coco.py",
+                          pesos=D + "v2.0/mask_rcnn/mask_rcnn_r101_fpn_1x_coco/mask_rcnn_r101_fpn_1x_coco_20200204-1efe0ed5.pth"),
 }
 
 TOP10 = [m for m, s in MODELOS.items() if s["grupo"] == "top10"]
