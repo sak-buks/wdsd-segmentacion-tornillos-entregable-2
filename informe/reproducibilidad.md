@@ -41,6 +41,20 @@ Los parches de los repos oficiales y los commits usados están en `results/e2/pr
 
 Los pesos entrenados no se versionan.
 
+## Prueba de entorno limpio
+
+**Qué es.** El enunciado (§8.1) pide ejecutar el proyecto desde cero en un entorno nuevo y reproducir la tabla principal, reportando la discrepancia máxima. Sirve para comprobar que el resultado no depende de algo que solo existe en el computador donde se hizo (un archivo sin versionar, una librería instalada a mano).
+
+**Cómo se hizo (2026-11-24).** En una máquina distinta (Linux, contenedor en la nube; las corridas se hicieron en Windows):
+1. `git clone` del repositorio público, commit `283a6d9`.
+2. Entorno virtual nuevo con Python 3.13 y `pip install -r requirements_analisis.txt` (versiones exactas).
+3. `python analisis_e2.py results/e2/corridas results/e2/corridas.csv <carpeta nueva>` y `python analisis_rq4.py results/e2/corridas <carpeta nueva>`.
+4. Comparación celda a celda de los 9 CSV generados con los versionados en `results/e2/analisis/` (tabla principal, F1 por semilla y por grupo, RQ1, pares, Friedman, RQ4, subentrenamiento).
+
+**Resultado.** Discrepancia máxima 0 en todas las celdas numéricas y 0 celdas de texto distintas. El análisis tarda 4 s.
+
+**Qué no cubre.** Parte de las predicciones guardadas de cada corrida, no re-entrena: re-entrenar los 70 modelos tomaría unas 20 horas de GPU, y como MMDetection no corre en modo determinista, un re-entrenamiento no daría exactamente los mismos números. La variación esperable por esa causa es del orden de la que hay entre semillas (desviación estándar del F1 por grupo de Mask R-CNN: 0,011).
+
 ## Lista de verificación del Apéndice B
 
 ✅ cumple · 🟡 cumple en parte · ❌ no cumple · — no aplica.
@@ -66,5 +80,5 @@ Los pesos entrenados no se versionan.
 | Incertidumbre en los tres mejores con cobertura empírica | ✅ | Intervalo conforme por grupos, cobertura 0,90–0,94 |
 | Un solo acceso a test por ejecución, con modelo y umbrales ya fijados | ✅ | Época y umbral se eligen en val antes de evaluar test |
 | Réplica parcial del paper guía con criterio a priori y limitación | ✅ | Cap. 5.2. La réplica falla según el criterio, y se reporta |
-| Reproducción independiente de la tabla principal con discrepancia máxima | ❌ | Pendiente: prueba de entorno limpio |
+| Reproducción independiente de la tabla principal con discrepancia máxima | 🟡 | Prueba de entorno limpio (abajo): discrepancia máxima 0 al regenerar desde los CSV por corrida. No se re-entrenó |
 | Código de extremo a extremo con un solo comando y entorno reproducible | 🟡 | El análisis se regenera con tres comandos; el entrenamiento va por pasos. No hay Dockerfile |
