@@ -4,8 +4,8 @@ El preregistro (§5 y §7) declara exploratorios a RQ3, la calibración, la robu
 
 - RQ3, calibración y tamaños de efecto salen de las predicciones de test guardadas por las 70 corridas finales (`preds_test.json`), con `analisis_extra_e2.py`.
 - Calibración completa, índice de robustez, δ de Cliff, descomposición de la varianza, frontera de Pareto, errores compartidos, ensambles e incertidumbre salen de `analisis_extra2_e2.py`, con las mismas predicciones guardadas.
-- Robustez y latencia salen de `robustez_latencia_e2.py`, que vuelve a predecir test con los pesos guardados. Solo cubre los 4 modelos del entorno `wdsd_dl` (Mask R-CNN, YOLOv8, YOLO11 y YOLO26).
-- **Control de calidad:** al recalcular el F1 por grupo de cada corrida desde sus predicciones, la diferencia máxima con `corridas.csv` es 8 × 10⁻¹⁷. En robustez, el caso sin perturbar reproduce la tabla principal (Mask R-CNN 0,726; YOLOv8 0,566; YOLO11 0,530; YOLO26 0,569).
+- Robustez y latencia salen de `robustez_latencia_e2.py`, que vuelve a predecir test con los pesos guardados. Cubre los 13 modelos: Mask R-CNN y los YOLO de ultralytics (entorno `wdsd_dl`), los 7 de MMDetection (`wdsd_mmdet`) y YOLOv7 y YOLOv9 con sus repositorios oficiales (`wdsd_yolo9`). Mask R-CNN y los tres YOLO de ultralytics tienen 5 semillas; los otros 9, solo la 42.
+- **Control de calidad:** al recalcular el F1 por grupo de cada corrida desde sus predicciones, la diferencia máxima con `corridas.csv` es 8 × 10⁻¹⁷. En robustez, el caso sin perturbar reproduce la tabla principal en los 13 modelos (por ejemplo Mask R-CNN 0,726; YOLOv8 0,566; HTC 0,699, YOLOv7 0,672 y YOLOv9 0,408 con la semilla 42).
 
 Tablas: `results/e2/analisis_extra/` y `results/e2/analisis_extra2/`.
 
@@ -124,56 +124,95 @@ El **ECE** (error de calibración esperado) reparte las predicciones en 10 inter
 
 ## Robustez a perturbaciones
 
-**Qué se hizo.** Se volvieron a predecir las 108 imágenes de test con cada perturbación, con los pesos de las 5 semillas y sin reajustar el umbral de score.
+**Qué se hizo.** Se volvieron a predecir las 108 imágenes de test con cada perturbación y sin reajustar el umbral de score, para los 13 modelos.
 - Ruido gaussiano aditivo con σ = 0,02, 0,05 y 0,10 sobre la escala 0–1 de la imagen.
 - Desenfoque gaussiano con σ = 1, 2 y 4 px.
-- El ruido depende solo de la imagen y del nivel, así que los cuatro modelos ven exactamente el mismo.
+- El ruido depende solo de la imagen y del nivel, así que los 13 modelos ven exactamente el mismo.
+- Mask R-CNN y los tres YOLO de ultralytics se midieron con las 5 semillas. Los otros 9 (marcados con †) solo con la semilla 42, así que su F1 limpio es el de esa semilla y no la media de las 5 (por ejemplo HTC: 0,699 con la semilla 42 y 0,724 de media). Para ellos no hay desviación estándar entre semillas.
+- YOLOv7 y YOLOv9 se predicen con el `val.py` de sus repositorios, igual que en las corridas finales, sobre las imágenes perturbadas guardadas en PNG (sin pérdida). Antes de usar los resultados se comprobó que el F1 con la imagen limpia reproduce el de las corridas de la semilla 42.
 
-**Tabla 6.3.** F1 por grupo en test (media de 5 semillas) y, entre paréntesis, la fracción que conserva del F1 sin perturbar.
+**Tabla 6.3.** F1 por grupo en test y, entre paréntesis, la fracción que conserva del F1 sin perturbar. Ordenada por F1 limpio de la media de 5 semillas.
 
 | Modelo | Limpio | Ruido 0,02 | Ruido 0,05 | Ruido 0,10 | Desenfoque 1 | Desenfoque 2 | Desenfoque 4 |
 |---|---|---|---|---|---|---|---|
-| Mask R-CNN | 0,726 | 0,705 (97 %) | 0,628 (87 %) | 0,484 (67 %) | 0,672 (93 %) | 0,252 (35 %) | 0,016 (2 %) |
-| YOLOv8 | 0,566 | 0,528 (93 %) | 0,366 (65 %) | 0,138 (24 %) | 0,469 (83 %) | 0,041 (7 %) | 0,001 (0 %) |
-| YOLO11 | 0,530 | 0,509 (96 %) | 0,350 (66 %) | 0,100 (19 %) | 0,421 (79 %) | 0,035 (7 %) | 0,002 (0 %) |
+| Mask R-CNN | 0,726 | 0,705 (97 %) | 0,628 (86 %) | 0,484 (67 %) | 0,672 (93 %) | 0,252 (35 %) | 0,016 (2 %) |
+| HTC † | 0,699 | 0,700 (100 %) | 0,617 (88 %) | 0,404 (58 %) | 0,648 (93 %) | 0,319 (46 %) | 0,017 (2 %) |
+| Cascade † | 0,723 | 0,698 (97 %) | 0,606 (84 %) | 0,472 (65 %) | 0,635 (88 %) | 0,283 (39 %) | 0,013 (2 %) |
+| MS R-CNN † | 0,707 | 0,712 (101 %) | 0,577 (82 %) | 0,407 (58 %) | 0,647 (91 %) | 0,201 (28 %) | 0,011 (2 %) |
+| PointRend † | 0,720 | 0,713 (99 %) | 0,554 (77 %) | 0,414 (58 %) | 0,590 (82 %) | 0,167 (23 %) | 0,008 (1 %) |
+| YOLOv7 † | 0,672 | 0,645 (96 %) | 0,556 (83 %) | 0,255 (38 %) | 0,472 (70 %) | 0,058 (9 %) | 0,005 (1 %) |
+| CondInst † | 0,604 | 0,598 (99 %) | 0,565 (94 %) | 0,479 (79 %) | 0,501 (83 %) | 0,247 (41 %) | 0,019 (3 %) |
 | YOLO26 | 0,569 | 0,556 (98 %) | 0,408 (72 %) | 0,163 (29 %) | 0,447 (79 %) | 0,067 (12 %) | 0,001 (0 %) |
+| YOLOv8 | 0,566 | 0,528 (93 %) | 0,366 (65 %) | 0,138 (24 %) | 0,469 (83 %) | 0,041 (7 %) | 0,001 (0 %) |
+| Mask2Former † | 0,530 | 0,560 (106 %) | 0,442 (83 %) | 0,276 (52 %) | 0,482 (91 %) | 0,165 (31 %) | 0,010 (2 %) |
+| YOLO11 | 0,530 | 0,509 (96 %) | 0,350 (66 %) | 0,100 (19 %) | 0,421 (79 %) | 0,035 (7 %) | 0,002 (0 %) |
+| YOLOv9 † | 0,408 | 0,406 (100 %) | 0,352 (86 %) | 0,193 (47 %) | 0,327 (80 %) | 0,012 (3 %) | 0,000 (0 %) |
+| SOLOv2 † | 0,236 | 0,226 (96 %) | 0,207 (88 %) | 0,114 (48 %) | 0,242 (102 %) | 0,137 (58 %) | 0,013 (6 %) |
+
+† Solo semilla 42.
 
 ```{figure} ../results/e2/analisis_extra/robustez.png
-:width: 95%
+:width: 100%
 :align: center
 
-**Figura 6.3.** F1 por grupo en test según el nivel de perturbación.
+**Figura 6.3.** F1 por grupo en test según el nivel de perturbación. Barras: desviación estándar de 5 semillas (solo en Mask R-CNN y YOLOv8, YOLO11 y YOLO26).
 ```
 
-**Lectura (observado).** Mask R-CNN es el más robusto. Con ruido σ = 0,10 conserva el 67 % de su F1, y los YOLO entre el 19 % y el 29 %. Un desenfoque de 2 px le quita casi dos tercios del F1 a Mask R-CNN y más del 85 % a los YOLO; con 4 px ningún modelo detecta tornillos.
+**Lectura (observado).**
+- **Ruido fuerte (σ = 0,10).** Los 5 modelos de dos etapas con mejor F1 conservan entre el 58 % y el 67 % (Mask R-CNN 67 %, Cascade 65 %, HTC, MS R-CNN y PointRend 58 %). Los YOLO de ultralytics conservan entre el 19 % y el 29 %; YOLOv7 el 38 % y YOLOv9 el 47 % (este último parte de un F1 limpio de 0,408). CondInst conserva el 79 %, pero parte de un F1 más bajo (0,604).
+- **Desenfoque de 2 px.** Todos pierden mucho. HTC es el que mejor lo aguanta entre los buenos (0,319, 46 %), seguido de Cascade (0,283) y Mask R-CNN (0,252). Los YOLO caen a 0,01–0,07. Con 4 px ningún modelo detecta tornillos.
+- **SOLOv2** casi no se ve afectado (con desenfoque de 1 px incluso sube), pero porque parte de un F1 de 0,236: no tiene mucho que perder.
 
-**Índice de robustez.** Es el área bajo la curva de retención (F1 perturbado dividido por F1 limpio) cuando los niveles 0, 1, 2 y 3 se ponen a igual distancia, dividida por 3. Vale 1 si el modelo no pierde nada y 0 si lo pierde todo desde el primer nivel. Por ejemplo, para Mask R-CNN con ruido las retenciones son 1; 0,97; 0,87 y 0,67. Con la regla del trapecio, el área es (1 + 0,97)/2 + (0,97 + 0,87)/2 + (0,87 + 0,67)/2 = 2,68, y 2,68 / 3 = 0,89. Se calcula por corrida y se promedia sobre las 5 semillas.
+**Índice de robustez.** Es el área bajo la curva de retención (F1 perturbado dividido por F1 limpio) cuando los niveles 0, 1, 2 y 3 se ponen a igual distancia, dividida por 3. Vale 1 si el modelo no pierde nada y 0 si lo pierde todo desde el primer nivel. Por ejemplo, para Mask R-CNN con ruido las retenciones son 1; 0,97; 0,87 y 0,67. Con la regla del trapecio, el área es (1 + 0,97)/2 + (0,97 + 0,87)/2 + (0,87 + 0,67)/2 = 2,68, y 2,68 / 3 = 0,89. Se calcula por corrida y se promedia sobre las semillas disponibles.
 
-**Tabla 6.3b.** Índice de robustez (media ± DE entre semillas).
+**Tabla 6.3b.** Índice de robustez (media ± DE entre semillas donde hay 5; † = una semilla).
 
 | Modelo | Ruido | Desenfoque |
 |---|---|---|
+| CondInst † | 0,94 | 0,58 |
+| HTC † | 0,89 | 0,63 |
 | Mask R-CNN | 0,89 ± 0,01 | 0,60 ± 0,02 |
+| Mask2Former † | 0,88 | 0,58 |
+| Cascade † | 0,88 | 0,59 |
+| MS R-CNN † | 0,87 | 0,57 |
+| YOLOv9 † | 0,86 | 0,44 |
+| SOLOv2 † | 0,86 | 0,71 |
+| PointRend † | 0,85 | 0,52 |
+| YOLOv7 † | 0,83 | 0,43 |
 | YOLO26 | 0,78 ± 0,04 | 0,47 ± 0,03 |
-| YOLOv8 | 0,74 ± 0,05 | 0,47 ± 0,05 |
 | YOLO11 | 0,74 ± 0,04 | 0,45 ± 0,03 |
+| YOLOv8 | 0,73 ± 0,04 | 0,47 ± 0,05 |
 
-**Lectura (inferido).** Lo esperable con tornillos de ~10 px: 2 px de desenfoque borran el borde que los separa del fondo. La diferencia de robustez puede deberse en parte a que los YOLO estaban subentrenados.
+**Lectura (inferido).**
+- El índice mide cuánto se conserva, no cuánto se logra: CondInst, SOLOv2 y YOLOv9 salen altos en ruido porque su F1 limpio ya es bajo. Para elegir un modelo hay que mirar la Tabla 6.3 completa.
+- Entre los 5 modelos con mejor F1 limpio, el índice de ruido está entre 0,85 y 0,89 y no se pueden ordenar con una sola semilla: las diferencias entre ellos son del tamaño de la desviación entre semillas de Mask R-CNN (0,01–0,02) o menores.
+- Los YOLO de ultralytics sí quedan claramente por debajo (0,73–0,78 en ruido, 0,45–0,47 en desenfoque). Lo esperable con tornillos de ~10 px es que 2 px de desenfoque borren el borde que los separa del fondo; la diferencia puede deberse en parte a que esos YOLO estaban subentrenados.
 
-**Límite.** Solo 4 de los 13 modelos. Los de MMDetection y YOLOv7/YOLOv9 necesitan su propio entorno y cargador.
+**Límite.** Con una sola semilla en 9 modelos y ruido fijo (una sola realización por imagen y nivel) no se calculan intervalos de confianza para esos modelos, y las diferencias pequeñas entre ellos no son concluyentes.
 
 ## Latencia y costo
 
-**Tabla 6.4.** Latencia de inferencia en una sola GPU (RTX 3060 Laptop, lote 1, 108 imágenes de test tras 10 de calentamiento, pesos de la semilla 42).
+**Tabla 6.4.** Latencia de inferencia en una sola GPU (RTX 3060 Laptop, lote 1, 108 imágenes de test tras 10 de calentamiento, pesos de la semilla 42), de los 13 modelos.
 
-| Modelo | Mediana (ms) | P95 (ms) | Imágenes/s | GFLOPs (1 imagen) | Parámetros (M) | Pico GPU (GB) |
-|---|---|---|---|---|---|---|
-| Mask R-CNN | 88,2 | 109,8 | 11,0 | 392,4 | 43,9 | 0,68 |
-| YOLOv8n-seg | 26,2 | 44,5 | 34,6 | 27,4 | 3,4 | 0,17 |
-| YOLO11n-seg | 28,5 | 47,5 | 32,5 | 22,5 | 2,9 | 0,17 |
-| YOLO26n-seg | 29,0 | 42,1 | 33,6 | 21,4 | 3,1 | 0,15 |
+| Modelo | Mediana (ms) | P95 (ms) | Imágenes/s | GFLOPs (1 imagen) | Parámetros (M) | Pico GPU (GB) | Nota |
+|---|---|---|---|---|---|---|---|
+| Mask R-CNN | 88,2 | 109,8 | 11,0 | 392,4 | 43,9 | 0,68 | |
+| HTC | 201,4 | 205,9 | 5,2 | 750,3 | 77,2 | 1,51 | |
+| Cascade | 124,9 | 142,7 | 7,9 | 449,1 | 77,0 | 0,84 | |
+| MS R-CNN | 98,7 | 112,2 | 10,0 | 376,1 | 60,2 | 0,75 | |
+| PointRend | 105,3 | 123,1 | 9,3 | 376,3 | 55,8 | 0,89 | |
+| YOLOv7 ‡ | — | — | 18,0 | 319,3 | 37,9 | — |  media 55,6 |
+| CondInst | 101,7 | 114,9 | 9,9 | 413,2 | 34,0 | 0,71 | |
+| YOLO26 | 29,0 | 42,1 | 33,6 | 21,4 | 3,1 | 0,15 | |
+| YOLOv8 | 26,2 | 44,5 | 34,6 | 27,4 | 3,4 | 0,17 | |
+| Mask2Former | 249,9 | 262,2 | 4,0 | 468,5 | 44,0 | 2,36 | |
+| YOLO11 | 28,5 | 47,5 | 32,5 | 22,5 | 2,9 | 0,17 | |
+| YOLOv9 ‡ | — | — | 18,1 | 324,4 | 27,6 | — |  media 55,2 |
+| SOLOv2 | 94,5 | 100,2 | 10,6 | 457,3 | 46,2 | 0,51 | |
 
-Mide desde la imagen ya en memoria hasta las máscaras en la CPU, sin leer el archivo ni codificar el resultado. Mask R-CNN corre con precisión mixta (FP16) y ultralytics en FP32, igual que cuando se calcularon las métricas. Los GFLOPs (miles de millones de operaciones) los cuenta `torch.utils.flop_counter` sobre una imagen: solo convoluciones y productos de matrices, sin operaciones como `roi_align` ni NMS, así que son aproximados.
+‡ YOLOv7 y YOLOv9 se midieron con el `val.py` de su repositorio: da la media de preproceso, inferencia y NMS (55,6 y 55,2 ms), no la mediana, y sus GFLOPs son los del repositorio calculados a 640×640 y multiplicados por 2,25 (1280×720 contra 640×640). No son comparables directamente con el resto.
+
+Los demás se miden desde la imagen ya en memoria hasta las máscaras en la CPU, sin leer el archivo ni codificar el resultado. Mask R-CNN corre con precisión mixta (FP16) y ultralytics en FP32, igual que cuando se calcularon las métricas; los 7 modelos de MMDetection corren con la misma configuración con que se entrenaron. Los GFLOPs (miles de millones de operaciones) los cuenta `torch.utils.flop_counter` sobre una imagen: solo convoluciones y productos de matrices, sin operaciones como `roi_align` ni NMS, así que son aproximados y no son comparables con los del repositorio de YOLOv7 y YOLOv9.
 
 **Tabla 6.5.** Costo de entrenamiento de todos los modelos: minutos por corrida final (6 épocas en la RTX 3060, media de 5 semillas; incluye predecir val, test y train93).
 
@@ -193,7 +232,11 @@ Mide desde la imagen ya en memoria hasta las máscaras en la CPU, sin leer el ar
 | YOLOv9 | 27,6 | 26,5 | 0,405 |
 | SOLOv2 | 46,2 | 17,3 | 0,231 |
 
-**Lectura (observado).** Los YOLO nano son unas 3 veces más rápidos que Mask R-CNN, con 13 veces menos parámetros y entre 14 y 18 veces menos operaciones, a cambio de 0,16 a 0,20 de F1. HTC y Cascade cuestan más que Mask R-CNN (77 M de parámetros, 23–27 min por corrida) sin mejorar su F1. Mask2Former es el más caro de entrenar (48 min) y uno de los peores.
+**Lectura (observado).**
+- Los YOLO nano son unas 3 veces más rápidos que Mask R-CNN (26–29 ms contra 88 ms), con 13 veces menos parámetros y entre 14 y 18 veces menos operaciones, a cambio de 0,16 a 0,20 de F1.
+- HTC (201 ms, 2,3 veces Mask R-CNN) y Mask2Former (250 ms, 2,8 veces) son los más lentos; Cascade tarda 125 ms. HTC y Cascade también cuestan más de entrenar (77 M de parámetros, 23–27 min por corrida) sin mejorar el F1 de Mask R-CNN.
+- MS R-CNN, PointRend, CondInst y SOLOv2 quedan entre 94 y 105 ms: parecidos a Mask R-CNN.
+- Mask2Former es el más caro de entrenar (48 min) y uno de los peores.
 
 ## Tamaños de efecto de RQ1
 
@@ -276,10 +319,12 @@ Un modelo está **dominado** si otro tiene F1 igual o mayor con un costo igual o
 **Lectura (observado, `pareto.csv`).**
 - Mask R-CNN está en todas las fronteras: es el de mayor F1 y no cuesta más que los que lo empatan.
 - HTC y Cascade quedan dominados en parámetros y en tiempo: tienen 77 M de parámetros contra 44 M y tardan 23–27 min contra 18, con el mismo F1.
-- En el extremo barato están los YOLO nano: YOLO26 es no dominado en parámetros, tiempo, latencia y FLOPs.
+- En el extremo barato están los YOLO nano: YOLO26 es no dominado en parámetros, tiempo, latencia y FLOPs; YOLOv8 lo es en tiempo y latencia (YOLO11 solo en parámetros).
+- En la latencia la frontera es Mask R-CNN, YOLO26 y YOLOv8: MS R-CNN (99 ms) queda dominado por Mask R-CNN (88 ms) con un F1 menor. HTC (201 ms) y Cascade (125 ms) quedan dominados con el mismo F1.
+- En parámetros hay dos no dominados intermedios: CondInst (34 M, F1 0,607) y YOLOv7 (38 M, 0,638). Ningún otro modelo de más de 4 M de parámetros tiene mejor relación que Mask R-CNN salvo esos dos.
 - En tiempo de entrenamiento MS R-CNN y PointRend salen no dominados por segundos de diferencia con Mask R-CNN (17,5–17,7 min contra 17,9), lo que no es una diferencia real.
 - El costo por unidad de mejora del enunciado, η = (F1 del modelo − F1 del mejor baseline) / (costo del modelo − costo del mejor baseline), no se calcula: ningún modelo supera al mejor baseline, así que el numerador es siempre negativo.
-- La latencia y los FLOPs solo están para 4 modelos.
+- La latencia está para 11 modelos (YOLOv7 y YOLOv9 se midieron con otro método y no entran en esa frontera); los FLOPs, para los 13, aunque los de YOLOv7 y YOLOv9 vienen del repositorio.
 
 ## Errores compartidos y ensambles
 
@@ -339,7 +384,6 @@ Con 6 épocas YOLOv8 pierde 0,21 frente al E1; Mask R-CNN casi no cambia. La com
 
 ## Lo que no se hizo
 
-- Robustez y latencia de los 9 modelos que corren fuera de `wdsd_dl`.
 - Interpretabilidad (mapas de activación o análisis cualitativo de errores).
-- Comparación con y sin preentrenamiento en el mejor modelo, y verificación con la partición oficial del paper guía (preregistro §7).
+- Ablación, prueba de sanidad, auditoría de fuga y paper guía: están en los capítulos siguientes (5.1 y 5.2).
 - Taxonomía de errores con etiquetado manual y techo de desempeño con reanotación.

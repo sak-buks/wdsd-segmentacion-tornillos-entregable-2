@@ -297,7 +297,7 @@ for costo in ["parametros", "entrenamiento_min", "mediana_ms", "gflops_una_image
     c[f"pareto_{costo}"] = pd.Series(no_dominados(c, costo))
 c.sort_values("F1", ascending=False).to_csv(OUT / "pareto.csv")
 DESPLAZA = {"maskrcnn": (-48, 3), "htc": (4, 5), "cascade": (4, -9), "msrcnn": (-40, -4), "pointrend": (4, -10),
-            "yolo26": (4, 4), "yolov8": (4, -10), "yolov7": (4, 2)}
+            "yolo26": (4, 4), "yolov8": (-36, 5), "yolo11": (4, -11), "yolov7": (4, 2)}
 fig, ax = plt.subplots(1, 3, figsize=(14, 4.5))
 for a, costo, et, lg in [(ax[0], "parametros", "parámetros (millones)", True),
                          (ax[1], "entrenamiento_min", "minutos de entrenamiento por corrida (6 épocas)", False),
@@ -312,7 +312,7 @@ for a, costo, et, lg in [(ax[0], "parametros", "parámetros (millones)", True),
     if lg:
         a.set_xscale("log"); a.set_xticks([3, 10, 30, 80], ["3", "10", "30", "80"])
         a.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
-ax[2].set_title("solo 4 modelos medidos", fontsize=9)
+ax[2].set_title(f"{int(c.mediana_ms.notna().sum())} modelos con latencia medida (YOLOv7 y YOLOv9 usan otro método: no entran)", fontsize=8)
 fig.suptitle("Frontera de Pareto: en rojo los modelos no dominados"); fig.tight_layout()
 fig.savefig(OUT / "pareto.png", dpi=200); plt.close(fig)
 

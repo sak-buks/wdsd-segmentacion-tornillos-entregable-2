@@ -84,6 +84,8 @@ def tapar(rgb: np.ndarray, cajas, idx, relleno) -> np.ndarray:
 
 # --------------------------------------------------------------------------- función objetivo (D-RISE)
 def plano(ms: np.ndarray) -> np.ndarray:
+    if len(ms) == 0:  # sin detecciones: numpy no puede inferir el ancho con reshape(0, -1)
+        return np.zeros((0, 1), np.float32)
     return ms[:, ::SUB, ::SUB].reshape(len(ms), -1).astype(np.float32)
 
 

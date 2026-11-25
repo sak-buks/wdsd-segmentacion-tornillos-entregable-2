@@ -244,13 +244,21 @@ ax.legend(fontsize=8); ax.grid(alpha=.3)
 fig.tight_layout(); fig.savefig(OUT / "calibracion.png", dpi=200); plt.close(fig)
 
 rb = pd.read_csv(OUT / "robustez_tabla.csv")
-fig, axs = plt.subplots(1, 2, figsize=(8.5, 3.6), sharey=True)
+# color por familia: dos etapas (azules), YOLO (verdes/naranja), otros (grises/morado); Mask R-CNN y los YOLO de ultralytics
+# tienen 5 semillas (barras = DE), los otros 9 solo la semilla 42 (sin barras)
+ESTILO = {"maskrcnn": ("#0b3d91", "-"), "htc": ("#1b6ca8", "--"), "cascade": ("#5aa0d0", "-."), "msrcnn": ("#7fb8e0", ":"),
+          "pointrend": ("#2a8fbd", "-"), "yolo26": ("#3a9b5c", "-"), "yolov8": ("#7bc47f", "--"), "yolo11": ("#e08a1e", "-"),
+          "yolov7": ("#b5651d", "--"), "yolov9": ("#d9a066", ":"), "condinst": ("#7a4fa3", "-"), "mask2former": ("#c0392b", "-"),
+          "solov2": ("#777777", "-")}
+fig, axs = plt.subplots(1, 2, figsize=(11, 4), sharey=True)
 for ax, (tipo, etiq) in zip(axs, [("ruido", "σ del ruido gaussiano (escala 0–1)"), ("desenfoque", "σ del desenfoque gaussiano (px)")]):
-    for m, c in zip(["maskrcnn", "yolov8", "yolo11", "yolo26"], ["#1b6ca8", "#3a9b5c", "#e08a1e", "#7a4fa3"]):
+    for m, (c, ls) in ESTILO.items():
         d = rb[(rb.modelo == m) & rb.perturbacion.isin(["limpio", tipo])].sort_values("nivel")
-        ax.errorbar(d.nivel, d.F1_grupo, yerr=d.DE_semillas, marker="o", ms=3, capsize=2, color=c, label=NOMBRE[m])
+        ax.errorbar(d.nivel, d.F1_grupo, yerr=d.DE_semillas.fillna(0), marker="o", ms=3, capsize=2, color=c, ls=ls,
+                    lw=1.4, label=NOMBRE[m])
     ax.set_xlabel(etiq); ax.grid(alpha=.3)
-axs[0].set_ylabel("F1 por grupo en test"); axs[0].legend(fontsize=8); axs[0].set_ylim(0, 0.8)
-fig.suptitle("Robustez a perturbaciones (media ± DE de 5 semillas; nivel 0 = imagen limpia)")
+axs[0].set_ylabel("F1 por grupo en test"); axs[0].set_ylim(0, 0.8)
+axs[1].legend(fontsize=7.5, loc="center left", bbox_to_anchor=(1.01, 0.5), frameon=False)
+fig.suptitle("Robustez a perturbaciones (nivel 0 = imagen limpia; barras = DE de 5 semillas solo en Mask R-CNN y YOLOv8/11/26)")
 fig.tight_layout(); fig.savefig(OUT / "robustez.png", dpi=200); plt.close(fig)
 print("figuras listas")

@@ -1,0 +1,42 @@
+{
+ "criterio": "pasa si F1 por grupo en test de la corrida permutada <= 0.1",
+ "real": {
+  "val": {
+   "F1_grupo": 0.794891363677735,
+   "AP": 0.28233528137987934,
+   "AP50": 0.7681407968958027
+  },
+  "test": {
+   "F1_grupo": 0.7324240177756363,
+   "AP": 0.22015717457420517,
+   "AP50": 0.6011156912730996
+  },
+  "train93": {
+   "F1_grupo": 0.8795370163041709,
+   "AP": null,
+   "AP50": null
+  }
+ },
+ "permutada": {
+  "val": {
+   "F1_grupo": 0.0,
+   "AP": 0.0,
+   "AP50": 0.0
+  },
+  "test": {
+   "F1_grupo": 0.0,
+   "AP": 0.0,
+   "AP50": 0.0
+  },
+  "train93": {
+   "F1_grupo": 0.0,
+   "AP": null,
+   "AP50": null
+  }
+ },
+ "umbral_score": {
+  "real": 0.75,
+  "permutada": 0.05
+ },
+ "pasa": true
+}

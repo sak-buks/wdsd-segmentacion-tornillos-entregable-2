@@ -1,0 +1,48 @@
+{
+ "umbral_hamming": 10,
+ "tolerancia_casi_gemelos": 0.05,
+ "1_interseccion_grupos": {
+  "intersecciones": {
+   "train-val": [],
+   "train-test": [],
+   "val-test": []
+  },
+  "aprueba": true
+ },
+ "2_duplicados_exactos": {
+  "colisiones_entre_particiones": 0,
+  "hashes_repetidos_en_total": 0,
+  "aprueba": true
+ },
+ "3_casi_duplicados": {
+  "proporcion_con_casi_gemelo": {
+   "test": 0.1204,
+   "val": 0.0645
+  },
+  "n_test_con_casi_gemelo": 13,
+  "hamming_min_mediana_test": 16.0,
+  "aprueba": false
+ },
+ "4_validacion_adversarial": {
+  "AUC": 0.3321012544802867,
+  "AUC_nulo_p95": 0.5529426772202309,
+  "p_permutacion": 1.0,
+  "n_train": 744,
+  "n_test": 108
+ },
+ "oficial": {
+  "proporcion_con_casi_gemelo": {
+   "test": 0.5778,
+   "val": 0.2667
+  },
+  "grupos_test_tambien_en_train": 40,
+  "grupos_test": 54,
+  "validacion_adversarial": {
+   "AUC": 0.537124183006536,
+   "AUC_nulo_p95": 0.5554720406681192,
+   "p_permutacion": 0.152,
+   "n_train": 765,
+   "n_test": 90
+  }
+ }
+}

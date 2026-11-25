@@ -2,7 +2,7 @@
 
 **Autores:** Ivan Berrio, Jose David Castillo y Jaime Besada.
 
-Segmentación de instancias de tornillos en el WEEE Disassembly Screw Dataset (WDSD): cada tornillo es un objeto que hay que encontrar y delimitar. El entregable 2 compara un Top 10 de modelos de la literatura contra los tres modelos base del [entregable 1](https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1), un baseline no profundo y uno trivial, con preregistro, 5 semillas por modelo y pruebas estadísticas por grupo de escena. **El entregable está en construcción:** el entrenamiento, el análisis de RQ1, RQ2 y RQ4 y los exploratorios (RQ3, calibración, robustez, latencia, varianza, Pareto, errores compartidos e incertidumbre) están terminados; lo que falta está en [Pendientes](#pendientes).
+Segmentación de instancias de tornillos en el WEEE Disassembly Screw Dataset (WDSD): cada tornillo es un objeto que hay que encontrar y delimitar. El entregable 2 compara un Top 10 de modelos de la literatura contra los tres modelos base del [entregable 1](https://github.com/BESADAJ/wdsd-segmentacion-tornillos-entregable-1), un baseline no profundo y uno trivial, con preregistro, 5 semillas por modelo y pruebas estadísticas por grupo de escena. **El entregable está en construcción:** el entrenamiento, el análisis de RQ1, RQ2 y RQ4 y los exploratorios (RQ3, calibración, robustez y latencia de los 13 modelos, ablación, sanidad, auditoría de fuga, paper guía, varianza, Pareto, errores compartidos e incertidumbre) están terminados; lo que falta está en [Pendientes](#pendientes).
 
 **Empieza por [`index.md`](index.md)** (portada del libro) **y por [`notebooks/resultados_e2.ipynb`](notebooks/resultados_e2.ipynb).** Es el notebook de resultados, ya ejecutado, así que se puede leer sin descargar los datos:
 
@@ -21,6 +21,8 @@ El mismo informe se publica como **Jupyter Book** (`_config.yml` y `_toc.yml` en
 - [`ENTRENAMIENTO_E2.md`](ENTRENAMIENTO_E2.md) y [`results/e2/prueba_humo/README.md`](results/e2/prueba_humo/README.md): protocolo común, prueba de humo y desviaciones declaradas.
 - [`notebooks/registro_e2.ipynb`](notebooks/registro_e2.ipynb): búsqueda de hiperparámetros, configuración elegida por modelo, regla de selección verificada y entornos registrados de las 70 corridas.
 - [`informe/exploratorios.md`](informe/exploratorios.md): RQ3 por tamaño, calibración, robustez, latencia, costo, tamaños de efecto, varianza, Pareto, errores compartidos, incertidumbre y presupuesto de épocas.
+- [`informe/interpretabilidad.md`](informe/interpretabilidad.md): mapas de oclusión de los tres mejores.
+- [`informe/ablacion_sanidad.md`](informe/ablacion_sanidad.md) e [`informe/auditoria_paper_guia.md`](informe/auditoria_paper_guia.md): ablación, sanidad, auditoría de fuga y paper guía.
 - [`informe/conclusiones.md`](informe/conclusiones.md): conclusiones.
 - [`informe/reproducibilidad.md`](informe/reproducibilidad.md): qué se regenera sin GPU, entornos y qué deja cada corrida.
 - [`informe/pendientes.md`](informe/pendientes.md): alcance y pendientes.
@@ -42,7 +44,7 @@ El libro queda en `_build/html/index.html`. Usa las salidas guardadas en los not
 | Revisión de literatura, paper guía y gap | 15 % | Revisión, PRISMA y Top 10 hechos (`literatura/e2/`); faltan la hoja de extracción, el texto por modelo, el paper guía y el gap |
 | Implementación de los modelos y rigor experimental | 25 % | Hecho: búsqueda de hiperparámetros y 70 corridas finales (`results/e2/`) |
 | Benchmark e inferencia estadística | 20 % | Hecho para RQ1 y RQ2 (`analisis_e2.py`, `results/e2/analisis/`) |
-| Ruta por tipo de problema (ajuste, sobreajuste, calibración, robustez, incertidumbre, interpretabilidad) | 15 % | Parcial: sobreajuste (RQ4), curvas, subentrenamiento, calibración, robustez (4 modelos) e incertidumbre hechos; falta interpretabilidad |
+| Ruta por tipo de problema (ajuste, sobreajuste, calibración, robustez, incertidumbre, interpretabilidad) | 15 % | Parcial: sobreajuste (RQ4), curvas, subentrenamiento, calibración, robustez (13 modelos), ablación, sanidad, incertidumbre e interpretabilidad (mapas de oclusión de los 3 mejores) hechos |
 | Reproducibilidad, redacción y defensa | 10 % | Parcial: código, entornos congelados y análisis reproducible; faltan prueba de entorno limpio y checklist |
 
 **Resultados (test, F1 de instancia por grupo, media de 5 semillas):**
@@ -83,7 +85,9 @@ Ningún modelo del Top 10 supera a Mask R-CNN (RQ1, Holm p = 1 en los 10 contras
 - [x] Búsqueda de hiperparámetros y 70 corridas finales.
 - [x] Análisis estadístico de RQ1 y RQ2.
 - [x] RQ4 (brecha entre entrenamiento y validación) y curvas por época.
-- [x] RQ3, calibración, robustez y latencia (4 modelos), costo y tamaños de efecto (`analisis_extra_e2.py`, `robustez_latencia_e2.py`).
+- [x] RQ3, calibración, robustez y latencia (13 modelos), costo y tamaños de efecto (`analisis_extra_e2.py`, `robustez_latencia_e2.py`).
+- [x] Ablación (15 corridas), prueba de sanidad, auditoría de fuga, paper guía y verificación de su limitación (`ablacion_e2.py`, `sanidad_e2.py`, `auditoria_fuga_e2.py`, `paper_guia_e2.py`; capítulos 5.1 y 5.2).
+- [x] Interpretabilidad de los 3 mejores con fidelidad y estabilidad (`interpretabilidad_e2.py`; capítulo 5.3).
 - [x] Calibración completa, índice de robustez, δ de Cliff, varianza, Pareto, errores compartidos, ensambles e incertidumbre (`analisis_extra2_e2.py`).
 - [x] Registro de la búsqueda y de los entornos, con la regla de selección de tasa verificada (capítulo 3.2).
 - [x] Fecha del preregistro: tag `e2-preregistro` en el repositorio del E1, mismo hash de archivo (ver Preregistro).
@@ -126,7 +130,12 @@ analisis_e2.py                    análisis estadístico (RQ1, RQ2, Friedman)
 analisis_rq4.py                   RQ4: brecha entre entrenamiento y validación
 analisis_extra_e2.py              exploratorios: RQ3, calibración, tamaños de efecto, tablas de robustez y latencia
 analisis_extra2_e2.py             exploratorios: calibración completa, varianza, Pareto, errores compartidos, incertidumbre
-robustez_latencia_e2.py           robustez y latencia (GPU, 4 modelos del entorno wdsd_dl)
+robustez_latencia_e2.py           robustez y latencia de los 13 modelos (GPU; se relanza en cada entorno con --entornos)
+ablacion_e2.py, analisis_ablacion_e2.py   ablación de Mask R-CNN (GPU) y su análisis
+sanidad_e2.py                     prueba de sanidad con etiquetas permutadas
+auditoria_fuga_e2.py              auditoría de fuga de la partición agrupada
+paper_guia_e2.py, analisis_paper_guia_e2.py, criterio_paper_guia_E2.md   réplica del paper guía y su limitación
+interpretabilidad_e2.py           mapas de oclusión de los 3 mejores (GPU) y su análisis (--analizar)
 literatura/e2/                    búsquedas, cribado, PRISMA y puntaje
 results/e2/                       corridas, búsqueda, prueba de humo y análisis
 ```
